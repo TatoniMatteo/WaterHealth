@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigator"
+    app:startDestination="@id/stations">
+
+    <fragment
+        android:id="@+id/stations"
+        android:name="com.tatonimatteo.waterhealth.fragment.Stations"
+        android:label="fragment_stations"
+        tools:layout="@layout/fragment_stations" >
+        <action
+            android:id="@+id/action_stations_to_stationDetails"
+            app:destination="@id/stationDetails" />
+    </fragment>
+    <fragment
+        android:id="@+id/stationDetails"
+        android:name="com.tatonimatteo.waterhealth.fragment.StationDetails"
+        android:label="fragment_station_details"
+        tools:layout="@layout/fragment_station_details" />
+</navigation>
