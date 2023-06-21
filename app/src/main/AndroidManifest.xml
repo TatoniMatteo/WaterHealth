@@ -13,6 +13,7 @@
         android:roundIcon="@mipmap/icon_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WaterHealth"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <meta-data
             android:name="com.google.android.geo.API_KEY"

@@ -2,6 +2,7 @@ package com.tatonimatteo.waterhealth.fragment;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,12 +51,16 @@ public class LoginPage extends Fragment {
                 .login("waterapp@example.com", "app123", new LoginCallback() {
                     @Override
                     public void onSuccess() {
-                        nav.navigate(R.id.action_loginPage_to_stations);
+                        Handler handler = new Handler();
+                        handler.postDelayed(() -> nav.navigate(R.id.action_loginPage_to_stations), 1000);
+
                     }
 
                     @Override
                     public void onFailure(String message) {
-                        showErrorPopup(message);
+                        Handler handler = new Handler();
+                        handler.postDelayed(() -> showErrorPopup(message), 500);
+
                     }
                 });
     }

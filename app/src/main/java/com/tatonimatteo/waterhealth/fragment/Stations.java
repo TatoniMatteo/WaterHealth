@@ -9,7 +9,6 @@ import android.widget.ImageButton;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -21,9 +20,6 @@ import com.tatonimatteo.waterhealth.fragment.stations.map.StationMapsFragment;
 public class Stations extends Fragment {
 
     private StationsViewModel mViewModel;
-    private ImageButton listButton;
-    private ImageButton gridButton;
-    private ImageButton mapButton;
 
     public static Stations newInstance() {
         return new Stations();
@@ -32,22 +28,16 @@ public class Stations extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_stations, container, false);
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(StationsViewModel.class);
-        // TODO: Use the ViewModel
+        return inflater.inflate(R.layout.fragment_stations, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        listButton = view.findViewById(R.id.listButton);
-        gridButton = view.findViewById(R.id.gridButton);
-        mapButton = view.findViewById(R.id.mapButton);
+        ImageButton listButton = view.findViewById(R.id.listButton);
+        ImageButton gridButton = view.findViewById(R.id.gridButton);
+        ImageButton mapButton = view.findViewById(R.id.mapButton);
 
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         StationListFragment list = new StationListFragment();
