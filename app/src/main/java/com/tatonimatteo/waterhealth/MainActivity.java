@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.tatonimatteo.waterhealth.configuration.AppConfiguration;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override

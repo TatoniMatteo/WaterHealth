@@ -9,54 +9,119 @@
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/materialToolbar"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:background="?attr/colorPrimary"
+        android:elevation="8dp"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+    </com.google.android.material.appbar.MaterialToolbar>
 
     <TableRow
         android:id="@+id/tableRow"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:elevation="10dp"
         android:gravity="end"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/materialToolbar">
 
         <ImageButton
             android:id="@+id/listButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_sort_by_size"
-            android:contentDescription="@string/list"/>
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="4dp"
+            android:background="@drawable/round_button_border"
+            android:contentDescription="@string/list"
+            android:elevation="10dp"
+            android:padding="4dp"
+            android:src="@drawable/list_view" />
 
         <ImageButton
             android:id="@+id/gridButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_dialog_dialer"
-            android:contentDescription="@string/grid"/>
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="4dp"
+            android:background="@drawable/round_button_border"
+            android:contentDescription="@string/grid"
+            android:elevation="10dp"
+            android:padding="4dp"
+            android:src="@drawable/grid_view" />
 
         <ImageButton
             android:id="@+id/mapButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_dialog_map"
-            android:contentDescription="@string/map"/>
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="4dp"
+            android:background="@drawable/round_button_border"
+            android:contentDescription="@string/map"
+            android:elevation="10dp"
+            android:padding="4dp"
+            android:src="@drawable/map_view" />
     </TableRow>
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:autoSizeMaxTextSize="30sp"
+        android:autoSizeMinTextSize="24sp"
+        android:autoSizeTextType="uniform"
+        android:elevation="10dp"
+        android:gravity="center|start"
+        android:text="@string/app_name"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/icon"
+        app:layout_constraintTop_toTopOf="@+id/icon" />
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:contentDescription="@string/icon"
+        android:elevation="10dp"
+        android:src="@drawable/icon_foreground"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <FrameLayout
         android:id="@+id/listContainer"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tableRow">
 
     </FrameLayout>
+
+    <TextView
+        android:id="@+id/subtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="32dp"
+        android:autoSizeMaxTextSize="24sp"
+        android:autoSizeMinTextSize="18sp"
+        android:autoSizeTextType="uniform"
+        android:elevation="10dp"
+        android:gravity="bottom|start"
+        android:singleLine="true"
+        android:text="@string/select_station"
+        app:layout_constraintBottom_toBottomOf="@+id/tableRow"
+        app:layout_constraintEnd_toStartOf="@+id/tableRow"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

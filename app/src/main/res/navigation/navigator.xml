@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigator"
-    app:startDestination="@id/stations">
+    app:startDestination="@id/loginPage">
 
     <fragment
         android:id="@+id/stations"
@@ -19,4 +19,14 @@
         android:name="com.tatonimatteo.waterhealth.fragment.StationDetails"
         android:label="fragment_station_details"
         tools:layout="@layout/fragment_station_details" />
+    <fragment
+        android:id="@+id/loginPage"
+        android:name="com.tatonimatteo.waterhealth.fragment.LoginPage"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginPage_to_stations"
+            app:destination="@id/stations"
+            app:popUpTo="@id/navigator" />
+    </fragment>
 </navigation>
