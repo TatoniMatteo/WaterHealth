@@ -1,61 +1,61 @@
 package com.tatonimatteo.waterhealth.fragment.stations.list;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.tatonimatteo.waterhealth.databinding.FragmentItemBinding;
-import com.tatonimatteo.waterhealth.fragment.stations.placeholder.PlaceholderContent;
+import com.tatonimatteo.waterhealth.R;
+import com.tatonimatteo.waterhealth.entity.Station;
 
 import java.util.List;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link PlaceholderContent.PlaceholderItem}.
- * TODO: Replace the implementation with code for your data type.
- */
 public class MyStationRecyclerViewAdapter extends RecyclerView.Adapter<MyStationRecyclerViewAdapter.ViewHolder> {
 
-    private final List<PlaceholderContent.PlaceholderItem> mValues;
+    private List<Station> stationList;
 
-    public MyStationRecyclerViewAdapter(List<PlaceholderContent.PlaceholderItem> items) {
-        mValues = items;
+    public MyStationRecyclerViewAdapter(List<Station> stationList) {
+        this.stationList = stationList;
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-        return new ViewHolder(FragmentItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.fragment_station_list_item, parent, false);
+        return new ViewHolder(itemView);
 
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        Station station = stationList.get(position);
+        holder.stationName.setText(station.getName());
+        holder.stationLocation.setText(station.getLocationName());
     }
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        return stationList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public PlaceholderContent.PlaceholderItem mItem;
+        public final TextView stationName;
+        public final TextView stationLocation;
 
-        public ViewHolder(FragmentItemBinding binding) {
-            super(binding.getRoot());
-            mIdView = binding.itemNumber;
-            mContentView = binding.content;
+        public ViewHolder(View itemView) {
+            super(itemView);
+            stationName = itemView.findViewById(R.id.station_name);
+            stationLocation = itemView.findViewById(R.id.station_location);
         }
 
+        @NonNull
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + stationName.getText() + "'";
         }
     }
 }

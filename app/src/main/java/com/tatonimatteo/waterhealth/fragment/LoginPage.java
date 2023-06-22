@@ -1,6 +1,5 @@
 package com.tatonimatteo.waterhealth.fragment;
 
-import android.app.AlertDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -20,6 +19,7 @@ import com.tatonimatteo.waterhealth.configuration.LoginCallback;
 public class LoginPage extends Fragment {
 
     private NavController nav;
+    private AppConfiguration configuration;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -30,38 +30,44 @@ public class LoginPage extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        configuration = AppConfiguration.getInstance();
         nav = Navigation.findNavController(view);
         login();
     }
 
-    private void showErrorPopup(String errorMessage) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-        builder.setTitle("Connessione con il Server fallita!")
-                .setMessage(errorMessage)
-                .setPositiveButton("Riprova", (dialog, which) -> login())
-                .setNegativeButton("Esci", (dialog, which) -> requireActivity().finishAffinity())
-                .setCancelable(false)
-                .show();
-    }
-
     private void login() {
-        AppConfiguration
-                .getInstance()
+        configuration
                 .getAuthController()
                 .login("waterapp@example.com", "app123", new LoginCallback() {
                     @Override
                     public void onSuccess() {
                         Handler handler = new Handler();
-                        handler.postDelayed(() -> nav.navigate(R.id.action_loginPage_to_stations), 1000);
+                        handler.postDelayed(() -> next(), 1000);
 
                     }
 
                     @Override
                     public void onFailure(String message) {
                         Handler handler = new Handler();
-                        handler.postDelayed(() -> showErrorPopup(message), 500);
+                        handler.postDelayed(() -> configuration
+                                .getPopUp()
+                                .showErrorPopup(
+                                        "Connessione con il Server fallita!",
+                                        message,
+                                        "Riprova", (dialog, which) -> login(),
+                                        "Esci", (dialog, which) -> requireActivity().finishAffinity(),
+                                        false
+                                ), 500);
 
                     }
                 });
+    }
+
+    private void next() {
+        if (nav.getCurrentBackStack().getValue().size() > 2) {
+            nav.navigateUp();
+        } else {
+            nav.navigate(R.id.action_loginPage_to_stations);
+        }
     }
 }

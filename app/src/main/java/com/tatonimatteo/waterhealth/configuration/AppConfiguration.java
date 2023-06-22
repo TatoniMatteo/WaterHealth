@@ -8,6 +8,7 @@ import com.tatonimatteo.waterhealth.api.controller.SensorController;
 import com.tatonimatteo.waterhealth.api.controller.StationController;
 import com.tatonimatteo.waterhealth.api.maps.MapAPI;
 import com.tatonimatteo.waterhealth.api.security.AuthController;
+import com.tatonimatteo.waterhealth.utility.PopUp;
 
 public class AppConfiguration {
     private static AppConfiguration instance;
@@ -15,7 +16,7 @@ public class AppConfiguration {
     private final StationController stationController;
     private final SensorController sensorController;
     private final RecordController recordController;
-
+    private final PopUp popUp;
     private final MapAPI mapAPI;
 
     public AppConfiguration(Context context) {
@@ -25,6 +26,7 @@ public class AppConfiguration {
         this.sensorController = new SensorController(httpManager);
         this.recordController = new RecordController(httpManager);
         this.mapAPI = new MapAPI(context);
+        this.popUp = new PopUp(context);
     }
 
     public static AppConfiguration getInstance() {
@@ -53,5 +55,9 @@ public class AppConfiguration {
 
     public MapAPI getMapAPI() {
         return mapAPI;
+    }
+
+    public PopUp getPopUp() {
+        return popUp;
     }
 }

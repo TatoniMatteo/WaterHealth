@@ -7,65 +7,51 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.tatonimatteo.waterhealth.R;
-import com.tatonimatteo.waterhealth.fragment.stations.placeholder.PlaceholderContent;
+import com.tatonimatteo.waterhealth.entity.Station;
+import com.tatonimatteo.waterhealth.fragment.StationsViewModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A fragment representing a list of Items.
  */
 public class StationListFragment extends Fragment {
 
-    // TODO: Customize parameter argument names
-    private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
-    private int mColumnCount = 1;
+    private List<Station> stationList;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
     public StationListFragment() {
-    }
-
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
-    public static StationListFragment newInstance(int columnCount) {
-        StationListFragment fragment = new StationListFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_item_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_station_list, container, false);
 
-        // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-            recyclerView.setAdapter(new MyStationRecyclerViewAdapter(PlaceholderContent.ITEMS));
-        }
+        Context context = view.getContext();
+        RecyclerView recyclerViewStations = (RecyclerView) view;
+        recyclerViewStations.setLayoutManager(new LinearLayoutManager(context));
+
+        stationList = new ArrayList<>();
+        MyStationRecyclerViewAdapter stationAdapter = new MyStationRecyclerViewAdapter(stationList);
+        recyclerViewStations.setAdapter(stationAdapter);
+        StationsViewModel stationsViewModel = new ViewModelProvider(this).get(StationsViewModel.class);
+        stationsViewModel.getStations().observe(getViewLifecycleOwner(), stations -> {
+            stationList.clear();
+            stationList.addAll(stations);
+            stationAdapter.notifyDataSetChanged();
+        });
+
         return view;
     }
 }
