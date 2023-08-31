@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="list">Lista</string>
+    <string name="grid">Griglia</string>
+    <string name="map">Mappa</string>
+    <string name="icon">Icona</string>
+    <string name="select_station">Seleziona una stazione</string>
+    <string name="hello_blank_fragment">Benvenuto, fragment vuto</string>
+    <string name="connection">Connessione al server …</string>
+    <string name="water_station">Stazione sonda</string>
+</resources>

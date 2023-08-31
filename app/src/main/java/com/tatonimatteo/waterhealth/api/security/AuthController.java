@@ -21,20 +21,23 @@ public class AuthController {
         this.httpManager = httpManager;
     }
 
-    public void login(String username, String password, LoginCallback callback) {
+    public void login(String username, String password, final LoginCallback callback) {
         try {
             JSONObject loginData = new JSONObject();
             loginData.put("email", username);
             loginData.put("password", password);
-            Call<TokenResponse> call = httpManager.getHttpService().login(
-                    RequestBody.create(MediaType.parse("application/json"), loginData.toString()));
+            RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), loginData.toString());
+            Call<TokenResponse> call = httpManager.getHttpService().login(requestBody);
             call.enqueue(new Callback<TokenResponse>() {
                 @Override
                 public void onResponse(@NonNull Call<TokenResponse> call, @NonNull Response<TokenResponse> response) {
                     if (response.isSuccessful()) {
-                        assert response.body() != null;
-                        if (httpManager.setToken(response.body().getToken())) callback.onSuccess();
-                        else callback.onFailure("Token non valido");
+                        TokenResponse tokenResponse = response.body();
+                        if (tokenResponse != null && httpManager.setToken(tokenResponse.getToken())) {
+                            callback.onSuccess();
+                        } else {
+                            callback.onFailure("Token non valido");
+                        }
                     } else {
                         callback.onFailure(response.message());
                     }

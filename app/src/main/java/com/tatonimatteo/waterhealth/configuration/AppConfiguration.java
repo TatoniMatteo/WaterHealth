@@ -11,7 +11,7 @@ import com.tatonimatteo.waterhealth.api.security.AuthController;
 import com.tatonimatteo.waterhealth.utility.PopUp;
 
 public class AppConfiguration {
-    private static AppConfiguration instance;
+    private static volatile AppConfiguration instance;
     private final AuthController authController;
     private final StationController stationController;
     private final SensorController sensorController;
@@ -19,22 +19,31 @@ public class AppConfiguration {
     private final PopUp popUp;
     private final MapAPI mapAPI;
 
-    public AppConfiguration(Context context) {
+    private AppConfiguration(Context context) {
         HttpManager httpManager = new HttpManager();
         this.authController = new AuthController(httpManager);
         this.stationController = new StationController(httpManager);
         this.sensorController = new SensorController(httpManager);
         this.recordController = new RecordController(httpManager);
-        this.mapAPI = new MapAPI(context);
-        this.popUp = new PopUp(context);
+        this.mapAPI = new MapAPI(context.getApplicationContext());
+        this.popUp = new PopUp(context.getApplicationContext());
     }
 
-    public static AppConfiguration getInstance() {
+    public static void init(Context context) {
+        if (instance == null) {
+            synchronized (AppConfiguration.class) {
+                if (instance == null) {
+                    instance = new AppConfiguration(context);
+                }
+            }
+        }
+    }
+
+    public static AppConfiguration getInstance() throws IllegalStateException {
+        if (instance == null) {
+            throw new IllegalStateException("AppConfiguration is not initialized. Call init() first.");
+        }
         return instance;
-    }
-
-    public static void createConfiguration(Context context) {
-        if (instance == null) instance = new AppConfiguration(context);
     }
 
     public AuthController getAuthController() {

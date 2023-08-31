@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
+    android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="4dp">
+    android:padding="8dp">
 
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="70dp"
         android:layout_height="70dp"
+        android:layout_marginEnd="10dp"
         android:background="@drawable/circle_background"
         android:contentDescription="@string/water_station"
-        android:padding="14dp"
+        android:elevation="3dp"
+        android:padding="20dp"
         app:srcCompat="@drawable/water_station" />
 
     <LinearLayout
@@ -20,28 +23,32 @@
         android:layout_height="match_parent"
         android:layout_marginStart="8dp"
         android:orientation="vertical"
-        android:weightSum="3">
+        android:weightSum="5">
 
         <TextView
-            android:id="@+id/station_name"
+            android:id="@+id/list_station_name"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:autoSizeMaxTextSize="30sp"
+            android:autoSizeTextType="uniform"
+            android:gravity="start|center_vertical"
+            android:text="Stazione 1"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/list_station_location"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="2"
+            android:autoSizeMaxTextSize="18sp"
             android:autoSizeTextType="uniform"
-            android:gravity="top|start"
-            android:text="Stazione 1"
-            android:textAppearance="?attr/textAppearanceListItem"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/station_location"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:autoSizeTextType="uniform"
-            android:gravity="top|start"
+            android:gravity="start|center_vertical"
             android:text="L'Aquila - Italia"
-            android:textAppearance="?attr/textAppearanceListItem" />
+            android:textAppearance="?attr/textAppearanceListItem"
+            tools:ignore="HardcodedText" />
     </LinearLayout>
 
 </LinearLayout>

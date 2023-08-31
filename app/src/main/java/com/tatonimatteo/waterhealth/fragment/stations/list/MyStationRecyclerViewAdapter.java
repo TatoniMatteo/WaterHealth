@@ -25,7 +25,7 @@ public class MyStationRecyclerViewAdapter extends RecyclerView.Adapter<MyStation
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_station_list_item, parent, false);
+                .inflate(R.layout.stations_list_item, parent, false);
         return new ViewHolder(itemView);
 
     }
@@ -42,14 +42,14 @@ public class MyStationRecyclerViewAdapter extends RecyclerView.Adapter<MyStation
         return stationList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         public final TextView stationName;
         public final TextView stationLocation;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            stationName = itemView.findViewById(R.id.station_name);
-            stationLocation = itemView.findViewById(R.id.station_location);
+            stationName = itemView.findViewById(R.id.list_station_name);
+            stationLocation = itemView.findViewById(R.id.list_station_location);
         }
 
         @NonNull

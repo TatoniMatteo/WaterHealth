@@ -1,11 +1,24 @@
 <resources>
     <!-- Base application theme. -->
     <style name="Base.Theme.WaterHealth" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <!-- Colori personalizzati -->
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryVariant">@color/blueVariant</item>
+        <item name="colorSecondary">@color/yellow</item>
+        <item name="colorSecondaryVariant">@color/yellowVariant</item>
+        <item name="colorTertiary">@color/brown</item>
+
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorOnTertiary">@color/white</item>
+
+        <!-- Altri attributi dello stile -->
         <item name="windowSplashScreenBackground">?android:colorBackground</item>
         <item name="windowSplashScreenAnimatedIcon">@mipmap/icon</item>
         <item name="windowSplashScreenAnimationDuration">2000</item>
+        <item name="android:fontFamily">@font/gilroy</item>
+
+        <item name="menuColor">@color/yellowWithReducedOpacity</item>
     </style>
 
     <style name="Theme.WaterHealth" parent="Base.Theme.WaterHealth" />

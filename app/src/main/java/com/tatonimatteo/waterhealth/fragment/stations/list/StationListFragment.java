@@ -23,9 +23,10 @@ import java.util.List;
  */
 public class StationListFragment extends Fragment {
 
-    private List<Station> stationList;
+    private final List<Station> stationList;
 
     public StationListFragment() {
+        stationList = new ArrayList<>();
     }
 
     @Override
@@ -36,18 +37,18 @@ public class StationListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_station_list, container, false);
+        View view = inflater.inflate(R.layout.stations_list, container, false);
 
         Context context = view.getContext();
         RecyclerView recyclerViewStations = (RecyclerView) view;
         recyclerViewStations.setLayoutManager(new LinearLayoutManager(context));
 
-        stationList = new ArrayList<>();
         MyStationRecyclerViewAdapter stationAdapter = new MyStationRecyclerViewAdapter(stationList);
         recyclerViewStations.setAdapter(stationAdapter);
         StationsViewModel stationsViewModel = new ViewModelProvider(this).get(StationsViewModel.class);
         stationsViewModel.getStations().observe(getViewLifecycleOwner(), stations -> {
             stationList.clear();
+            //for (int i = 0; i <= 20; i++)
             stationList.addAll(stations);
             stationAdapter.notifyDataSetChanged();
         });

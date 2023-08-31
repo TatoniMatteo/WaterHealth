@@ -29,4 +29,37 @@ public class PopUp {
                 .setCancelable(cancellable)
                 .show();
     }
+
+    public void showConfirmationPopup(
+            String title,
+            String message,
+            CharSequence positiveButtonText,
+            DialogInterface.OnClickListener positiveListener,
+            CharSequence negativeButtonText,
+            DialogInterface.OnClickListener negativeListener,
+            boolean cancellable
+    ) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(positiveButtonText, positiveListener)
+                .setNegativeButton(negativeButtonText, negativeListener)
+                .setCancelable(cancellable)
+                .show();
+    }
+
+    public void showInfoPopup(
+            String title,
+            String message,
+            CharSequence positiveButtonText,
+            DialogInterface.OnClickListener positiveListener,
+            boolean cancellable
+    ) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(positiveButtonText, positiveListener)
+                .setCancelable(cancellable)
+                .show();
+    }
 }

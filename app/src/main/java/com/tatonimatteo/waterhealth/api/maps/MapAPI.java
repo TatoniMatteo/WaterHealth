@@ -19,7 +19,6 @@ public class MapAPI {
         //COORDINATE L'AQUILA
         //lat=42.348800;
         //lng=13.398154;
-
         try {
             Address address = geocoder.getFromLocation(lat, lng, 1).get(0);
             return address.getLocality() + " (" + address.getAdminArea() + " - " + address.getCountryName() + ")";

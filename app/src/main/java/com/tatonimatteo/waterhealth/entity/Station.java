@@ -8,8 +8,8 @@ public class Station {
     private long id;
     private String name;
     private String phone;
-    private String latitude;
-    private String longitude;
+    private double latitude;
+    private double longitude;
 
     public long getId() {
         return id;
@@ -23,11 +23,11 @@ public class Station {
         return phone;
     }
 
-    public String getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public String getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
@@ -41,10 +41,7 @@ public class Station {
         return AppConfiguration
                 .getInstance()
                 .getMapAPI()
-                .getLocationName(
-                        Double.parseDouble(latitude),
-                        Double.parseDouble(longitude)
-                );
+                .getLocationName(latitude, longitude);
 
     }
 }
