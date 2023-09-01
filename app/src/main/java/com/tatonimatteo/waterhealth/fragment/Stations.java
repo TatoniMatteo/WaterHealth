@@ -19,14 +19,6 @@ import com.tatonimatteo.waterhealth.view.HomeFragementAdapter;
 
 public class Stations extends Fragment {
 
-    private final int ANIMATION_DURATION = 200;
-    private int selectedTabIndex = 1;
-    private LinearLayout listLayout;
-    private TextView listText;
-    private LinearLayout mapLayout;
-    private TextView mapText;
-
-
     private TabLayout tabLayout;
     private ViewPager2 viewPager;
     private HomeFragementAdapter adapter;
@@ -34,7 +26,7 @@ public class Stations extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.stations2, container, false);
+        return inflater.inflate(R.layout.stations, container, false);
     }
 
     @Override
@@ -43,9 +35,6 @@ public class Stations extends Fragment {
 
         tabLayout = view.findViewById(R.id.tabLayout);
         viewPager = view.findViewById(R.id.viewPager);
-
-        //tabLayout.addTab(new TabLayout.Tab().setText(R.string.list).setIcon(R.drawable.list));
-        //tabLayout.addTab(new TabLayout.Tab().setText(R.string.map).setIcon(R.drawable.map));
 
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         adapter = new HomeFragementAdapter(fragmentManager, getLifecycle());

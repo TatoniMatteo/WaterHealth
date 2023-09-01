@@ -6,10 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".fragment.Stations">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/materialToolbar"
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/stationsToolBar"
         android:layout_width="0dp"
-        android:layout_height="80dp"
+        android:layout_height="70dp"
         android:background="?attr/colorPrimary"
         android:elevation="8dp"
         android:minHeight="?attr/actionBarSize"
@@ -18,126 +19,82 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-    </com.google.android.material.appbar.MaterialToolbar>
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="50dp"
+            android:autoSizeMaxTextSize="30sp"
+            android:autoSizeMinTextSize="24sp"
+            android:autoSizeTextType="uniform"
+            android:elevation="10dp"
+            android:gravity="center|start"
+            android:minWidth="200dp"
+            android:text="@string/app_name"
+            android:textColor="?attr/colorOnPrimary"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5" />
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:autoSizeMaxTextSize="30sp"
-        android:autoSizeMinTextSize="24sp"
-        android:autoSizeTextType="uniform"
-        android:elevation="10dp"
-        android:gravity="center|start"
-        android:text="@string/app_name"
-        android:textColor="?attr/colorOnPrimary"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/icon"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/icon"
-        app:layout_constraintTop_toTopOf="@+id/icon" />
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/icon"
+            android:src="@drawable/icon_foreground"
+            app:layout_constraintEnd_toStartOf="@+id/title"
+            tools:ignore="ImageContrastCheck" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ImageView
-        android:id="@+id/icon"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:contentDescription="@string/icon"
-        android:elevation="10dp"
-        android:src="@drawable/icon_foreground"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ImageContrastCheck" />
-
-    <LinearLayout
-        android:id="@+id/topNavigationBar"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
         android:background="?attr/colorPrimaryVariant"
-        android:elevation="10dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingHorizontal="20dp"
-        android:paddingVertical="15dp"
-        android:weightSum="2"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/materialToolbar"
-        tools:ignore="DisableBaselineAlignment">
+        android:contentDescription="@string/tabLayout"
+        android:paddingVertical="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/stationsToolBar"
+        app:tabGravity="fill"
+        app:tabIconTint="?attr/colorOnPrimary"
+        app:tabIndicator="@drawable/menu_item_background"
+        app:tabIndicatorAnimationMode="elastic"
+        app:tabIndicatorFullWidth="true"
+        app:tabIndicatorGravity="stretch"
+        app:tabInlineLabel="true"
+        app:tabMode="fixed"
+        app:tabTextColor="?attr/colorOnPrimary">
 
-        <LinearLayout
-            android:id="@+id/listLayout"
+        <com.google.android.material.tabs.TabItem
             android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight="1"
-            android:background="@drawable/menu_item_background"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingHorizontal="5dp">
+            android:layout_height="0dp"
+            android:icon="@drawable/list"
+            android:paddingHorizontal="5dp"
+            android:text="@string/list" />
 
-            <ImageView
-                android:id="@+id/listIcon"
-                android:layout_width="30dp"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:contentDescription="@string/list"
-                android:src="@drawable/list"
-                app:tint="?attr/colorOnSecondary" />
-
-            <TextView
-                android:id="@+id/listText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:text="@string/list"
-                android:textColor="?attr/colorOnSecondary"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/mapLayout"
+        <com.google.android.material.tabs.TabItem
             android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight="1"
-            android:background="@drawable/menu_item_background"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingHorizontal="5dp">
+            android:layout_height="0dp"
+            android:icon="@drawable/map"
+            android:paddingHorizontal="5dp"
+            android:text="@string/map" />
+    </com.google.android.material.tabs.TabLayout>
 
-            <ImageView
-                android:id="@+id/mapIcon"
-                android:layout_width="30dp"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:contentDescription="@string/list"
-                android:src="@drawable/map"
-                app:tint="?attr/colorOnSecondary" />
-
-            <TextView
-                android:id="@+id/mapText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:text="@string/map"
-                android:textColor="?attr/colorOnSecondary"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <FrameLayout
-        android:id="@+id/listContainer"
-        android:layout_width="0dp"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topNavigationBar">
-
-    </FrameLayout>
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
