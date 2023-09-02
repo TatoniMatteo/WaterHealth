@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace 'com.tatonimatteo.waterhealth'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.tatonimatteo.waterhealth"
         minSdk 26
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 
@@ -36,7 +36,7 @@ android {
             google()
         }
         dependencies {
-            def nav_version = "2.6.0"
+            def nav_version = "2.7.1"
             classpath("androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version")
         }
     }
@@ -61,7 +61,7 @@ dependencies {
     implementation "androidx.core:core-splashscreen:1.0.1"
     //Navigator
     // NON AGGIORNARE (la versione 2.6.0 è l'ultima che si può usare con compileSdk < 34)
-    def nav_version = "2.6.0"
+    def nav_version = "2.7.1"
     implementation "androidx.navigation:navigation-fragment:$nav_version"
     implementation "androidx.navigation:navigation-ui:$nav_version"
     //Retrofit
