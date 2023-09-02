@@ -21,7 +21,6 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.tatonimatteo.waterhealth.R;
-import com.tatonimatteo.waterhealth.api.exception.DataException;
 import com.tatonimatteo.waterhealth.entity.Station;
 import com.tatonimatteo.waterhealth.fragment.StationsViewModel;
 
@@ -40,7 +39,6 @@ public class StationMapsFragment extends Fragment {
 
     private StationsViewModel stationsViewModel;
 
-
     @Nullable
     @Override
     public View onCreateView(
@@ -49,7 +47,6 @@ public class StationMapsFragment extends Fragment {
             @Nullable Bundle savedInstanceState
     ) {
         stationsViewModel = new ViewModelProvider(this).get(StationsViewModel.class);
-        getData();
         return inflater.inflate(R.layout.stations_maps, container, false);
     }
 
@@ -62,70 +59,67 @@ public class StationMapsFragment extends Fragment {
         if (mapFragment != null) {
             mapFragment.getMapAsync(callback);
         }
-    }
 
-    private void getData() {
-        try {
-            stationsViewModel.getStations().observe(getViewLifecycleOwner(), stations -> {
-                stationList.clear();
-                stationList.addAll(stations);
-                if (isMapReady) {
-                    updateMapMarkers(); // Se la mappa è pronta, aggiorna i marker
-                }
-            });
-        } catch (DataException e) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-            builder.setTitle("Impossibile scaricare i dati!")
-                    .setMessage(e.getMessage())
-                    .setPositiveButton("Riprova", (dialog, which) -> getData())
-                    .setNegativeButton("Esci", (dialog, which) -> requireActivity().finishAffinity())
-                    .setCancelable(false)
-                    .show();
-        }
+        stationsViewModel.getStations().observe(getViewLifecycleOwner(), stations -> {
+            stationList.clear();
+            stationList.addAll(stations);
+            if (isMapReady) {
+                updateMapMarkers(); // Se la mappa è pronta, aggiorna i marker
+            }
+        });
 
+        stationsViewModel.getError().observe(getViewLifecycleOwner(), error -> {
+            if (error != null) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+                builder.setTitle(getString(R.string.data_error))
+                        .setMessage(error.getMessage())
+                        .setPositiveButton(getString(R.string.retry), (dialog, which) -> stationsViewModel.refreshStations())
+                        .setNegativeButton(getString(R.string.exit), (dialog, which) -> requireActivity().finishAffinity())
+                        .setCancelable(false)
+                        .show();
+            }
+        });
     }
 
     private void updateMapMarkers() {
-        if (getActivity() == null || stationList.isEmpty()) {
-            return;
-        }
+        if (isMapReady && getActivity() != null && !stationList.isEmpty()) {
+            SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+            if (mapFragment != null) {
+                mapFragment.getMapAsync(googleMap -> {
+                    googleMap.clear(); // Rimuove tutti i marker precedenti
+                    LatLngBounds.Builder boundsBuilder = new LatLngBounds.Builder(); // Creo un builder per il bounding box
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        if (mapFragment != null) {
-            mapFragment.getMapAsync(googleMap -> {
-                googleMap.clear(); // Rimuove tutti i marker precedenti
-                LatLngBounds.Builder boundsBuilder = new LatLngBounds.Builder(); // Creo un builder per il bounding box
+                    for (Station station : stationList) {
+                        LatLng position = new LatLng(station.getLatitude(), station.getLongitude());
+                        boundsBuilder.include(position); // Aggiungo la posizione del marker al bounding box
 
-                for (Station station : stationList) {
-                    LatLng position = new LatLng(station.getLatitude(), station.getLongitude());
-                    boundsBuilder.include(position); // Aggiungo la posizione del marker al bounding box
+                        MarkerOptions markerOptions = new MarkerOptions()
+                                .position(position)
+                                .title(station.getName())
+                                .snippet(station.getLocationName());
 
-                    MarkerOptions markerOptions = new MarkerOptions()
-                            .position(position)
-                            .title(station.getName())
-                            .snippet(station.getLocationName());
-
-                    Marker marker = googleMap.addMarker(markerOptions);
-                    assert marker != null;
-                    marker.setTag(station.getId());
-                }
-
-                LatLngBounds bounds = boundsBuilder.build(); // Costruisco il bounding box
-                int padding = 100; // Padding intorno al bounding box in pixel
-
-                // Imposto la mappa sul bounding box con il livello di zoom appropriato
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, padding));
-
-                // Listener per il click sulla finestra di informazioni del marker
-                googleMap.setOnInfoWindowClickListener(marker -> {
-                    Long stationId = (Long) marker.getTag();
-                    if (stationId != null) {
-                        Bundle bundle = new Bundle();
-                        bundle.putLong("stationId", stationId);
-                        navController.navigate(R.id.action_stations_to_stationDetails, bundle);
+                        Marker marker = googleMap.addMarker(markerOptions);
+                        assert marker != null;
+                        marker.setTag(station.getId());
                     }
+
+                    LatLngBounds bounds = boundsBuilder.build(); // Costruisco il bounding box
+                    int padding = 100; // Padding intorno al bounding box in pixel
+
+                    // Imposto la mappa sul bounding box con il livello di zoom appropriato
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, padding));
+
+                    // Listener per il click sulla finestra di informazioni del marker
+                    googleMap.setOnInfoWindowClickListener(marker -> {
+                        Long stationId = (Long) marker.getTag();
+                        if (stationId != null) {
+                            Bundle bundle = new Bundle();
+                            bundle.putLong("stationId", stationId);
+                            navController.navigate(R.id.action_stations_to_stationDetails, bundle);
+                        }
+                    });
                 });
-            });
+            }
         }
     }
 }

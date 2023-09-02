@@ -9,4 +9,8 @@
     <string name="connection">Connessione al server …</string>
     <string name="water_station">Stazione sonda</string>
     <string name="tabLayout">Tab layout</string>
+    <string name="indietro">Indietro</string>
+    <string name="data_error">Impossibile scaricare i dati!</string>
+    <string name="retry">Riprova</string>
+    <string name="exit">Esci</string>
 </resources>

@@ -4,24 +4,24 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
 import com.tatonimatteo.waterhealth.R;
-import com.tatonimatteo.waterhealth.view.HomeFragementAdapter;
+import com.tatonimatteo.waterhealth.view.HomeFragmentAdapter;
 
 public class Stations extends Fragment {
 
     private TabLayout tabLayout;
     private ViewPager2 viewPager;
-    private HomeFragementAdapter adapter;
+    private ProgressBar progressBar;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -33,11 +33,14 @@ public class Stations extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        StationsViewModel stationsViewModel = new ViewModelProvider(this).get(StationsViewModel.class);
+
         tabLayout = view.findViewById(R.id.tabLayout);
         viewPager = view.findViewById(R.id.viewPager);
+        progressBar = view.findViewById(R.id.stationsProgressBar);
 
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-        adapter = new HomeFragementAdapter(fragmentManager, getLifecycle());
+        HomeFragmentAdapter adapter = new HomeFragmentAdapter(fragmentManager, getLifecycle());
         viewPager.setAdapter(adapter);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -66,6 +69,12 @@ public class Stations extends Fragment {
             }
         });
 
-
+        stationsViewModel.getIsLoading().observe(getViewLifecycleOwner(), isLoading -> {
+            if (isLoading) {
+                progressBar.setVisibility(View.VISIBLE);
+            } else {
+                progressBar.setVisibility(View.INVISIBLE);
+            }
+        });
     }
 }

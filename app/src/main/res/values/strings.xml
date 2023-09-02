@@ -10,5 +10,9 @@
     <string name="connection">Connection to the server…</string>
     <string name="water_station">Probe station</string>
     <string name="tabLayout">Tab layout</string>
+    <string name="indietro">Back</string>
+    <string name="data_error">Unable to download data!</string>
+    <string name="retry">Retry</string>
+    <string name="exit">Exit</string>
 
 </resources>
