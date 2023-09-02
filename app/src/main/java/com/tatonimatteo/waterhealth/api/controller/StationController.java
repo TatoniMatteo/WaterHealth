@@ -21,4 +21,9 @@ public class StationController {
         Call<List<Station>> call = httpManager.getHttpService().getAllStation();
         call.enqueue(callback);
     }
+
+    public void getStationById(long stationId, Callback<Station> callback) {
+        Call<Station> call = httpManager.getHttpService().getStationById(stationId);
+        call.enqueue(callback);
+    }
 }

@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
 
-    <!-- LIGHT COLOR -->
-    <color name="yellow">#f1c350</color>
-    <color name="yellowVariant">#ffe554</color>
-    <color name="blue">#1a2e65</color>
-    <color name="blueVariant">#2d50b1</color>
+
+    <color name="gold">#f1c350</color>
+    <color name="yellow">#ffe554</color>
+    <color name="darkBlue">#1a2e65</color>
+    <color name="blue">#2d50b1</color>
     <color name="brown">#302e28</color>
-
-    <color name="yellowWithReducedOpacity">#C0f1c350</color>
-    <color name="blueWithReducedOpacity">#C01a2e65</color>
 </resources>

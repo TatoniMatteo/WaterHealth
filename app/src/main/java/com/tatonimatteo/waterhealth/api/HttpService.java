@@ -24,6 +24,9 @@ public interface HttpService {
     @GET("stations/all")
     Call<List<Station>> getAllStation();
 
+    @GET("stations/{id}")
+    Call<Station> getStationById(@Path("id") long stationId);
+
     @GET("sensors/all")
     Call<List<Sensor>> getAllSensor();
 

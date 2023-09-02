@@ -14,5 +14,7 @@
     <string name="data_error">Unable to download data!</string>
     <string name="retry">Retry</string>
     <string name="exit">Exit</string>
+    <string name="dettagli_stazione">Station details</string>
+    <string name="dati">Data</string>
 
 </resources>

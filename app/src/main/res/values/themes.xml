@@ -2,10 +2,10 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.WaterHealth" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Colori personalizzati -->
-        <item name="colorPrimary">@color/blue</item>
-        <item name="colorPrimaryVariant">@color/blueVariant</item>
-        <item name="colorSecondary">@color/yellow</item>
-        <item name="colorSecondaryVariant">@color/yellowVariant</item>
+        <item name="colorPrimary">@color/darkBlue</item>
+        <item name="colorPrimaryVariant">@color/blue</item>
+        <item name="colorSecondary">@color/gold</item>
+        <item name="colorSecondaryVariant">@color/yellow</item>
         <item name="colorTertiary">@color/brown</item>
 
         <item name="colorOnPrimary">@color/white</item>
@@ -17,8 +17,6 @@
         <item name="windowSplashScreenAnimatedIcon">@mipmap/icon</item>
         <item name="windowSplashScreenAnimationDuration">2000</item>
         <item name="android:fontFamily">@font/gilroy</item>
-
-        <item name="menuColor">@color/yellowWithReducedOpacity</item>
     </style>
 
     <style name="Theme.WaterHealth" parent="Base.Theme.WaterHealth" />

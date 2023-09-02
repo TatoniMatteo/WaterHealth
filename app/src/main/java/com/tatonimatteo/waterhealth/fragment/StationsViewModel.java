@@ -19,66 +19,56 @@ import retrofit2.Response;
 
 public class StationsViewModel extends ViewModel {
 
-    private final MutableLiveData<Throwable> errorLiveData = new MutableLiveData<>();
-    private final MutableLiveData<Boolean> isLoadingLiveData = new MutableLiveData<>();
-    private LiveData<List<Station>> stationsLiveData;
+    private final MutableLiveData<Throwable> error = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
     private final StationController stationController;
+    private LiveData<List<Station>> stations;
 
     public StationsViewModel() {
         stationController = AppConfiguration.getInstance().getStationController();
-        stationsLiveData = Transformations.map(fetchStations(), Response::body);
+        stations = Transformations.map(fetchStations(), Response::body);
     }
 
     public LiveData<List<Station>> getStations() {
-        return stationsLiveData;
+        return stations;
     }
 
     public LiveData<Throwable> getError() {
-        return errorLiveData;
+        return error;
     }
 
     public LiveData<Boolean> getIsLoading() {
-        return isLoadingLiveData;
+        return isLoading;
     }
 
     public void refreshStations() {
-        stationsLiveData = Transformations.map(fetchStations(), Response::body);
+        stations = Transformations.map(fetchStations(), Response::body);
     }
 
     private LiveData<Response<List<Station>>> fetchStations() {
         MutableLiveData<Response<List<Station>>> responseLiveData = new MutableLiveData<>();
-        isLoadingLiveData.postValue(true); // Mostra un indicatore di caricamento
+        isLoading.postValue(true);
 
         stationController.getAllStation(new Callback<List<Station>>() {
             @Override
             public void onResponse(@NonNull Call<List<Station>> call, @NonNull Response<List<Station>> response) {
-                isLoadingLiveData.postValue(false); // Nascondi l'indicatore di caricamento
+                isLoading.postValue(false);
 
                 if (response.isSuccessful() && response.body() != null) {
-                    if (validateData(response.body())) {
-                        responseLiveData.postValue(response);
-                        errorLiveData.postValue(null);
-                    } else {
-                        errorLiveData.postValue(new DataException("Dati non validi"));
-                    }
+                    responseLiveData.postValue(response);
+                    error.postValue(null);
                 } else {
-                    errorLiveData.postValue(new DataException("Risposta API non riuscita"));
+                    error.postValue(new DataException("Errore nel recupero dei dati delle stazioni."));
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<List<Station>> call, @NonNull Throwable t) {
-                isLoadingLiveData.postValue(false); // Nascondi l'indicatore di caricamento
-                errorLiveData.postValue(t);
+                isLoading.postValue(false);
+                error.postValue(t);
             }
         });
 
         return responseLiveData;
-    }
-
-    private boolean validateData(List<Station> stations) {
-        // Implementa qui la logica di validazione dei dati, se necessario
-        // Restituisci true se i dati sono validi, altrimenti false
-        return true;
     }
 }

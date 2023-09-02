@@ -8,7 +8,9 @@ import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
@@ -24,6 +26,12 @@ public class Stations extends Fragment {
     private ProgressBar progressBar;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.stations, container, false);
@@ -33,13 +41,14 @@ public class Stations extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        StationsViewModel stationsViewModel = new ViewModelProvider(this).get(StationsViewModel.class);
+        StationsViewModel viewModel = new ViewModelProvider(requireActivity()).get(StationsViewModel.class);
 
-        tabLayout = view.findViewById(R.id.tabLayout);
-        viewPager = view.findViewById(R.id.viewPager);
+        tabLayout = view.findViewById(R.id.stationsTabLayout);
+        viewPager = view.findViewById(R.id.stationsViewPager);
         progressBar = view.findViewById(R.id.stationsProgressBar);
 
-        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        FragmentActivity activity = requireActivity();
+        FragmentManager fragmentManager = activity.getSupportFragmentManager();
         HomeFragmentAdapter adapter = new HomeFragmentAdapter(fragmentManager, getLifecycle());
         viewPager.setAdapter(adapter);
 
@@ -52,12 +61,10 @@ public class Stations extends Fragment {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
             }
         });
 
@@ -69,11 +76,23 @@ public class Stations extends Fragment {
             }
         });
 
-        stationsViewModel.getIsLoading().observe(getViewLifecycleOwner(), isLoading -> {
+        viewModel.getIsLoading().observe(getViewLifecycleOwner(), isLoading -> {
             if (isLoading) {
                 progressBar.setVisibility(View.VISIBLE);
             } else {
                 progressBar.setVisibility(View.INVISIBLE);
+            }
+        });
+
+        viewModel.getError().observe(getViewLifecycleOwner(), error -> {
+            if (error != null) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+                builder.setTitle(getString(R.string.data_error))
+                        .setMessage(error.getMessage())
+                        .setPositiveButton(getString(R.string.retry), (dialog, which) -> viewModel.refreshStations())
+                        .setNegativeButton(getString(R.string.exit), (dialog, which) -> requireActivity().finishAffinity())
+                        .setCancelable(false)
+                        .show();
             }
         });
     }

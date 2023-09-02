@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -46,7 +45,7 @@ public class StationMapsFragment extends Fragment {
             @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState
     ) {
-        stationsViewModel = new ViewModelProvider(this).get(StationsViewModel.class);
+        stationsViewModel = new ViewModelProvider(requireActivity()).get(StationsViewModel.class);
         return inflater.inflate(R.layout.stations_maps, container, false);
     }
 
@@ -65,18 +64,6 @@ public class StationMapsFragment extends Fragment {
             stationList.addAll(stations);
             if (isMapReady) {
                 updateMapMarkers(); // Se la mappa è pronta, aggiorna i marker
-            }
-        });
-
-        stationsViewModel.getError().observe(getViewLifecycleOwner(), error -> {
-            if (error != null) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-                builder.setTitle(getString(R.string.data_error))
-                        .setMessage(error.getMessage())
-                        .setPositiveButton(getString(R.string.retry), (dialog, which) -> stationsViewModel.refreshStations())
-                        .setNegativeButton(getString(R.string.exit), (dialog, which) -> requireActivity().finishAffinity())
-                        .setCancelable(false)
-                        .show();
             }
         });
     }

@@ -2,7 +2,6 @@ package com.tatonimatteo.waterhealth.fragment;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,38 +36,22 @@ public class LoginPage extends Fragment {
     }
 
     private void login() {
-        configuration
-                .getAuthController()
-                .login("waterapp@example.com", "app123", new LoginCallback() {
-                    @Override
-                    public void onSuccess() {
-                        Handler handler = new Handler();
-                        handler.postDelayed(() -> next(), 1000);
+        configuration.getAuthController().login("waterapp@example.com", "app123", new LoginCallback() {
+            @Override
+            public void onSuccess() {
+                nav.navigate(R.id.action_loginPage_to_stations);
+            }
 
-                    }
-
-                    @Override
-                    public void onFailure(String message) {
-                        Handler handler = new Handler();
-                        handler.postDelayed(() -> {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-                            builder.setTitle("Connessione con il Server fallita!")
-                                    .setMessage(message)
-                                    .setPositiveButton("Riprova", (dialog, which) -> login())
-                                    .setNegativeButton("Esci", (dialog, which) -> requireActivity().finishAffinity())
-                                    .setCancelable(false)
-                                    .show();
-                        }, 500);
-
-                    }
-                });
-    }
-
-    private void next() {
-        if (nav.getCurrentBackStack().getValue().size() > 2) {
-            nav.navigateUp();
-        } else {
-            nav.navigate(R.id.action_loginPage_to_stations);
-        }
+            @Override
+            public void onFailure(String message) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+                builder.setTitle(getString(R.string.connection))
+                        .setMessage(message)
+                        .setPositiveButton(getString(R.string.retry), (dialog, which) -> login())
+                        .setNegativeButton(getString(R.string.exit), (dialog, which) -> requireActivity().finishAffinity())
+                        .setCancelable(false)
+                        .show();
+            }
+        });
     }
 }

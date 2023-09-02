@@ -13,4 +13,6 @@
     <string name="data_error">Impossibile scaricare i dati!</string>
     <string name="retry">Riprova</string>
     <string name="exit">Esci</string>
+    <string name="dettagli_stazione">Dettagli stazione</string>
+    <string name="dati">Dati</string>
 </resources>
