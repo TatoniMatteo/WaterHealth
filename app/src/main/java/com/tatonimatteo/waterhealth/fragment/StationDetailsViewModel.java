@@ -12,8 +12,13 @@ import com.tatonimatteo.waterhealth.entity.Record;
 import com.tatonimatteo.waterhealth.entity.Sensor;
 import com.tatonimatteo.waterhealth.entity.Station;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 import kotlin.Triple;
 import retrofit2.Call;
@@ -26,7 +31,7 @@ public class StationDetailsViewModel extends ViewModel {
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
     private final MutableLiveData<Station> station = new MutableLiveData<>();
     private final MutableLiveData<Sensor> sensors = new MutableLiveData<>();
-    private final MutableLiveData<Triple<Sensor, Record, Boolean>> currentRecords = new MutableLiveData<>();
+    private final MutableLiveData<List<Triple<Sensor, Record, Boolean>>> currentRecords = new MutableLiveData<>();
     private final StationController stationController;
 
     public StationDetailsViewModel() {
@@ -37,12 +42,18 @@ public class StationDetailsViewModel extends ViewModel {
         return station;
     }
 
+    public LiveData<List<Triple<Sensor, Record, Boolean>>> getLiveData() {
+        return currentRecords;
+    }
+
+
     public void setSelectedStation(long stationId) {
         isLoading.postValue(true);
 
-        CompletableFuture<List<Record>> recordsFuture;
-        CompletableFuture<List<Record>> outOfRangeFuture;
-        CompletableFuture<List<Sensor>> sensors;
+        CompletableFuture<Station> stationFuture = new CompletableFuture<>();
+        CompletableFuture<List<Sensor>> sensorsFuture = new CompletableFuture<>();
+        CompletableFuture<List<Record>> recordsFuture = new CompletableFuture<>();
+        CompletableFuture<List<Record>> outOfRangeFuture = new CompletableFuture<>();
 
         stationController.getStationById(stationId, new Callback<Station>() {
             @Override
@@ -60,6 +71,31 @@ public class StationDetailsViewModel extends ViewModel {
             public void onFailure(@NonNull Call<Station> call, @NonNull Throwable t) {
                 isLoading.postValue(false);
                 error.postValue(t);
+            }
+        });
+
+        CompletableFuture<Void> firstPage = CompletableFuture.allOf(stationFuture, sensorsFuture);
+        CompletableFuture<Void> liveData = CompletableFuture.allOf(recordsFuture, outOfRangeFuture, sensorsFuture);
+
+        liveData.thenRun(() -> {
+            if (!liveData.isCompletedExceptionally()) {
+                try {
+                    List<Record> records = recordsFuture.get();
+                    List<Record> outOfRangeRecords = outOfRangeFuture.get();
+
+                    Map<Long, Sensor> sensorMap = Objects.requireNonNull(sensorsFuture.get())
+                            .stream()
+                            .collect(Collectors.toMap(Sensor::getId, sensor -> sensor));
+
+                    List<Triple<Sensor, Record, Boolean>> result = new ArrayList<>();
+
+                    for (Record record : records) {
+                        result.add(new Triple<>(sensorMap.get(record.getSensorId()), record, outOfRangeRecords.contains(record)));
+                    }
+                    currentRecords.postValue(result);
+                } catch (ExecutionException | InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
     }

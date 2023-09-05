@@ -44,14 +44,14 @@ public class LiveDataItem extends LinearLayout {
         this.name.setText(String.format("%s:", name));
     }
 
-    public void setValue(String unit, Double decimal, Double value, boolean error) {
-        this.value.setText(String.format("%.0" + decimal.intValue() + "f %s:", unit, value));
+    public void setValue(String unit, int decimal, Double value, boolean error) {
+        this.value.setText(String.format("%.0" + decimal + "f %s:", unit, value));
         if (error) {
             this.value.setTextColor(Color.RED);
         }
     }
 
-    public void setComponent(String name, String unit, Double decimal, Double value, boolean error) {
+    public void setComponent(String name, String unit, int decimal, Double value, boolean error) {
         setName(name);
         setValue(unit, decimal, value, error);
     }

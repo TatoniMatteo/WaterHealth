@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,11 +14,14 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.tatonimatteo.waterhealth.R;
 import com.tatonimatteo.waterhealth.fragment.StationDetailsViewModel;
+import com.tatonimatteo.waterhealth.view.LiveDataItem;
 
 public class StationData extends Fragment {
 
     private LinearLayout liveDataContainer;
     private StationDetailsViewModel viewModel;
+
+    private TextView errorView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -31,7 +35,23 @@ public class StationData extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         liveDataContainer = view.findViewById(R.id.liveDataContainer);
+        errorView = view.findViewById(R.id.liveDataError);
 
-        viewModel.
+        viewModel.getLiveData().observe(getViewLifecycleOwner(), data -> {
+            liveDataContainer.removeAllViews();
+            if (data.isEmpty()) errorView.setVisibility(View.VISIBLE);
+            else errorView.setVisibility(View.GONE);
+            data.forEach(triple -> {
+                LiveDataItem item = new LiveDataItem(requireContext());
+                item.setComponent(
+                        triple.getFirst().getSensorType().getName(),
+                        triple.getFirst().getUnit(),
+                        triple.getFirst().getDecimals(),
+                        triple.getSecond().getValue(),
+                        triple.getThird()
+                );
+                liveDataContainer.addView(item);
+            });
+        });
     }
 }

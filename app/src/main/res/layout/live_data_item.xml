@@ -10,7 +10,8 @@
         android:layout_height="match_parent"
         android:layout_weight="6"
         android:autoSizeTextType="uniform"
-        android:textColor="?attr/colorOnPrimary" />
+        android:textColor="?attr/colorOnPrimary"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/dataValue"
