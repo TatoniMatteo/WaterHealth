@@ -15,4 +15,6 @@
     <string name="exit">Esci</string>
     <string name="dettagli_stazione">Dettagli stazione</string>
     <string name="dati">Dati</string>
+    <string name="dati_in_tempo_reale">Dati in tempo reale</string>
+    <string name="non_ci_sono_dati_rececenti">Non ci sono dati rececenti!</string>
 </resources>

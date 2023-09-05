@@ -1,0 +1,22 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="20dp"
+    android:orientation="horizontal"
+    android:weightSum="10">
+
+    <TextView
+        android:id="@+id/dataName"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="6"
+        android:autoSizeTextType="uniform"
+        android:textColor="?attr/colorOnPrimary" />
+
+    <TextView
+        android:id="@+id/dataValue"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="4"
+        android:autoSizeTextType="uniform"
+        android:textColor="?attr/colorOnPrimary" />
+</LinearLayout>
