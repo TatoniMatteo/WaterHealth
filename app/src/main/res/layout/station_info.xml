@@ -37,21 +37,21 @@
         <ImageView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
-            android:paddingHorizontal="10dp"
             android:layout_weight="1"
             android:contentDescription="@string/icon"
+            android:paddingHorizontal="10dp"
+            android:paddingBottom="10dp"
             android:src="@drawable/location"
             app:tint="?attr/colorOnBackground" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="24dp"
+            android:layout_marginTop="5dp"
             android:layout_weight="3"
             android:autoSizeTextType="uniform"
             android:text="@string/luogo"
-            android:textStyle="bold"
-            android:layout_marginTop="5dp"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/positionLabel"
@@ -66,9 +66,43 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:layout_marginVertical="5dp"
+        android:gravity="top|start"
+        android:orientation="horizontal"
+        android:weightSum="10">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:contentDescription="@string/icon"
+            android:src="@drawable/phone"
+            app:tint="?attr/colorOnBackground" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:autoSizeTextType="uniform"
+            android:text="@string/telefono"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/phoneLabel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="6"
+            android:autoSizeTextType="uniform"
+            android:lineSpacingExtra="2dp"
+            android:lines="2" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginVertical="15dp"
         android:gravity="top|start"
         android:orientation="horizontal"
         android:weightSum="10">
@@ -87,6 +121,13 @@
             android:layout_weight="3"
             android:autoSizeTextType="uniform"
             android:text="@string/sensor"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="6"
+            android:autoSizeTextType="uniform"
             android:textStyle="bold" />
 
     </LinearLayout>
