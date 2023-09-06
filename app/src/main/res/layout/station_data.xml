@@ -47,7 +47,7 @@
             android:src="@drawable/warning"
             android:visibility="invisible"
             app:tint="@android:color/holo_red_light" />
-        
+
 
     </LinearLayout>
 
@@ -58,7 +58,6 @@
         android:autoSizeTextType="uniform"
         android:gravity="center"
         android:text="@string/non_ci_sono_dati_rececenti"
-        android:textColor="@android:color/holo_red_light"
         android:textStyle="bold" />
 
     <LinearLayout

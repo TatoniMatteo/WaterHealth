@@ -26,6 +26,8 @@ public class StationInfo extends Fragment implements OnMapReadyCallback {
     private StationDetailsViewModel viewModel;
     private TextView name;
     private TextView position;
+    private TextView phone;
+    private TextView sensors;
     private MapView mapView;
 
     @Override
@@ -40,6 +42,8 @@ public class StationInfo extends Fragment implements OnMapReadyCallback {
         super.onViewCreated(view, savedInstanceState);
 
         name = view.findViewById(R.id.stationName);
+        phone = view.findViewById(R.id.phoneLabel);
+        sensors = view.findViewById(R.id.sensorLabel);
         position = view.findViewById(R.id.positionLabel);
         mapView = view.findViewById(R.id.mapView);
 
@@ -47,8 +51,15 @@ public class StationInfo extends Fragment implements OnMapReadyCallback {
             viewModel.getSelectedStation().observe(getViewLifecycleOwner(), station -> {
                 if (station != null) {
                     name.setText(station.getName());
+                    phone.setText(station.getPhone());
                     position.setText(String.format("%s\n%s", station.getCountry(), station.getRegion()));
                 }
+            });
+
+            viewModel.getStationSensors().observe(getViewLifecycleOwner(), sensors -> {
+                StringBuilder stringBuilder = new StringBuilder();
+                sensors.forEach(sensor -> stringBuilder.append("• ").append(sensor.getSensorType().getName()).append("\n"));
+                this.sensors.setText(stringBuilder);
             });
 
             mapView.onCreate(savedInstanceState);

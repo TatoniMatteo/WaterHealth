@@ -36,19 +36,19 @@
 
         <ImageView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="24dp"
             android:layout_weight="1"
             android:contentDescription="@string/icon"
-            android:paddingHorizontal="10dp"
-            android:paddingBottom="10dp"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:src="@drawable/location"
             app:tint="?attr/colorOnBackground" />
 
         <TextView
             android:layout_width="0dp"
-            android:layout_height="24dp"
-            android:layout_marginTop="5dp"
+            android:layout_height="match_parent"
             android:layout_weight="3"
+            android:autoSizeMaxTextSize="20sp"
             android:autoSizeTextType="uniform"
             android:text="@string/luogo"
             android:textStyle="bold" />
@@ -58,6 +58,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="6"
+            android:autoSizeMaxTextSize="18sp"
             android:autoSizeTextType="uniform"
             android:lineSpacingExtra="2dp"
             android:lines="2" />
@@ -85,6 +86,8 @@
             android:layout_height="match_parent"
             android:layout_weight="3"
             android:autoSizeTextType="uniform"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:text="@string/telefono"
             android:textStyle="bold" />
 
@@ -93,9 +96,12 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="6"
+            android:autoSizeMaxTextSize="18sp"
             android:autoSizeTextType="uniform"
+            android:ellipsize="end"
             android:lineSpacingExtra="2dp"
-            android:lines="2" />
+            android:maxLines="1"
+            tools:ignore="VisualLintLocaleText" />
 
     </LinearLayout>
 
@@ -124,11 +130,14 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/sensorLabel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="6"
+            android:autoSizeMinTextSize="18sp"
             android:autoSizeTextType="uniform"
-            android:textStyle="bold" />
+            android:ellipsize="end"
+            android:lineSpacingExtra="3dp" />
 
     </LinearLayout>
 
