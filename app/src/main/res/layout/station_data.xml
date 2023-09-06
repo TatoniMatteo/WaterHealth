@@ -9,61 +9,63 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="25dp"
+        android:layout_height="35dp"
+        android:layout_marginHorizontal="20dp"
         android:layout_marginVertical="15dp"
-        android:background="@drawable/border_round_16dp"
-        android:backgroundTint="?attr/colorPrimaryVariant"
-        android:orientation="vertical">
+        android:orientation="horizontal"
+        android:padding="5dp"
+        android:weightSum="12">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_marginHorizontal="5dp"
-            android:layout_marginVertical="15dp"
-            android:orientation="horizontal"
-            android:padding="5dp"
-            android:weightSum="10">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="9"
-                android:autoSizeTextType="uniform"
-                android:text="@string/dati_in_tempo_reale"
-                android:textAllCaps="true"
-                android:textColor="?attr/colorOnPrimary"
-                android:textStyle="bold" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:contentDescription="@string/icon"
-                android:src="@drawable/live_data"
-                app:tint="?attr/colorOnPrimary" />
-
-        </LinearLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:contentDescription="@string/icon"
+            android:padding="2dp"
+            android:src="@drawable/live_data"
+            app:tint="?attr/colorOnBackground" />
 
         <TextView
-            android:id="@+id/liveDataError"
-            android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="10"
             android:autoSizeTextType="uniform"
-            android:gravity="center"
-            android:text="@string/non_ci_sono_dati_rececenti"
-            android:textColor="@android:color/holo_red_light"
+            android:gravity="center_vertical"
+            android:text="@string/dati_in_tempo_reale"
+            android:textAllCaps="true"
+            android:textColor="?attr/colorOnBackground"
             android:textStyle="bold" />
 
-        <LinearLayout
-            android:id="@+id/liveDataContainer"
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/liveDataWarning"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="15dp"
-            android:layout_marginBottom="15dp"
-            android:orientation="vertical" />
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:contentDescription="@string/icon"
+            android:src="@drawable/warning"
+            android:visibility="invisible"
+            app:tint="@android:color/holo_red_light" />
+
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/liveDataError"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:autoSizeTextType="uniform"
+        android:gravity="center"
+        android:text="@string/non_ci_sono_dati_rececenti"
+        android:textColor="@android:color/holo_red_light"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:id="@+id/liveDataContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginBottom="15dp"
+        android:orientation="vertical" />
 
 </LinearLayout>

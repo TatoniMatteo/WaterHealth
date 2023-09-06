@@ -17,4 +17,6 @@
     <string name="dati">Dati</string>
     <string name="dati_in_tempo_reale">Dati in tempo reale</string>
     <string name="non_ci_sono_dati_rececenti">Non ci sono dati rececenti!</string>
+    <string name="luogo">Luogo:</string>
+    <string name="sensor">Sensori:</string>
 </resources>

@@ -1,5 +1,7 @@
 package com.tatonimatteo.waterhealth.entity;
 
+import android.location.Address;
+
 import androidx.annotation.NonNull;
 
 import com.tatonimatteo.waterhealth.configuration.AppConfiguration;
@@ -10,6 +12,7 @@ public class Station {
     private String phone;
     private double latitude;
     private double longitude;
+    private Address address;
 
     public long getId() {
         return id;
@@ -38,20 +41,42 @@ public class Station {
     }
 
     public String getLocationName() {
-        return AppConfiguration
+        if (address == null) setAddress();
+        if (address == null) return "Impossibile recuperare il nome della posizione";
+        return String.format(
+                "%s (%s - %s)",
+                address.getLocality(),
+                address.getAdminArea(),
+                address.getCountryName());
+    }
+
+    public String getCountry() {
+        if (address == null) setAddress();
+        if (address == null) return "Impossibile recuperare il nome della posizione";
+        return address.getCountryName();
+    }
+
+    public String getRegion() {
+        if (address == null) setAddress();
+        if (address == null) return "Impossibile recuperare il nome della posizione";
+        return String.format(
+                "%s (%s)",
+                address.getLocality(),
+                address.getAdminArea());
+    }
+
+    private void setAddress() {
+        address = AppConfiguration
                 .getInstance()
                 .getMapAPI()
-                .getLocationName(latitude, longitude);
-
+                .getLocation(latitude, longitude);
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Station station = (Station) o;
-
         return id == station.id;
     }
 

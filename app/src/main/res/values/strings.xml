@@ -18,5 +18,7 @@
     <string name="dati">Data</string>
     <string name="dati_in_tempo_reale">Live data</string>
     <string name="non_ci_sono_dati_rececenti">There is no recent data!</string>
+    <string name="luogo">Place:</string>
+    <string name="sensor">Sensors:</string>
 
 </resources>

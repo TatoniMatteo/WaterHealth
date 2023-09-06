@@ -40,4 +40,38 @@ public class RecordController {
         Call<List<Record>> call = httpManager.getHttpService().getRecordBySensorAndDate(id, startDate.toString(), endDate.toString());
         call.enqueue(callback);
     }
+
+    public void getCurrentData(
+            long stationID,
+            long minuteRange,
+            Callback<List<Record>> callback
+    ) {
+        Call<List<Record>> call = httpManager.getHttpService().getCurrentData(stationID, minuteRange);
+        call.enqueue(callback);
+    }
+
+    public void getCurrentData(
+            long stationID,
+            Callback<List<Record>> callback
+    ) {
+        Call<List<Record>> call = httpManager.getHttpService().getCurrentData(stationID, 30);
+        call.enqueue(callback);
+    }
+
+    public void getCurrentOutOfRange(
+            long stationID,
+            long minuteRange,
+            Callback<List<Record>> callback
+    ) {
+        Call<List<Record>> call = httpManager.getHttpService().getCurrentOutOfRange(stationID, minuteRange);
+        call.enqueue(callback);
+    }
+
+    public void getCurrentOutOfRange(
+            long stationID,
+            Callback<List<Record>> callback
+    ) {
+        Call<List<Record>> call = httpManager.getHttpService().getCurrentOutOfRange(stationID, 30);
+        call.enqueue(callback);
+    }
 }

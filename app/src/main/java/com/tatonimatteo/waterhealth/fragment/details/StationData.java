@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -21,7 +22,8 @@ public class StationData extends Fragment {
     private LinearLayout liveDataContainer;
     private StationDetailsViewModel viewModel;
 
-    private TextView errorView;
+    private TextView errorText;
+    private ImageView errorIcon;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,12 +37,14 @@ public class StationData extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         liveDataContainer = view.findViewById(R.id.liveDataContainer);
-        errorView = view.findViewById(R.id.liveDataError);
+        errorText = view.findViewById(R.id.liveDataError);
+        errorIcon = view.findViewById(R.id.liveDataWarning);
 
         viewModel.getLiveData().observe(getViewLifecycleOwner(), data -> {
             liveDataContainer.removeAllViews();
-            if (data.isEmpty()) errorView.setVisibility(View.VISIBLE);
-            else errorView.setVisibility(View.GONE);
+            errorIcon.setVisibility(View.INVISIBLE);
+            if (data.isEmpty()) errorText.setVisibility(View.VISIBLE);
+            else errorText.setVisibility(View.GONE);
             data.forEach(triple -> {
                 LiveDataItem item = new LiveDataItem(requireContext());
                 item.setComponent(
@@ -51,6 +55,7 @@ public class StationData extends Fragment {
                         triple.getThird()
                 );
                 liveDataContainer.addView(item);
+                if (triple.getThird()) errorIcon.setVisibility(View.VISIBLE);
             });
         });
     }

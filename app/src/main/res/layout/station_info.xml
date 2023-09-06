@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginHorizontal="20dp"
+    android:orientation="vertical"
     tools:context=".fragment.details.StationInfo">
 
     <TextView
@@ -11,9 +14,81 @@
         android:layout_height="40dp"
         android:layout_marginVertical="15dp"
         android:autoSizeTextType="uniform"
-        android:text="Nome stazione"
         android:textAlignment="center"
         android:textAllCaps="true"
         android:textStyle="bold" />
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginHorizontal="20dp"
+        android:contentDescription="@string/map" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="5dp"
+        android:gravity="top|start"
+        android:orientation="horizontal"
+        android:weightSum="10">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:paddingHorizontal="10dp"
+            android:layout_weight="1"
+            android:contentDescription="@string/icon"
+            android:src="@drawable/location"
+            app:tint="?attr/colorOnBackground" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:layout_weight="3"
+            android:autoSizeTextType="uniform"
+            android:text="@string/luogo"
+            android:textStyle="bold"
+            android:layout_marginTop="5dp"/>
+
+        <TextView
+            android:id="@+id/positionLabel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="6"
+            android:autoSizeTextType="uniform"
+            android:lineSpacingExtra="2dp"
+            android:lines="2" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="5dp"
+        android:gravity="top|start"
+        android:orientation="horizontal"
+        android:weightSum="10">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:contentDescription="@string/icon"
+            android:src="@drawable/sensor"
+            app:tint="?attr/colorOnBackground" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:layout_weight="3"
+            android:autoSizeTextType="uniform"
+            android:text="@string/sensor"
+            android:textStyle="bold" />
+
+    </LinearLayout>
 
 </LinearLayout>

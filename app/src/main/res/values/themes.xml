@@ -17,6 +17,7 @@
         <item name="windowSplashScreenAnimatedIcon">@mipmap/icon</item>
         <item name="windowSplashScreenAnimationDuration">2000</item>
         <item name="android:fontFamily">@font/gilroy</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 
     <style name="Theme.WaterHealth" parent="Base.Theme.WaterHealth" />

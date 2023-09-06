@@ -3,12 +3,15 @@ package com.tatonimatteo.waterhealth.view;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
 import com.tatonimatteo.waterhealth.R;
+
+import java.util.Locale;
 
 public class LiveDataItem extends LinearLayout {
 
@@ -36,6 +39,7 @@ public class LiveDataItem extends LinearLayout {
     }
 
     private void init() {
+        LayoutInflater.from(getContext()).inflate(R.layout.live_data_item, this);
         name = findViewById(R.id.dataName);
         value = findViewById(R.id.dataValue);
     }
@@ -45,7 +49,7 @@ public class LiveDataItem extends LinearLayout {
     }
 
     public void setValue(String unit, int decimal, Double value, boolean error) {
-        this.value.setText(String.format("%.0" + decimal + "f %s:", unit, value));
+        this.value.setText(String.format(Locale.getDefault(), "%.0" + decimal + "f %s:", value, unit));
         if (error) {
             this.value.setTextColor(Color.RED);
         }

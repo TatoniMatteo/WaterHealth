@@ -5,6 +5,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.tatonimatteo.waterhealth.api.controller.RecordController;
+import com.tatonimatteo.waterhealth.api.controller.SensorController;
 import com.tatonimatteo.waterhealth.api.controller.StationController;
 import com.tatonimatteo.waterhealth.api.exception.DataException;
 import com.tatonimatteo.waterhealth.configuration.AppConfiguration;
@@ -30,22 +32,21 @@ public class StationDetailsViewModel extends ViewModel {
     private final MutableLiveData<Throwable> error = new MutableLiveData<>();
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
     private final MutableLiveData<Station> station = new MutableLiveData<>();
-    private final MutableLiveData<Sensor> sensors = new MutableLiveData<>();
+    private final MutableLiveData<List<Sensor>> sensors = new MutableLiveData<>();
     private final MutableLiveData<List<Triple<Sensor, Record, Boolean>>> currentRecords = new MutableLiveData<>();
     private final StationController stationController;
+    private final SensorController sensorController;
+    private final RecordController recordController;
 
     public StationDetailsViewModel() {
         stationController = AppConfiguration.getInstance().getStationController();
+        sensorController = AppConfiguration.getInstance().getSensorController();
+        recordController = AppConfiguration.getInstance().getRecordController();
     }
 
     public LiveData<Station> getSelectedStation() {
         return station;
     }
-
-    public LiveData<List<Triple<Sensor, Record, Boolean>>> getLiveData() {
-        return currentRecords;
-    }
-
 
     public void setSelectedStation(long stationId) {
         isLoading.postValue(true);
@@ -58,24 +59,107 @@ public class StationDetailsViewModel extends ViewModel {
         stationController.getStationById(stationId, new Callback<Station>() {
             @Override
             public void onResponse(@NonNull Call<Station> call, @NonNull Response<Station> response) {
-                isLoading.postValue(false);
-
                 if (response.isSuccessful()) {
-                    station.postValue(response.body());
+                    stationFuture.complete(response.body());
                 } else {
-                    error.postValue(new DataException("Errore nel recupero dei dati della stazione."));
+                    stationFuture.completeExceptionally(new DataException("Errore nel recupero dei dati della stazione."));
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<Station> call, @NonNull Throwable t) {
-                isLoading.postValue(false);
-                error.postValue(t);
+                stationFuture.completeExceptionally(t);
+            }
+        });
+
+        sensorController.getSensorByStation(stationId, new Callback<List<Sensor>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<Sensor>> call, @NonNull Response<List<Sensor>> response) {
+                if (response.isSuccessful()) {
+                    sensorsFuture.complete(response.body());
+                } else {
+                    sensorsFuture.completeExceptionally(new DataException("Errore nel recupero dei dati della stazione."));
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<Sensor>> call, @NonNull Throwable t) {
+                sensorsFuture.completeExceptionally(t);
+            }
+        });
+
+        sensorController.getSensorByStation(stationId, new Callback<List<Sensor>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<Sensor>> call, @NonNull Response<List<Sensor>> response) {
+                if (response.isSuccessful()) {
+                    sensorsFuture.complete(response.body());
+                } else {
+                    sensorsFuture.completeExceptionally(new DataException("Errore nel recupero dei sensori della stazione."));
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<Sensor>> call, @NonNull Throwable t) {
+                sensorsFuture.completeExceptionally(t);
+            }
+        });
+
+        recordController.getCurrentData(stationId, new Callback<List<Record>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<Record>> call, @NonNull Response<List<Record>> response) {
+                if (response.isSuccessful()) {
+                    recordsFuture.complete(response.body());
+                } else {
+                    recordsFuture.completeExceptionally(new DataException("Errore nel recupero dei record reventi!"));
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<Record>> call, @NonNull Throwable t) {
+                recordsFuture.completeExceptionally(t);
+            }
+        });
+
+        recordController.getCurrentOutOfRange(stationId, new Callback<List<Record>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<Record>> call, @NonNull Response<List<Record>> response) {
+                if (response.isSuccessful()) {
+                    outOfRangeFuture.complete(response.body());
+                } else {
+                    outOfRangeFuture.completeExceptionally(new DataException("Errore nel recupero dei record reventi (out of range)!"));
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<Record>> call, @NonNull Throwable t) {
+                outOfRangeFuture.completeExceptionally(t);
             }
         });
 
         CompletableFuture<Void> firstPage = CompletableFuture.allOf(stationFuture, sensorsFuture);
         CompletableFuture<Void> liveData = CompletableFuture.allOf(recordsFuture, outOfRangeFuture, sensorsFuture);
+
+        firstPage.exceptionally(throwable -> {
+            error.postValue(throwable);
+            return null;
+        });
+
+        liveData.exceptionally(throwable -> {
+            error.postValue(throwable);
+            return null;
+        });
+
+        firstPage.thenRun(() -> {
+            if (!firstPage.isCompletedExceptionally()) {
+                try {
+                    station.postValue(stationFuture.get());
+                    sensors.postValue(sensorsFuture.get());
+                    isLoading.setValue(false);
+                } catch (ExecutionException | InterruptedException e) {
+                    error.postValue(e);
+                }
+            }
+        });
 
         liveData.thenRun(() -> {
             if (!liveData.isCompletedExceptionally()) {
@@ -100,7 +184,11 @@ public class StationDetailsViewModel extends ViewModel {
         });
     }
 
-    public LiveData<Sensor> getStationSensors() {
+    public LiveData<List<Triple<Sensor, Record, Boolean>>> getLiveData() {
+        return currentRecords;
+    }
+
+    public LiveData<List<Sensor>> getStationSensors() {
         return sensors;
     }
 

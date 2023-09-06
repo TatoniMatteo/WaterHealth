@@ -6,6 +6,7 @@ import android.location.Geocoder;
 
 import java.io.IOException;
 import java.util.Locale;
+import java.util.Objects;
 
 public class MapAPI {
 
@@ -15,15 +16,11 @@ public class MapAPI {
         this.geocoder = new Geocoder(context, Locale.getDefault());
     }
 
-    public String getLocationName(double lat, double lng) {
-        //COORDINATE L'AQUILA
-        //lat=42.348800;
-        //lng=13.398154;
+    public Address getLocation(double lat, double lng) {
         try {
-            Address address = geocoder.getFromLocation(lat, lng, 1).get(0);
-            return address.getLocality() + " (" + address.getAdminArea() + " - " + address.getCountryName() + ")";
+            return Objects.requireNonNull(geocoder.getFromLocation(lat, lng, 1)).get(0);
         } catch (IOException e) {
-            return "Posizione sconosciuta";
+            return null;
         }
     }
 }

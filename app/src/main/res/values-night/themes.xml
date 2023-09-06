@@ -19,5 +19,6 @@
         <item name="windowSplashScreenAnimationDuration">2000</item>
         <item name="android:fontFamily">@font/gilroy</item>
         <item name="android:windowBackground">@color/brown</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 </resources>

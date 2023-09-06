@@ -48,4 +48,14 @@ public interface HttpService {
             @Path("start") String startDate,
             @Path("end") String endDate
     );
+
+    @GET("records/currentvalue/{stationId}/{minuteRange}")
+    Call<List<Record>> getCurrentData(
+            @Path("stationId") long stationID,
+            @Path("minuteRange") long minuteRange);
+
+    @GET("records/currentoutofrange/{stationId}/{minuteRange}")
+    Call<List<Record>> getCurrentOutOfRange(
+            @Path("stationId") long stationID,
+            @Path("minuteRange") long minuteRange);
 }
