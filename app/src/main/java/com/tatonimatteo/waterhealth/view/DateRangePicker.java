@@ -51,6 +51,9 @@ public class DateRangePicker extends LinearLayout {
         icon.setOnClickListener(v -> showDatePickerDialog());
 
         formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        DateRange today = new DateRange(System.currentTimeMillis(), System.currentTimeMillis());
+        dateRange.postValue(today);
+        text.setText(String.format("%s - %s", formatter.format(today.getStartDate()), formatter.format(today.getEndDate())));
     }
 
     private void showDatePickerDialog() {
