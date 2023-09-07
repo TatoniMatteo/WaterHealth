@@ -33,11 +33,6 @@ public class LiveDataItem extends LinearLayout {
         init();
     }
 
-    public LiveDataItem(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        init();
-    }
-
     private void init() {
         LayoutInflater.from(getContext()).inflate(R.layout.live_data_item, this);
         name = findViewById(R.id.dataName);

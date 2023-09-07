@@ -21,5 +21,6 @@
     <string name="luogo">Place:</string>
     <string name="sensor">Sensors:</string>
     <string name="telefono">Phone:</string>
+    <string name="date_range">--Select a date range--</string>
 
 </resources>

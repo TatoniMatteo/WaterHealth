@@ -137,7 +137,8 @@
             android:autoSizeMinTextSize="18sp"
             android:autoSizeTextType="uniform"
             android:ellipsize="end"
-            android:lineSpacingExtra="3dp" />
+            android:lineSpacingExtra="3dp"
+            tools:ignore="VisualLintLocaleText" />
 
     </LinearLayout>
 

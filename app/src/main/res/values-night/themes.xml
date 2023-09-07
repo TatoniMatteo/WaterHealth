@@ -12,6 +12,7 @@
         <item name="colorOnSecondary">@color/white</item>
         <item name="colorOnTertiary">@color/white</item>
 
+        <item name="colorOnBackground">@color/white</item>
 
         <!-- Altri attributi dello stile -->
         <item name="windowSplashScreenBackground">?android:colorBackground</item>
