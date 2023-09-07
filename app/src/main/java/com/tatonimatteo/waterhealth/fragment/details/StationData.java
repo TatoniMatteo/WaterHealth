@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.tatonimatteo.waterhealth.R;
 import com.tatonimatteo.waterhealth.fragment.StationDetailsViewModel;
+import com.tatonimatteo.waterhealth.view.DateRangePicker;
 import com.tatonimatteo.waterhealth.view.LiveDataItem;
 
 public class StationData extends Fragment {
@@ -24,6 +25,7 @@ public class StationData extends Fragment {
 
     private TextView errorText;
     private ImageView errorIcon;
+    private DateRangePicker picker;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,6 +41,9 @@ public class StationData extends Fragment {
         liveDataContainer = view.findViewById(R.id.liveDataContainer);
         errorText = view.findViewById(R.id.liveDataError);
         errorIcon = view.findViewById(R.id.liveDataWarning);
+        picker = view.findViewById(R.id.datePicker);
+
+        picker.setFragmentManager(this.getChildFragmentManager());
 
         viewModel.getLiveData().observe(getViewLifecycleOwner(), data -> {
             liveDataContainer.removeAllViews();

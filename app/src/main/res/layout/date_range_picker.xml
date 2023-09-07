@@ -8,6 +8,7 @@
     android:weightSum="10">
 
     <TextView
+        android:id="@+id/rangeText"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="9"
@@ -17,6 +18,7 @@
         android:text="@string/date_range" />
 
     <ImageView
+        android:id="@+id/rangeIcon"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_gravity="center"

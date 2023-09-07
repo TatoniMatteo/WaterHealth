@@ -20,5 +20,6 @@
     <string name="luogo">Luogo:</string>
     <string name="sensor">Sensori:</string>
     <string name="telefono">Telefono:</string>
-    <string name="date_range">--Seleziona un range di date--</string>
+    <string name="date_range">--Seleziona un range di tempo--</string>
+    <string name="scegli_un_range_di_tempo">Seleziona le date</string>
 </resources>
