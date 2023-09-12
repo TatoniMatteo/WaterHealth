@@ -23,5 +23,6 @@
     <string name="telefono">Phone:</string>
     <string name="date_range">--Select a date range--</string>
     <string name="scegli_un_range_di_tempo">Select the dates</string>
+    <string name="chip">chip</string>
 
 </resources>

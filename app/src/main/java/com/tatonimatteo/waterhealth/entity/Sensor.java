@@ -45,4 +45,23 @@ public class Sensor {
     public String toString() {
         return "Sensor " + id + " - " + sensorType.getName();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Sensor sensor = (Sensor) o;
+        return id.equals(sensor.id);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + sensorType.hashCode();
+        result = 31 * result + (int) (sensorId ^ (sensorId >>> 32));
+        result = 31 * result + (int) (stationId ^ (stationId >>> 32));
+        result = 31 * result + unit.hashCode();
+        result = 31 * result + decimals;
+        return result;
+    }
 }

@@ -41,6 +41,16 @@ public class RecordController {
         call.enqueue(callback);
     }
 
+    public void getRecordBySensorAndDate(
+            long stationSensorID,
+            @NonNull Date startDate,
+            @NonNull Date endDate,
+            Callback<List<Record>> callback
+    ) {
+        Call<List<Record>> call = httpManager.getHttpService().getRecordBySensorAndDate(stationSensorID, startDate.toString(), endDate.toString());
+        call.enqueue(callback);
+    }
+
     public void getCurrentData(
             long stationID,
             long minuteRange,

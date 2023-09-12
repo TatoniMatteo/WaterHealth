@@ -77,15 +77,33 @@
         android:background="@drawable/border_round_16dp"
         android:backgroundTint="?attr/colorOnBackground" />
 
+
     <com.tatonimatteo.waterhealth.view.DateRangePicker
         android:id="@+id/datePicker"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="25dp" />
 
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chipContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:animateLayoutChanges="true"
+        app:chipSpacingVertical="0dp" />
+
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/lineChart"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="250dp"
+        android:layout_margin="15dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recordList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        tools:itemCount="31"
+        tools:listitem="@layout/recycler_view_item" />
 
 </LinearLayout>

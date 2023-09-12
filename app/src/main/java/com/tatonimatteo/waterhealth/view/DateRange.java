@@ -1,6 +1,6 @@
 package com.tatonimatteo.waterhealth.view;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class DateRange {
 
@@ -39,5 +39,23 @@ public class DateRange {
     public void setRange(Date startDate, Date endDate) {
         this.startDate = startDate;
         this.endDate = endDate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        DateRange dateRange = (DateRange) o;
+
+        if (!startDate.equals(dateRange.startDate)) return false;
+        return endDate.equals(dateRange.endDate);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = startDate.hashCode();
+        result = 31 * result + endDate.hashCode();
+        return result;
     }
 }

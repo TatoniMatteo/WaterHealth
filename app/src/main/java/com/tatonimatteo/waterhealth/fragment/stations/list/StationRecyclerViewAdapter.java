@@ -14,12 +14,12 @@ import com.tatonimatteo.waterhealth.entity.Station;
 import java.util.List;
 
 
-public class MyStationRecyclerViewAdapter extends RecyclerView.Adapter<MyStationRecyclerViewAdapter.ViewHolder> {
+public class StationRecyclerViewAdapter extends RecyclerView.Adapter<StationRecyclerViewAdapter.ViewHolder> {
 
     private OnItemClickListener listener;
     private List<Station> stationList;
 
-    public MyStationRecyclerViewAdapter(List<Station> stationList) {
+    public StationRecyclerViewAdapter(List<Station> stationList) {
         this.stationList = stationList;
     }
 
@@ -61,7 +61,7 @@ public class MyStationRecyclerViewAdapter extends RecyclerView.Adapter<MyStation
         public final TextView stationName;
         public final TextView stationLocation;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
             stationName = itemView.findViewById(R.id.list_station_name);
             stationLocation = itemView.findViewById(R.id.list_station_location);

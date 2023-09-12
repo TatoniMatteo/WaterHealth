@@ -8,6 +8,9 @@ import com.tatonimatteo.waterhealth.api.controller.SensorController;
 import com.tatonimatteo.waterhealth.api.controller.StationController;
 import com.tatonimatteo.waterhealth.api.maps.MapAPI;
 import com.tatonimatteo.waterhealth.api.security.AuthController;
+import com.tatonimatteo.waterhealth.repository.RecordRepository;
+import com.tatonimatteo.waterhealth.repository.SensorRepository;
+import com.tatonimatteo.waterhealth.repository.StationRepository;
 
 public class AppConfiguration {
     private static volatile AppConfiguration instance;
@@ -15,6 +18,9 @@ public class AppConfiguration {
     private final StationController stationController;
     private final SensorController sensorController;
     private final RecordController recordController;
+    private final StationRepository stationRepository;
+    private final SensorRepository sensorRepository;
+    private final RecordRepository recordRepository;
     private final MapAPI mapAPI;
 
     private AppConfiguration(Context context) {
@@ -23,6 +29,9 @@ public class AppConfiguration {
         this.stationController = new StationController(httpManager);
         this.sensorController = new SensorController(httpManager);
         this.recordController = new RecordController(httpManager);
+        this.stationRepository = new StationRepository(this.stationController);
+        this.sensorRepository = new SensorRepository(this.sensorController);
+        this.recordRepository = new RecordRepository(this.recordController);
         this.mapAPI = new MapAPI(context.getApplicationContext());
     }
 
@@ -57,6 +66,18 @@ public class AppConfiguration {
 
     public RecordController getRecordController() {
         return recordController;
+    }
+
+    public StationRepository getStationRepository() {
+        return stationRepository;
+    }
+
+    public SensorRepository getSensorRepository() {
+        return sensorRepository;
+    }
+
+    public RecordRepository getRecordRepository() {
+        return recordRepository;
     }
 
     public MapAPI getMapAPI() {

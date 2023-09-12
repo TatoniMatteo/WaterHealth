@@ -69,7 +69,6 @@ public class StationDetails extends Fragment {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
-                viewPager.setUserInputEnabled(tab.getPosition() != 0);
             }
 
             @Override

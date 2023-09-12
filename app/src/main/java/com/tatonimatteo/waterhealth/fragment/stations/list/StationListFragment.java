@@ -24,7 +24,7 @@ public class StationListFragment extends Fragment {
 
     private List<Station> stationList;
     private StationsViewModel stationsViewModel;
-    private MyStationRecyclerViewAdapter adapter;
+    private StationRecyclerViewAdapter adapter;
     private NavController navController;
 
     @Override
@@ -43,7 +43,7 @@ public class StationListFragment extends Fragment {
 
         RecyclerView recyclerViewStations = (RecyclerView) view;
         recyclerViewStations.setLayoutManager(new LinearLayoutManager(requireContext()));
-        adapter = new MyStationRecyclerViewAdapter(stationList);
+        adapter = new StationRecyclerViewAdapter(stationList);
         recyclerViewStations.setAdapter(adapter);
 
         stationsViewModel.getStations().observe(getViewLifecycleOwner(), stations -> {
