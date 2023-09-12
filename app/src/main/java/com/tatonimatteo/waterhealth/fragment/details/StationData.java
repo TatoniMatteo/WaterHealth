@@ -69,22 +69,61 @@ public class StationData extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        initializeViews(view);
+
+        DateRangePicker picker = view.findViewById(R.id.datePicker);
+        picker.setFragmentManager(this.getChildFragmentManager());
+
+        setupLineChart();
+        observeDataChanges(picker);
+
+        viewModel.getStationSensors().observe(getViewLifecycleOwner(), this::setChips);
+        viewModel.getLiveData().observe(getViewLifecycleOwner(), this::updateLiveData);
+    }
+
+    private void initializeViews(View view) {
         liveDataContainer = view.findViewById(R.id.liveDataContainer);
         errorText = view.findViewById(R.id.liveDataError);
         errorIcon = view.findViewById(R.id.liveDataWarning);
         lineChart = view.findViewById(R.id.lineChart);
         chipGroup = view.findViewById(R.id.chipContainer);
         recordList = view.findViewById(R.id.recordList);
-        DateRangePicker picker = view.findViewById(R.id.datePicker);
+    }
 
-        picker.setFragmentManager(this.getChildFragmentManager());
-        setupLineChart();
+    private void setupLineChart() {
+        TypedValue typedValue = new TypedValue();
+        requireActivity().getTheme().resolveAttribute(android.R.attr.textColor, typedValue, true);
+        int color = typedValue.data;
 
-        viewModel.getLiveData().observe(getViewLifecycleOwner(), this::updateLiveData);
+        lineChart.getDescription().setEnabled(false);
+        lineChart.setDragEnabled(true);
+        lineChart.setScaleEnabled(true);
+        lineChart.setPinchZoom(true);
 
+        XAxis xAxis = lineChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setAxisLineColor(color);
+        xAxis.setTextColor(color);
+
+        YAxis leftAxis = lineChart.getAxisLeft();
+        leftAxis.setAxisMinimum(0f);
+        leftAxis.setAxisLineColor(color);
+        leftAxis.setTextColor(color);
+
+        lineChart.getAxisRight().setDrawLabels(false);
+
+        Legend legend = lineChart.getLegend();
+        legend.setForm(Legend.LegendForm.CIRCLE);
+        legend.setTextColor(color);
+
+        lineChart.setNoDataText("Nessun dato disponibile.");
+    }
+
+    private void observeDataChanges(DateRangePicker picker) {
         Observer<Map<Sensor, List<Record>>> recordsObserver = data -> {
             recordsInDateRange = data;
-            if (filters != null)
+            updateRecyclerView(recordsInDateRange, filters);
+            if (filters != null && (filters.size() > 0 && filters.size() <= 3) && recordsInDateRange != null)
                 drawChart(data, filters);
         };
 
@@ -93,17 +132,15 @@ public class StationData extends Fragment {
                         .observe(getViewLifecycleOwner(), recordsObserver)
         );
 
-        viewModel.getStationSensors().observe(getViewLifecycleOwner(), this::setChips);
-
         viewModel.getSensorFilter().observe(getViewLifecycleOwner(), filterList -> {
-            if (filterList != null) {
-                lineChart.setVisibility(filterList.size() <= 3 && !filterList.isEmpty() ? View.VISIBLE : View.GONE);
+            filters = filterList;
+            updateRecyclerView(recordsInDateRange, filters);
+            if (filters != null && (filters.size() > 0 && filters.size() <= 3) && recordsInDateRange != null) {
+                lineChart.setVisibility(View.VISIBLE);
+                drawChart(recordsInDateRange, filterList);
             } else {
                 lineChart.setVisibility(View.GONE);
             }
-            filters = filterList;
-            if (filterList != null && recordsInDateRange != null)
-                drawChart(recordsInDateRange, filterList);
         });
     }
 
@@ -136,37 +173,6 @@ public class StationData extends Fragment {
         chip.setChipStrokeWidth(2);
         return chip;
     }
-
-
-    private void setupLineChart() {
-        TypedValue typedValue = new TypedValue();
-        requireActivity().getTheme().resolveAttribute(android.R.attr.textColor, typedValue, true);
-        int color = typedValue.data;
-
-        lineChart.getDescription().setEnabled(false);
-        lineChart.setDragEnabled(true);
-        lineChart.setScaleEnabled(true);
-        lineChart.setPinchZoom(true);
-
-        XAxis xAxis = lineChart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setAxisLineColor(color);
-        xAxis.setTextColor(color);
-
-        YAxis leftAxis = lineChart.getAxisLeft();
-        leftAxis.setAxisMinimum(0f);
-        leftAxis.setAxisLineColor(color);
-        leftAxis.setTextColor(color);
-
-        lineChart.getAxisRight().setDrawLabels(false);
-
-        Legend legend = lineChart.getLegend();
-        legend.setForm(Legend.LegendForm.CIRCLE);
-        legend.setTextColor(color);
-
-        lineChart.setNoDataText("Nessun dato disponibile.");
-    }
-
 
     private void drawChart(Map<Sensor, List<Record>> records, List<Long> filters) {
         if (thereIsNoData(records)) {
@@ -206,6 +212,11 @@ public class StationData extends Fragment {
         return dataSet;
     }
 
+    private void updateRecyclerView(Map<Sensor, List<Record>> records, List<Long> filters) {
+        RecordRecyclerViewAdapter adapter = new RecordRecyclerViewAdapter(records, filters);
+        recordList.setAdapter(adapter);
+    }
+
     private void updateLiveData(List<Triple<Sensor, Record, Boolean>> data) {
         liveDataContainer.removeAllViews();
         errorIcon.setVisibility(View.INVISIBLE);
@@ -223,7 +234,6 @@ public class StationData extends Fragment {
             if (triple.getThird()) errorIcon.setVisibility(View.VISIBLE);
         });
     }
-
 
     private int generateRandomColor() {
         Random random = new Random();

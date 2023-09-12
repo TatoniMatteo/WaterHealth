@@ -20,18 +20,23 @@ import java.util.Locale;
 import java.util.Map;
 
 public class RecordRecyclerViewAdapter extends RecyclerView.Adapter<RecordRecyclerViewAdapter.ViewHolder> {
+    private final List<Long> filters;
     private List<Pair<Sensor, Record>> recordList;
 
-    public RecordRecyclerViewAdapter(Map<Sensor, List<Record>> recordMap) {
-        recordList = new ArrayList<>();
+    public RecordRecyclerViewAdapter(Map<Sensor, List<Record>> recordMap, List<Long> filters) {
+        this.recordList = new ArrayList<>();
+        this.filters = filters;
         for (Map.Entry<Sensor, List<Record>> entry : recordMap.entrySet()) {
             Sensor sensor = entry.getKey();
             List<Record> records = entry.getValue();
             for (Record record : records) {
-                recordList.add(new Pair<>(sensor, record));
+                if (filters == null || filters.isEmpty() || filters.contains(sensor.getId())) {
+                    recordList.add(new Pair<>(sensor, record));
+                }
             }
         }
     }
+
 
     @NonNull
     @Override

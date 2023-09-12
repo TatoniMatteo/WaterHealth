@@ -96,14 +96,15 @@
         android:id="@+id/lineChart"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:layout_margin="15dp" />
+        android:layout_margin="15dp"
+        android:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recordList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="15dp"
-        tools:itemCount="31"
-        tools:listitem="@layout/recycler_view_item" />
+        android:background="@color/yellow"
+        android:minHeight="100dp" />
 
 </LinearLayout>
