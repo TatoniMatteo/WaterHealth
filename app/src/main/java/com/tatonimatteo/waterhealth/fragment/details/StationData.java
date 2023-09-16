@@ -1,5 +1,6 @@
 package com.tatonimatteo.waterhealth.fragment.details;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -13,9 +14,11 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.mikephil.charting.animation.Easing;
@@ -38,6 +41,7 @@ import com.tatonimatteo.waterhealth.fragment.StationDetailsViewModel;
 import com.tatonimatteo.waterhealth.view.DateRangePicker;
 import com.tatonimatteo.waterhealth.view.LiveDataItem;
 
+import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,9 +58,10 @@ public class StationData extends Fragment {
     private ImageView errorIcon;
     private LineChart lineChart;
     private ChipGroup chipGroup;
-    private RecyclerView recordList;
     private List<Long> filters;
+    private RecordRecyclerViewAdapter adapter;
     private Map<Sensor, List<Record>> recordsInDateRange;
+    private List<Pair<Sensor, Record>> recordList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -87,7 +92,11 @@ public class StationData extends Fragment {
         errorIcon = view.findViewById(R.id.liveDataWarning);
         lineChart = view.findViewById(R.id.lineChart);
         chipGroup = view.findViewById(R.id.chipContainer);
-        recordList = view.findViewById(R.id.recordList);
+        RecyclerView recyclerView = view.findViewById(R.id.recordList);
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        recordList = new ArrayList<>();
+        adapter = new RecordRecyclerViewAdapter(recordList);
+        recyclerView.setAdapter(adapter);
     }
 
     private void setupLineChart() {
@@ -122,7 +131,7 @@ public class StationData extends Fragment {
     private void observeDataChanges(DateRangePicker picker) {
         Observer<Map<Sensor, List<Record>>> recordsObserver = data -> {
             recordsInDateRange = data;
-            updateRecyclerView(recordsInDateRange, filters);
+            updateRecyclerView();
             if (filters != null && (filters.size() > 0 && filters.size() <= 3) && recordsInDateRange != null)
                 drawChart(data, filters);
         };
@@ -134,7 +143,7 @@ public class StationData extends Fragment {
 
         viewModel.getSensorFilter().observe(getViewLifecycleOwner(), filterList -> {
             filters = filterList;
-            updateRecyclerView(recordsInDateRange, filters);
+            updateRecyclerView();
             if (filters != null && (filters.size() > 0 && filters.size() <= 3) && recordsInDateRange != null) {
                 lineChart.setVisibility(View.VISIBLE);
                 drawChart(recordsInDateRange, filterList);
@@ -212,9 +221,11 @@ public class StationData extends Fragment {
         return dataSet;
     }
 
-    private void updateRecyclerView(Map<Sensor, List<Record>> records, List<Long> filters) {
-        RecordRecyclerViewAdapter adapter = new RecordRecyclerViewAdapter(records, filters);
-        recordList.setAdapter(adapter);
+    @SuppressLint("NotifyDataSetChanged")
+    private void updateRecyclerView() {
+        recordList.clear();
+        recordList.addAll(recordToList());
+        adapter.notifyDataSetChanged();
     }
 
     private void updateLiveData(List<Triple<Sensor, Record, Boolean>> data) {
@@ -243,4 +254,27 @@ public class StationData extends Fragment {
     private boolean thereIsNoData(Map<Sensor, List<Record>> map) {
         return map.values().stream().allMatch(List::isEmpty);
     }
+
+    private List<Pair<Sensor, Record>> recordToList() {
+        List<Pair<Sensor, Record>> list = new ArrayList<>();
+        for (Map.Entry<Sensor, List<Record>> entry : recordsInDateRange.entrySet()) {
+            Sensor sensor = entry.getKey();
+            if (filters == null || filters.isEmpty() || filters.contains(sensor.getId())) {
+                List<Record> records = entry.getValue();
+                for (Record record : records) {
+                    list.add(new Pair<>(sensor, record));
+                }
+            }
+        }
+
+        list.sort((pair1, pair2) -> {
+            LocalDateTime dateTime1 = pair1.second.getDateTime();
+            LocalDateTime dateTime2 = pair2.second.getDateTime();
+            return dateTime1.compareTo(dateTime2);
+        });
+
+        return list;
+    }
+
+
 }

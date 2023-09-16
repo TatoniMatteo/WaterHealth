@@ -1,110 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:backgroundTint="?attr/colorOnBackground"
-    android:orientation="vertical"
-    tools:context=".fragment.details.StationData">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginVertical="15dp"
-        android:orientation="horizontal"
-        android:padding="5dp"
-        android:weightSum="12">
+        android:layout_height="wrap_content"
+        android:backgroundTint="?attr/colorOnBackground"
+        android:orientation="vertical"
+        tools:context=".fragment.details.StationData">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:contentDescription="@string/icon"
-            android:padding="2dp"
-            android:src="@drawable/live_data"
-            app:tint="?attr/colorOnBackground" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="15dp"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            android:weightSum="12">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:contentDescription="@string/icon"
+                android:padding="2dp"
+                android:src="@drawable/live_data"
+                app:tint="?attr/colorOnBackground" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="10"
+                android:autoSizeTextType="uniform"
+                android:gravity="center_vertical"
+                android:text="@string/dati_in_tempo_reale"
+                android:textAllCaps="true"
+                android:textColor="?attr/colorOnBackground"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/liveDataWarning"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:contentDescription="@string/icon"
+                android:src="@drawable/warning"
+                android:visibility="invisible"
+                app:tint="@android:color/holo_red_light" />
+
+
+        </LinearLayout>
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="10"
+            android:id="@+id/liveDataError"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
             android:autoSizeTextType="uniform"
-            android:gravity="center_vertical"
-            android:text="@string/dati_in_tempo_reale"
-            android:textAllCaps="true"
-            android:textColor="?attr/colorOnBackground"
+            android:gravity="center"
+            android:text="@string/non_ci_sono_dati_rececenti"
             android:textStyle="bold" />
 
-        <ImageView
-            android:id="@+id/liveDataWarning"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:contentDescription="@string/icon"
-            android:src="@drawable/warning"
-            android:visibility="invisible"
-            app:tint="@android:color/holo_red_light" />
+        <LinearLayout
+            android:id="@+id/liveDataContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:orientation="vertical" />
 
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="15dp"
+            android:background="@drawable/border_round_16dp"
+            android:backgroundTint="?attr/colorOnBackground" />
+
+
+        <com.tatonimatteo.waterhealth.view.DateRangePicker
+            android:id="@+id/datePicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="25dp" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:animateLayoutChanges="true"
+            app:chipSpacingVertical="0dp" />
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/lineChart"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_margin="15dp"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/top_border_round_8dp"
+            android:backgroundTint="?attr/colorPrimary"
+            android:orientation="horizontal"
+            android:weightSum="10">
+
+            <TextView
+                android:id="@+id/recordType"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:padding="2dp"
+                android:text="Tipo"
+                android:textAlignment="center"
+                android:textColor="?attr/colorOnPrimary" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:padding="2dp"
+                android:text="Data e ora"
+                android:textAlignment="center"
+                android:textColor="?attr/colorOnPrimary" />
+
+            <TextView
+                android:id="@+id/recordValue"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:padding="2dp"
+                android:text="Valore"
+                android:textAlignment="center"
+                android:textColor="?attr/colorOnPrimary" />
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recordList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:background="@drawable/border_stroke_round_8dp"
+            android:minHeight="500dp"
+            tools:listitem="@layout/record_list_item" />
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/liveDataError"
-        android:layout_width="match_parent"
-        android:layout_height="25dp"
-        android:autoSizeTextType="uniform"
-        android:gravity="center"
-        android:text="@string/non_ci_sono_dati_rececenti"
-        android:textStyle="bold" />
-
-    <LinearLayout
-        android:id="@+id/liveDataContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:orientation="vertical" />
-
-    <View
-        android:id="@+id/divider"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginVertical="15dp"
-        android:background="@drawable/border_round_16dp"
-        android:backgroundTint="?attr/colorOnBackground" />
-
-
-    <com.tatonimatteo.waterhealth.view.DateRangePicker
-        android:id="@+id/datePicker"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="25dp" />
-
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/chipContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
-        android:animateLayoutChanges="true"
-        app:chipSpacingVertical="0dp" />
-
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/lineChart"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_margin="15dp"
-        android:visibility="gone" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recordList"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="15dp"
-        android:background="@color/yellow"
-        android:minHeight="100dp" />
-
-</LinearLayout>
+</ScrollView>

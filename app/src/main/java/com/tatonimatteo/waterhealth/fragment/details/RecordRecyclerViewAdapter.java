@@ -13,30 +13,16 @@ import com.tatonimatteo.waterhealth.R;
 import com.tatonimatteo.waterhealth.entity.Record;
 import com.tatonimatteo.waterhealth.entity.Sensor;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 public class RecordRecyclerViewAdapter extends RecyclerView.Adapter<RecordRecyclerViewAdapter.ViewHolder> {
-    private final List<Long> filters;
-    private List<Pair<Sensor, Record>> recordList;
+    private final List<Pair<Sensor, Record>> recordList;
 
-    public RecordRecyclerViewAdapter(Map<Sensor, List<Record>> recordMap, List<Long> filters) {
-        this.recordList = new ArrayList<>();
-        this.filters = filters;
-        for (Map.Entry<Sensor, List<Record>> entry : recordMap.entrySet()) {
-            Sensor sensor = entry.getKey();
-            List<Record> records = entry.getValue();
-            for (Record record : records) {
-                if (filters == null || filters.isEmpty() || filters.contains(sensor.getId())) {
-                    recordList.add(new Pair<>(sensor, record));
-                }
-            }
-        }
+    public RecordRecyclerViewAdapter(List<Pair<Sensor, Record>> recordList) {
+        this.recordList = recordList;
     }
-
 
     @NonNull
     @Override
@@ -54,8 +40,8 @@ public class RecordRecyclerViewAdapter extends RecyclerView.Adapter<RecordRecycl
 
         holder.recordType.setText(sensor.getSensorType().getName());
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy\nHH:mm", Locale.getDefault());
-        holder.recordTime.setText(sdf.format(record.getDateTime()));
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy\nHH:mm", Locale.getDefault());
+        holder.recordTime.setText(dtf.format(record.getDateTime()));
 
         String valueFormat = String.format(Locale.getDefault(), "%.0" + sensor.getDecimals() + "f %s", record.getValue(), sensor.getUnit());
         holder.recordValue.setText(valueFormat);
