@@ -24,6 +24,7 @@ public class DateRangePicker extends LinearLayout {
     private FragmentManager fragmentManager;
     private TextView text;
     private ImageView icon;
+    private boolean isOpen;
     private SimpleDateFormat formatter;
 
     public DateRangePicker(Context context) {
@@ -54,26 +55,34 @@ public class DateRangePicker extends LinearLayout {
         DateRange today = new DateRange(System.currentTimeMillis(), System.currentTimeMillis());
         dateRange.postValue(today);
         text.setText(String.format("%s - %s", formatter.format(today.getStartDate()), formatter.format(today.getEndDate())));
+        isOpen = false;
     }
 
     private void showDatePickerDialog() {
-        MaterialDatePicker<Pair<Long, Long>> picker = MaterialDatePicker
-                .Builder
-                .dateRangePicker()
-                .setTitleText(R.string.scegli_un_range_di_tempo)
-                .setSelection(new Pair<>(MaterialDatePicker.todayInUtcMilliseconds(), MaterialDatePicker.todayInUtcMilliseconds()))
-                .build();
+        if (!isOpen) {
+            MaterialDatePicker<Pair<Long, Long>> picker = MaterialDatePicker
+                    .Builder
+                    .dateRangePicker()
+                    .setTitleText(R.string.scegli_un_range_di_tempo)
+                    .setSelection(new Pair<>(MaterialDatePicker.todayInUtcMilliseconds(), MaterialDatePicker.todayInUtcMilliseconds()))
+                    .build();
 
-        picker.show(fragmentManager, "picker");
+            picker.show(fragmentManager, "picker");
+            isOpen = true;
 
-        picker.addOnPositiveButtonClickListener(selection -> {
-            DateRange dateRange = new DateRange(selection.first, selection.second);
-            this.dateRange.postValue(dateRange);
-            text.setText(String.format("%s - %s", formatter.format(dateRange.getStartDate()), formatter.format(dateRange.getEndDate())));
-        });
+            picker.addOnPositiveButtonClickListener(selection -> {
+                DateRange dateRange = new DateRange(selection.first, selection.second);
+                this.dateRange.postValue(dateRange);
+                text.setText(String.format("%s - %s", formatter.format(dateRange.getStartDate()), formatter.format(dateRange.getEndDate())));
+                picker.dismiss();
+                isOpen = false;
+            });
 
-        picker.addOnNegativeButtonClickListener(view -> picker.dismiss());
-
+            picker.addOnNegativeButtonClickListener(view -> {
+                picker.dismiss();
+                isOpen = false;
+            });
+        }
     }
 
     public void setFragmentManager(FragmentManager fragmentManager) {

@@ -24,5 +24,8 @@
     <string name="date_range">--Select a date range--</string>
     <string name="scegli_un_range_di_tempo">Select the dates</string>
     <string name="chip">chip</string>
+    <string name="tipo">Type</string>
+    <string name="data_e_ora">Date and time</string>
+    <string name="valore">Value</string>
 
 </resources>

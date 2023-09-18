@@ -59,6 +59,7 @@ public class StationData extends Fragment {
     private LineChart lineChart;
     private ChipGroup chipGroup;
     private List<Long> filters;
+    private RecyclerView recyclerView;
     private RecordRecyclerViewAdapter adapter;
     private Map<Sensor, List<Record>> recordsInDateRange;
     private List<Pair<Sensor, Record>> recordList;
@@ -92,7 +93,7 @@ public class StationData extends Fragment {
         errorIcon = view.findViewById(R.id.liveDataWarning);
         lineChart = view.findViewById(R.id.lineChart);
         chipGroup = view.findViewById(R.id.chipContainer);
-        RecyclerView recyclerView = view.findViewById(R.id.recordList);
+        recyclerView = view.findViewById(R.id.recordList);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         recordList = new ArrayList<>();
         adapter = new RecordRecyclerViewAdapter(recordList);
@@ -226,6 +227,12 @@ public class StationData extends Fragment {
         recordList.clear();
         recordList.addAll(recordToList());
         adapter.notifyDataSetChanged();
+        int itemCount = adapter.getItemCount();
+        int desiredHeight = itemCount <= 10 ? ViewGroup.LayoutParams.WRAP_CONTENT : getResources().getDimensionPixelSize(R.dimen.minHeightRecyclerView);
+
+        ViewGroup.LayoutParams layoutParams = recyclerView.getLayoutParams();
+        layoutParams.height = desiredHeight;
+        recyclerView.setLayoutParams(layoutParams);
     }
 
     private void updateLiveData(List<Triple<Sensor, Record, Boolean>> data) {

@@ -23,4 +23,7 @@
     <string name="date_range">--Seleziona un range di tempo--</string>
     <string name="scegli_un_range_di_tempo">Seleziona le date</string>
     <string name="chip">chip</string>
+    <string name="tipo">Tipo</string>
+    <string name="data_e_ora">Data e ora</string>
+    <string name="valore">Valore</string>
 </resources>

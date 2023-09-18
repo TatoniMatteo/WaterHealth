@@ -87,13 +87,13 @@
             android:id="@+id/datePicker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="25dp" />
+            android:layout_marginHorizontal="15dp" />
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chipContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
+            android:layout_marginHorizontal="15dp"
             android:animateLayoutChanges="true"
             app:chipSpacingVertical="0dp" />
 
@@ -122,7 +122,7 @@
                 android:background="@android:color/transparent"
                 android:gravity="center"
                 android:padding="2dp"
-                android:text="Tipo"
+                android:text="@string/tipo"
                 android:textAlignment="center"
                 android:textColor="?attr/colorOnPrimary" />
 
@@ -133,7 +133,7 @@
                 android:background="@android:color/transparent"
                 android:gravity="center"
                 android:padding="2dp"
-                android:text="Data e ora"
+                android:text="@string/data_e_ora"
                 android:textAlignment="center"
                 android:textColor="?attr/colorOnPrimary" />
 
@@ -145,7 +145,7 @@
                 android:background="@android:color/transparent"
                 android:gravity="center"
                 android:padding="2dp"
-                android:text="Valore"
+                android:text="@string/valore"
                 android:textAlignment="center"
                 android:textColor="?attr/colorOnPrimary" />
         </LinearLayout>
@@ -156,7 +156,6 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="15dp"
             android:background="@drawable/border_stroke_round_8dp"
-            android:minHeight="500dp"
             tools:listitem="@layout/record_list_item" />
 
     </LinearLayout>
