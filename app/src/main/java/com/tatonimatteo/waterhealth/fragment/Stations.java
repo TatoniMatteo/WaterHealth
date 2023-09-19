@@ -28,7 +28,6 @@ public class Stations extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRetainInstance(true);
     }
 
     @Override
@@ -89,7 +88,7 @@ public class Stations extends Fragment {
                 AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
                 builder.setTitle(getString(R.string.data_error))
                         .setMessage(error.getMessage())
-                        .setPositiveButton(getString(R.string.retry), (dialog, which) -> viewModel.refreshStations())
+                        .setPositiveButton(getString(R.string.retry), (dialog, which) -> error.retry())
                         .setNegativeButton(getString(R.string.exit), (dialog, which) -> requireActivity().finishAffinity())
                         .setCancelable(false)
                         .show();

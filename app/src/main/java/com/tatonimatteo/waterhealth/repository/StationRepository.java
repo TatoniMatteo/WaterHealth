@@ -17,7 +17,7 @@ import retrofit2.Response;
 public class StationRepository implements Repository {
 
     private final MutableLiveData<Station> selectedStation = new MutableLiveData<>();
-    private final MutableLiveData<Throwable> error = new MutableLiveData<>();
+    private final MutableLiveData<DataException> error = new MutableLiveData<>();
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
     private final StationController stationController;
     private final MutableLiveData<List<Station>> stations;
@@ -28,7 +28,7 @@ public class StationRepository implements Repository {
     }
 
     @Override
-    public LiveData<Throwable> getError() {
+    public LiveData<DataException> getError() {
         return error;
     }
 
@@ -68,19 +68,17 @@ public class StationRepository implements Repository {
             @Override
             public void onResponse(@NonNull Call<List<Station>> call, @NonNull Response<List<Station>> response) {
                 isLoading.postValue(false);
-
                 if (response.isSuccessful() && response.body() != null) {
                     stations.postValue(response.body());
-                    error.postValue(null);
                 } else {
-                    error.postValue(new DataException("Errore nel recupero dei dati delle stazioni."));
+                    error.postValue(new DataException("Errore nel recupero dei dati delle stazioni.", () -> fetchStations()));
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<List<Station>> call, @NonNull Throwable t) {
                 isLoading.postValue(false);
-                error.postValue(t);
+                error.postValue(new DataException(t, () -> fetchStations()));
             }
         });
     }

@@ -27,7 +27,7 @@ import retrofit2.Response;
 public class RecordRepository implements Repository {
 
     private final MutableLiveData<List<Triple<Sensor, Record, Boolean>>> currentRecords = new MutableLiveData<>();
-    private final MutableLiveData<Throwable> error = new MutableLiveData<>();
+    private final MutableLiveData<DataException> error = new MutableLiveData<>();
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
     private final RecordController recordController;
 
@@ -36,7 +36,7 @@ public class RecordRepository implements Repository {
     }
 
     @Override
-    public LiveData<Throwable> getError() {
+    public LiveData<DataException> getError() {
         return error;
     }
 
@@ -112,7 +112,7 @@ public class RecordRepository implements Repository {
 
                 currentRecords.postValue(resultRecords);
             } else {
-                error.postValue(throwable);
+                error.postValue(new DataException(throwable, () -> loadCurrentRecords(stationId)));
             }
 
             isLoading.postValue(false);
@@ -137,20 +137,19 @@ public class RecordRepository implements Repository {
                         if (response.isSuccessful()) {
                             List<Record> records = response.body();
                             sensorRecordMap.put(sensor, records);
-
                             if (remainingRequests.decrementAndGet() == 0) {
                                 recordsLiveData.postValue(sensorRecordMap);
                             }
                         } else {
                             isLoading.postValue(false);
-                            error.postValue(new DataException("Impossibile caricare i dati del sensore: " + sensor.getSensorType().getName()));
+                            error.postValue(new DataException("Impossibile caricare i dati del sensore: " + sensor.getSensorType().getName(), () -> getRecordsByDateRange(startDate, endDate)));
                         }
                     }
 
                     @Override
                     public void onFailure(@NonNull Call<List<Record>> call, @NonNull Throwable t) {
                         isLoading.postValue(false);
-                        error.postValue(t);
+                        error.postValue(new DataException(t, () -> getRecordsByDateRange(startDate, endDate)));
                     }
                 });
             }

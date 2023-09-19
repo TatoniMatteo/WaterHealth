@@ -2,6 +2,7 @@ package com.tatonimatteo.waterhealth.fragment.details;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.TypedValue;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -35,6 +37,7 @@ import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.shape.CornerFamily;
 import com.google.android.material.shape.ShapeAppearanceModel;
 import com.tatonimatteo.waterhealth.R;
+import com.tatonimatteo.waterhealth.configuration.ColorUtility;
 import com.tatonimatteo.waterhealth.entity.Record;
 import com.tatonimatteo.waterhealth.entity.Sensor;
 import com.tatonimatteo.waterhealth.fragment.StationDetailsViewModel;
@@ -46,9 +49,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import kotlin.Triple;
 
@@ -60,11 +63,13 @@ public class StationData extends Fragment {
     private ImageView errorIcon;
     private LineChart lineChart;
     private ChipGroup chipGroup;
-    private List<Long> filters;
     private RecyclerView recyclerView;
+    private ConstraintLayout emptyView;
+    private List<Long> filters;
     private RecordRecyclerViewAdapter adapter;
     private Map<Sensor, List<Record>> recordsInDateRange;
     private List<Pair<Sensor, Record>> recordList;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -100,6 +105,7 @@ public class StationData extends Fragment {
         recordList = new ArrayList<>();
         adapter = new RecordRecyclerViewAdapter(recordList);
         recyclerView.setAdapter(adapter);
+        emptyView = view.findViewById(R.id.emptyList);
     }
 
     private void setupLineChart() {
@@ -136,6 +142,7 @@ public class StationData extends Fragment {
         Observer<Map<Sensor, List<Record>>> recordsObserver = data -> {
             recordsInDateRange = data;
             updateRecyclerView();
+            enableChipGroup(!thereIsNoData(recordsInDateRange));
             if (filters != null && (filters.size() > 0 && filters.size() <= 3) && recordsInDateRange != null)
                 drawChart(data, filters);
         };
@@ -178,7 +185,6 @@ public class StationData extends Fragment {
                 .setAllCorners(CornerFamily.ROUNDED, 60)
                 .build();
         chip.setCheckable(true);
-        chip.setMinWidth(70);
         chip.setText(sensor.getSensorType().getName());
         chip.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         chip.setShapeAppearanceModel(shapeAppearanceModel);
@@ -231,12 +237,21 @@ public class StationData extends Fragment {
         recordList.clear();
         recordList.addAll(recordToList());
         adapter.notifyDataSetChanged();
-        int itemCount = adapter.getItemCount();
-        int desiredHeight = itemCount <= 10 ? ViewGroup.LayoutParams.WRAP_CONTENT : getResources().getDimensionPixelSize(R.dimen.minHeightRecyclerView);
 
-        ViewGroup.LayoutParams layoutParams = recyclerView.getLayoutParams();
-        layoutParams.height = desiredHeight;
-        recyclerView.setLayoutParams(layoutParams);
+        if (recordList.isEmpty()) {
+            emptyView.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        } else {
+            emptyView.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+
+            int itemCount = adapter.getItemCount();
+            int desiredHeight = itemCount <= 10 ? ViewGroup.LayoutParams.WRAP_CONTENT : getResources().getDimensionPixelSize(R.dimen.minHeightRecyclerView);
+
+            ViewGroup.LayoutParams layoutParams = recyclerView.getLayoutParams();
+            layoutParams.height = desiredHeight;
+            recyclerView.setLayoutParams(layoutParams);
+        }
     }
 
     private void updateLiveData(List<Triple<Sensor, Record, Boolean>> data) {
@@ -258,8 +273,11 @@ public class StationData extends Fragment {
     }
 
     private int generateRandomColor() {
-        Random random = new Random();
-        return Color.rgb(random.nextInt(256), random.nextInt(256), random.nextInt(256));
+        int nightModeFlags = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        if (nightModeFlags == Configuration.UI_MODE_NIGHT_NO) {
+            return ColorUtility.generateRandomColor(Color.WHITE);
+        }
+        return ColorUtility.generateRandomColor(Color.parseColor("#302e28"));
     }
 
     private boolean thereIsNoData(Map<Sensor, List<Record>> map) {
@@ -268,6 +286,7 @@ public class StationData extends Fragment {
 
     private List<Pair<Sensor, Record>> recordToList() {
         List<Pair<Sensor, Record>> list = new ArrayList<>();
+        if (recordsInDateRange == null) recordsInDateRange = new HashMap<>();
         for (Map.Entry<Sensor, List<Record>> entry : recordsInDateRange.entrySet()) {
             Sensor sensor = entry.getKey();
             if (filters == null || filters.isEmpty() || filters.contains(sensor.getId())) {
@@ -283,7 +302,18 @@ public class StationData extends Fragment {
             LocalDateTime dateTime2 = pair2.second.getDateTime();
             return dateTime1.compareTo(dateTime2);
         });
-
         return list;
     }
+
+    private void enableChipGroup(boolean enable) {
+        for (int i = 0; i < chipGroup.getChildCount(); i++) {
+            View view = chipGroup.getChildAt(i);
+            if (view instanceof Chip) {
+                Chip chip = (Chip) view;
+                chip.setChecked(false);
+                chip.setEnabled(enable);
+            }
+        }
+    }
+
 }

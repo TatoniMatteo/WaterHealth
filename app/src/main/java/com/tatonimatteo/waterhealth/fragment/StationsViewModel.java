@@ -3,6 +3,7 @@ package com.tatonimatteo.waterhealth.fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.tatonimatteo.waterhealth.api.exception.DataException;
 import com.tatonimatteo.waterhealth.configuration.AppConfiguration;
 import com.tatonimatteo.waterhealth.entity.Station;
 import com.tatonimatteo.waterhealth.repository.StationRepository;
@@ -22,7 +23,7 @@ public class StationsViewModel extends ViewModel {
         return stationRepository.getStations();
     }
 
-    public LiveData<Throwable> getError() {
+    public LiveData<DataException> getError() {
         return stationRepository.getError();
     }
 

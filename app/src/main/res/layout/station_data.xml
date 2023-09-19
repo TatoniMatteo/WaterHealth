@@ -124,7 +124,8 @@
                 android:padding="2dp"
                 android:text="@string/tipo"
                 android:textAlignment="center"
-                android:textColor="?attr/colorOnPrimary" />
+                android:textColor="?attr/colorOnPrimary"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="0dp"
@@ -135,7 +136,8 @@
                 android:padding="2dp"
                 android:text="@string/data_e_ora"
                 android:textAlignment="center"
-                android:textColor="?attr/colorOnPrimary" />
+                android:textColor="?attr/colorOnPrimary"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/recordValue"
@@ -147,7 +149,8 @@
                 android:padding="2dp"
                 android:text="@string/valore"
                 android:textAlignment="center"
-                android:textColor="?attr/colorOnPrimary" />
+                android:textColor="?attr/colorOnPrimary"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -158,6 +161,27 @@
             android:background="@drawable/border_stroke_round_8dp"
             tools:listitem="@layout/record_list_item" />
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/emptyList"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginHorizontal="15dp"
+            android:background="@drawable/border_stroke_round_8dp"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_data_available"
+                android:textColor="@android:color/holo_red_light"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
+
 
 </ScrollView>

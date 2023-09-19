@@ -5,6 +5,7 @@ import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.tatonimatteo.waterhealth.api.exception.DataException;
 import com.tatonimatteo.waterhealth.configuration.AppConfiguration;
 import com.tatonimatteo.waterhealth.entity.Record;
 import com.tatonimatteo.waterhealth.entity.Sensor;
@@ -26,7 +27,7 @@ public class StationDetailsViewModel extends ViewModel {
     private final SensorRepository sensorRepository;
     private final RecordRepository recordRepository;
     private final MediatorLiveData<Boolean> loadingLiveData = new MediatorLiveData<>();
-    private final MediatorLiveData<Throwable> errorLiveData = new MediatorLiveData<>();
+    private final MediatorLiveData<DataException> errorLiveData = new MediatorLiveData<>();
     private final MutableLiveData<List<Long>> sensorFilter = new MutableLiveData<>();
     private final boolean[] isLoadingArray = {false, false, false};
 
@@ -38,6 +39,12 @@ public class StationDetailsViewModel extends ViewModel {
         stationRepository.isLoading().observeForever(v -> setLoadingLiveData(0, v));
         sensorRepository.isLoading().observeForever(v -> setLoadingLiveData(1, v));
         recordRepository.isLoading().observeForever(v -> setLoadingLiveData(2, v));
+
+        stationRepository.getError().observeForever(errorLiveData::setValue);
+
+        sensorRepository.getError().observeForever(errorLiveData::setValue);
+
+        recordRepository.getError().observeForever(errorLiveData::setValue);
     }
 
     private void setLoadingLiveData(int repository, boolean value) {
@@ -68,7 +75,7 @@ public class StationDetailsViewModel extends ViewModel {
         return recordRepository.getCurrentRecords();
     }
 
-    public LiveData<Throwable> getError() {
+    public LiveData<DataException> getError() {
         return errorLiveData;
     }
 
