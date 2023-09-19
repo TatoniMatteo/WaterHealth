@@ -38,12 +38,14 @@ import com.tatonimatteo.waterhealth.R;
 import com.tatonimatteo.waterhealth.entity.Record;
 import com.tatonimatteo.waterhealth.entity.Sensor;
 import com.tatonimatteo.waterhealth.fragment.StationDetailsViewModel;
+import com.tatonimatteo.waterhealth.view.DateAxisValueFormatter;
 import com.tatonimatteo.waterhealth.view.DateRangePicker;
 import com.tatonimatteo.waterhealth.view.LiveDataItem;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -114,9 +116,10 @@ public class StationData extends Fragment {
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setAxisLineColor(color);
         xAxis.setTextColor(color);
+        xAxis.setValueFormatter(new DateAxisValueFormatter());
+
 
         YAxis leftAxis = lineChart.getAxisLeft();
-        leftAxis.setAxisMinimum(0f);
         leftAxis.setAxisLineColor(color);
         leftAxis.setTextColor(color);
 
@@ -126,7 +129,7 @@ public class StationData extends Fragment {
         legend.setForm(Legend.LegendForm.CIRCLE);
         legend.setTextColor(color);
 
-        lineChart.setNoDataText("Nessun dato disponibile.");
+        lineChart.setNoDataText(getString(R.string.no_data_available));
     }
 
     private void observeDataChanges(DateRangePicker picker) {
@@ -156,6 +159,7 @@ public class StationData extends Fragment {
 
     private void setChips(List<Sensor> sensors) {
         chipGroup.removeAllViews();
+        sensors.sort(Comparator.comparing(sensor -> sensor.getSensorType().getName()));
         for (Sensor s : sensors) {
             Chip chip = createSensorChip(requireContext(), s);
             chip.setOnCheckedChangeListener((compoundButton, checked) -> viewModel.setCheckedSensorFilter(s.getId(), checked));
@@ -186,30 +190,30 @@ public class StationData extends Fragment {
 
     private void drawChart(Map<Sensor, List<Record>> records, List<Long> filters) {
         if (thereIsNoData(records)) {
-            lineChart.setNoDataText("Nessun dato disponibile.");
+            lineChart.setNoDataText(getString(R.string.no_data_available));
             lineChart.invalidate();
-            return;
-        }
+        } else {
 
-        List<ILineDataSet> dataSets = new ArrayList<>();
-        for (Map.Entry<Sensor, List<Record>> entry : records.entrySet()) {
-            if (!filters.contains(entry.getKey().getId())) continue;
-            ArrayList<Entry> entries = new ArrayList<>();
-            for (Record record : entry.getValue()) {
-                entries.add(new Entry(
-                        record.getDateTime()
-                                .toInstant(ZoneOffset.UTC)
-                                .toEpochMilli(),
-                        record.getValue().floatValue())
-                );
+            List<ILineDataSet> dataSets = new ArrayList<>();
+            for (Map.Entry<Sensor, List<Record>> entry : records.entrySet()) {
+                if (!filters.contains(entry.getKey().getId())) continue;
+                ArrayList<Entry> entries = new ArrayList<>();
+                for (Record record : entry.getValue()) {
+                    entries.add(new Entry(
+                            record.getDateTime()
+                                    .toInstant(ZoneOffset.UTC)
+                                    .toEpochMilli(),
+                            record.getValue().floatValue())
+                    );
+                }
+                LineDataSet dataSet = createLineDataSet(entries, entry.getKey());
+                dataSets.add(dataSet);
+
+                LineData lineData = new LineData(dataSets);
+                lineChart.setData(lineData);
+                lineChart.animateX(3000, Easing.Linear);
+                lineChart.invalidate();
             }
-            LineDataSet dataSet = createLineDataSet(entries, entry.getKey());
-            dataSets.add(dataSet);
-
-            LineData lineData = new LineData(dataSets);
-            lineChart.setData(lineData);
-            lineChart.animateX(3000, Easing.Linear);
-            lineChart.invalidate();
         }
     }
 
@@ -282,6 +286,4 @@ public class StationData extends Fragment {
 
         return list;
     }
-
-
 }

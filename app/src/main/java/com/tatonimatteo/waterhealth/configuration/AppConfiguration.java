@@ -1,7 +1,10 @@
 package com.tatonimatteo.waterhealth.configuration;
 
 import android.content.Context;
+import android.util.Log;
+import android.widget.Toast;
 
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.tatonimatteo.waterhealth.api.HttpManager;
 import com.tatonimatteo.waterhealth.api.controller.RecordController;
 import com.tatonimatteo.waterhealth.api.controller.SensorController;
@@ -33,6 +36,16 @@ public class AppConfiguration {
         this.sensorRepository = new SensorRepository(this.sensorController);
         this.recordRepository = new RecordRepository(this.recordController);
         this.mapAPI = new MapAPI(context.getApplicationContext());
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful())
+                        Log.w("Firebase", "Fetching FCM registration token failed", task.getException());
+                    else {
+                        String msg = "Fetching FCM registration token success " + task.getResult();
+                        Log.d("Firebase", msg);
+                        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     public static void init(Context context) {

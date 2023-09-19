@@ -40,7 +40,7 @@ public class SensorRepository implements Repository {
     }
 
     public void loadStationSensors(long stationId) {
-        isLoading.postValue(true);
+        isLoading.setValue(true);
         sensorController.getSensorByStation(stationId, new Callback<List<Sensor>>() {
             @Override
             public void onResponse(@NonNull Call<List<Sensor>> call, @NonNull Response<List<Sensor>> response) {

@@ -27,5 +27,8 @@
     <string name="tipo">Type</string>
     <string name="data_e_ora">Date and time</string>
     <string name="valore">Value</string>
+    <string name="no_data_available">No data available</string>
+    <string name="solo_un_momento">Just a moment...</string>
+    <string name="loader">Loader</string>
 
 </resources>

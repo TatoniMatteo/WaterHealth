@@ -28,32 +28,26 @@ public class StationDetailsViewModel extends ViewModel {
     private final MediatorLiveData<Boolean> loadingLiveData = new MediatorLiveData<>();
     private final MediatorLiveData<Throwable> errorLiveData = new MediatorLiveData<>();
     private final MutableLiveData<List<Long>> sensorFilter = new MutableLiveData<>();
+    private final boolean[] isLoadingArray = {false, false, false};
 
     public StationDetailsViewModel() {
         stationRepository = AppConfiguration.getInstance().getStationRepository();
         sensorRepository = AppConfiguration.getInstance().getSensorRepository();
         recordRepository = AppConfiguration.getInstance().getRecordRepository();
 
-        loadingLiveData.addSource(stationRepository.isLoading(), isLoading -> {
-            boolean isLoadingFromAnyRepository = isLoading
-                    || Boolean.TRUE.equals(sensorRepository.isLoading().getValue())
-                    || Boolean.TRUE.equals(recordRepository.isLoading().getValue());
-            loadingLiveData.setValue(isLoadingFromAnyRepository);
-        });
+        stationRepository.isLoading().observeForever(v -> setLoadingLiveData(0, v));
+        sensorRepository.isLoading().observeForever(v -> setLoadingLiveData(1, v));
+        recordRepository.isLoading().observeForever(v -> setLoadingLiveData(2, v));
+    }
 
-        loadingLiveData.addSource(sensorRepository.isLoading(), isLoading -> {
-            boolean isLoadingFromAnyRepository = isLoading
-                    || Boolean.TRUE.equals(stationRepository.isLoading().getValue())
-                    || Boolean.TRUE.equals(recordRepository.isLoading().getValue());
-            loadingLiveData.setValue(isLoadingFromAnyRepository);
-        });
+    private void setLoadingLiveData(int repository, boolean value) {
+        isLoadingArray[repository] = value;
 
-        loadingLiveData.addSource(recordRepository.isLoading(), isLoading -> {
-            boolean isLoadingFromAnyRepository = isLoading
-                    || Boolean.TRUE.equals(sensorRepository.isLoading().getValue())
-                    || Boolean.TRUE.equals(stationRepository.isLoading().getValue());
-            loadingLiveData.setValue(isLoadingFromAnyRepository);
-        });
+        boolean someoneIsLoading = isLoadingArray[0] || isLoadingArray[1] || isLoadingArray[2];
+        Boolean loadingLiveDataValue = loadingLiveData.getValue();
+
+        if (loadingLiveDataValue == null || someoneIsLoading != loadingLiveDataValue)
+            loadingLiveData.setValue(someoneIsLoading);
     }
 
     public LiveData<Station> getSelectedStation() {

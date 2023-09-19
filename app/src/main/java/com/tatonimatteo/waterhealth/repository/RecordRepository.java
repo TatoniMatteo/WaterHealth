@@ -50,7 +50,7 @@ public class RecordRepository implements Repository {
     }
 
     public void loadCurrentRecords(long stationId) {
-        isLoading.postValue(true);
+        isLoading.setValue(true);
         CompletableFuture<List<Record>> currentDataFuture = new CompletableFuture<>();
         CompletableFuture<List<Record>> currentOutOfRangeFuture = new CompletableFuture<>();
         CompletableFuture<List<Sensor>> sensorListFuture = new CompletableFuture<>();
@@ -122,7 +122,7 @@ public class RecordRepository implements Repository {
 
 
     public LiveData<Map<Sensor, List<Record>>> getRecordsByDateRange(Date startDate, Date endDate) {
-        isLoading.postValue(true);
+        isLoading.setValue(true);
         MutableLiveData<Map<Sensor, List<Record>>> recordsLiveData = new MutableLiveData<>();
         List<Sensor> sensors = AppConfiguration.getInstance().getSensorRepository().getStationSensors().getValue();
 

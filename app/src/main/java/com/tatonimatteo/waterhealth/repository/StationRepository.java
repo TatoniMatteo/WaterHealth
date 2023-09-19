@@ -63,7 +63,7 @@ public class StationRepository implements Repository {
     }
 
     private void fetchStations() {
-        isLoading.postValue(true);
+        isLoading.setValue(true);
         stationController.getAllStation(new Callback<List<Station>>() {
             @Override
             public void onResponse(@NonNull Call<List<Station>> call, @NonNull Response<List<Station>> response) {

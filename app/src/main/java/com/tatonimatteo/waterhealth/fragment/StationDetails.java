@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +20,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.tabs.TabLayout;
 import com.tatonimatteo.waterhealth.R;
 import com.tatonimatteo.waterhealth.view.DetailsFragmentAdapter;
+import com.tatonimatteo.waterhealth.view.Loader;
 
 public class StationDetails extends Fragment {
 
@@ -28,7 +28,7 @@ public class StationDetails extends Fragment {
     private StationDetailsViewModel viewModel;
     private TabLayout tabLayout;
     private ViewPager2 viewPager;
-    private ProgressBar progressBar;
+    private Loader loader;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,7 +57,7 @@ public class StationDetails extends Fragment {
         ImageButton backButton = view.findViewById(R.id.backButton);
         tabLayout = view.findViewById(R.id.stationDetailsTabLayout);
         viewPager = view.findViewById(R.id.stationDetailsViewPager);
-        progressBar = view.findViewById(R.id.stationDetailsProgressBar);
+        loader = view.findViewById(R.id.stationDetailsProgressBar);
 
         FragmentActivity activity = requireActivity();
         FragmentManager fragmentManager = activity.getSupportFragmentManager();
@@ -105,9 +105,9 @@ public class StationDetails extends Fragment {
 
         viewModel.getIsLoading().observe(getViewLifecycleOwner(), isLoading -> {
             if (isLoading) {
-                progressBar.setVisibility(View.VISIBLE);
+                loader.setVisibility(View.VISIBLE);
             } else {
-                progressBar.setVisibility(View.INVISIBLE);
+                loader.setVisibility(View.INVISIBLE);
             }
         });
     }

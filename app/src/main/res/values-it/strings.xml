@@ -26,4 +26,7 @@
     <string name="tipo">Tipo</string>
     <string name="data_e_ora">Data e ora</string>
     <string name="valore">Valore</string>
+    <string name="no_data_available">Nessun dato disponibile</string>
+    <string name="solo_un_momento">Solo un momento...</string>
+    <string name="loader">Caricamento</string>
 </resources>
