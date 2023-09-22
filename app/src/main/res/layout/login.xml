@@ -47,21 +47,17 @@
         <ImageView
             android:id="@+id/imageView4"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="80dp"
             android:layout_marginStart="5dp"
             android:contentDescription="@string/icon"
-            android:src="@drawable/logo2_univaq" />
+            android:src="@drawable/logo_disim" />
     </LinearLayout>
 
-    <ProgressBar
-        android:id="@+id/progressBar2"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="64dp"
+    <pl.droidsonroids.gif.GifImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_marginVertical="20dp"
-        android:indeterminate="true"
-        android:indeterminateTint="?attr/colorPrimaryVariant" />
+        android:src="@drawable/loader" />
 
     <TextView
         android:id="@+id/textView"
