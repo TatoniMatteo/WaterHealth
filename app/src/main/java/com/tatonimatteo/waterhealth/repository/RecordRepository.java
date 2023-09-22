@@ -107,10 +107,16 @@ public class RecordRepository implements Repository {
 
                 for (Record currentDataRecord : currentDataRecords) {
                     boolean isOutOfRange = currentOutOfRangeRecords.contains(currentDataRecord);
-                    resultRecords.add(new Triple<>(sensors.stream().filter(sensor -> sensor.getId() == currentDataRecord.getSensorId()).findFirst().orElse(null), currentDataRecord, isOutOfRange));
+                    resultRecords.add(new Triple<>(sensors.stream().filter(
+                                    sensor -> sensor.getId() == currentDataRecord.getSensorId())
+                            .findFirst()
+                            .orElse(null),
+                            currentDataRecord,
+                            isOutOfRange));
                 }
 
                 currentRecords.postValue(resultRecords);
+                error.postValue(null);
             } else {
                 error.postValue(new DataException(throwable, () -> loadCurrentRecords(stationId)));
             }
@@ -140,6 +146,7 @@ public class RecordRepository implements Repository {
                             if (remainingRequests.decrementAndGet() == 0) {
                                 recordsLiveData.postValue(sensorRecordMap);
                             }
+                            error.postValue(null);
                         } else {
                             isLoading.postValue(false);
                             error.postValue(new DataException("Impossibile caricare i dati del sensore: " + sensor.getSensorType().getName(), () -> getRecordsByDateRange(startDate, endDate)));

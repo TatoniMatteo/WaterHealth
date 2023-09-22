@@ -1,6 +1,5 @@
 package com.tatonimatteo.waterhealth.fragment.details;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -42,8 +41,11 @@ import com.tatonimatteo.waterhealth.entity.Record;
 import com.tatonimatteo.waterhealth.entity.Sensor;
 import com.tatonimatteo.waterhealth.fragment.StationDetailsViewModel;
 import com.tatonimatteo.waterhealth.view.DateAxisValueFormatter;
+import com.tatonimatteo.waterhealth.view.DateRange;
 import com.tatonimatteo.waterhealth.view.DateRangePicker;
 import com.tatonimatteo.waterhealth.view.LiveDataItem;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -68,12 +70,10 @@ public class StationData extends Fragment {
     private List<Long> filters;
     private RecordRecyclerViewAdapter adapter;
     private Map<Sensor, List<Record>> recordsInDateRange;
-    private List<Pair<Sensor, Record>> recordList;
-
+    private DateRangePicker picker;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         viewModel = new ViewModelProvider(requireActivity()).get(StationDetailsViewModel.class);
         return inflater.inflate(R.layout.station_data, container, false);
     }
@@ -81,20 +81,15 @@ public class StationData extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        initializeViews(view);
-
-        DateRangePicker picker = view.findViewById(R.id.datePicker);
-        picker.setFragmentManager(this.getChildFragmentManager());
-
+        initializeViews(view, savedInstanceState);
         setupLineChart();
-        observeDataChanges(picker);
+        observeDataChanges(view);
 
         viewModel.getStationSensors().observe(getViewLifecycleOwner(), this::setChips);
         viewModel.getLiveData().observe(getViewLifecycleOwner(), this::updateLiveData);
     }
 
-    private void initializeViews(View view) {
+    private void initializeViews(View view, Bundle savedInstanceState) {
         liveDataContainer = view.findViewById(R.id.liveDataContainer);
         errorText = view.findViewById(R.id.liveDataError);
         errorIcon = view.findViewById(R.id.liveDataWarning);
@@ -102,16 +97,21 @@ public class StationData extends Fragment {
         chipGroup = view.findViewById(R.id.chipContainer);
         recyclerView = view.findViewById(R.id.recordList);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        recordList = new ArrayList<>();
-        adapter = new RecordRecyclerViewAdapter(recordList);
+        adapter = new RecordRecyclerViewAdapter(new ArrayList<>());
         recyclerView.setAdapter(adapter);
         emptyView = view.findViewById(R.id.emptyList);
+        picker = view.findViewById(R.id.datePicker);
+        if (savedInstanceState != null) {
+            long savedStartDateMillis = savedInstanceState.getLong("startDate");
+            long savedEndDateMillis = savedInstanceState.getLong("endDate");
+            picker.setDateRange(savedStartDateMillis, savedEndDateMillis);
+        }
     }
 
     private void setupLineChart() {
         TypedValue typedValue = new TypedValue();
         requireActivity().getTheme().resolveAttribute(android.R.attr.textColor, typedValue, true);
-        int color = typedValue.data;
+        int textColor = typedValue.data;
 
         lineChart.getDescription().setEnabled(false);
         lineChart.setDragEnabled(true);
@@ -120,30 +120,32 @@ public class StationData extends Fragment {
 
         XAxis xAxis = lineChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setAxisLineColor(color);
-        xAxis.setTextColor(color);
+        xAxis.setAxisLineColor(textColor);
+        xAxis.setTextColor(textColor);
         xAxis.setValueFormatter(new DateAxisValueFormatter());
 
-
         YAxis leftAxis = lineChart.getAxisLeft();
-        leftAxis.setAxisLineColor(color);
-        leftAxis.setTextColor(color);
+        leftAxis.setAxisLineColor(textColor);
+        leftAxis.setTextColor(textColor);
 
         lineChart.getAxisRight().setDrawLabels(false);
 
         Legend legend = lineChart.getLegend();
         legend.setForm(Legend.LegendForm.CIRCLE);
-        legend.setTextColor(color);
+        legend.setTextColor(textColor);
 
         lineChart.setNoDataText(getString(R.string.no_data_available));
     }
 
-    private void observeDataChanges(DateRangePicker picker) {
+    private void observeDataChanges(View view) {
+        picker.setFragmentManager(getChildFragmentManager());
+
         Observer<Map<Sensor, List<Record>>> recordsObserver = data -> {
             recordsInDateRange = data;
             updateRecyclerView();
-            enableChipGroup(!thereIsNoData(recordsInDateRange));
-            if (filters != null && (filters.size() > 0 && filters.size() <= 3) && recordsInDateRange != null)
+            boolean areThereData = !recordsInDateRange.values().stream().allMatch(List::isEmpty);
+            enableChipGroup(areThereData);
+            if (filters != null && (filters.size() > 0 && filters.size() <= 3) && (recordsInDateRange != null || areThereData))
                 drawChart(data, filters);
         };
 
@@ -174,7 +176,7 @@ public class StationData extends Fragment {
         }
     }
 
-    private Chip createSensorChip(Context context, Sensor sensor) {
+    private Chip createSensorChip(@NotNull Context context, Sensor sensor) {
         Chip chip = new Chip(context);
         chip.setLayoutParams(new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -195,31 +197,25 @@ public class StationData extends Fragment {
     }
 
     private void drawChart(Map<Sensor, List<Record>> records, List<Long> filters) {
-        if (thereIsNoData(records)) {
-            lineChart.setNoDataText(getString(R.string.no_data_available));
-            lineChart.invalidate();
-        } else {
-
-            List<ILineDataSet> dataSets = new ArrayList<>();
-            for (Map.Entry<Sensor, List<Record>> entry : records.entrySet()) {
-                if (!filters.contains(entry.getKey().getId())) continue;
-                ArrayList<Entry> entries = new ArrayList<>();
-                for (Record record : entry.getValue()) {
-                    entries.add(new Entry(
-                            record.getDateTime()
-                                    .toInstant(ZoneOffset.UTC)
-                                    .toEpochMilli(),
-                            record.getValue().floatValue())
-                    );
-                }
-                LineDataSet dataSet = createLineDataSet(entries, entry.getKey());
-                dataSets.add(dataSet);
-
-                LineData lineData = new LineData(dataSets);
-                lineChart.setData(lineData);
-                lineChart.animateX(3000, Easing.Linear);
-                lineChart.invalidate();
+        List<ILineDataSet> dataSets = new ArrayList<>();
+        for (Map.Entry<Sensor, List<Record>> entry : records.entrySet()) {
+            if (!filters.contains(entry.getKey().getId())) continue;
+            ArrayList<Entry> entries = new ArrayList<>();
+            for (Record record : entry.getValue()) {
+                entries.add(new Entry(
+                        record.getDateTime()
+                                .toInstant(ZoneOffset.UTC)
+                                .toEpochMilli(),
+                        record.getValue().floatValue())
+                );
             }
+            LineDataSet dataSet = createLineDataSet(entries, entry.getKey());
+            dataSets.add(dataSet);
+
+            LineData lineData = new LineData(dataSets);
+            lineChart.setData(lineData);
+            lineChart.animateX(3000, Easing.Linear);
+            lineChart.invalidate();
         }
     }
 
@@ -232,13 +228,10 @@ public class StationData extends Fragment {
         return dataSet;
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private void updateRecyclerView() {
-        recordList.clear();
-        recordList.addAll(recordToList());
-        adapter.notifyDataSetChanged();
+        adapter.updateData(recordToList());
 
-        if (recordList.isEmpty()) {
+        if (adapter.getItemCount() < 1) {
             emptyView.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
         } else {
@@ -258,6 +251,7 @@ public class StationData extends Fragment {
         liveDataContainer.removeAllViews();
         errorIcon.setVisibility(View.INVISIBLE);
         errorText.setVisibility(data.isEmpty() ? View.VISIBLE : View.GONE);
+        data.sort(Comparator.comparing(triple -> triple.getFirst().getSensorType().getName()));
         data.forEach(triple -> {
             LiveDataItem item = new LiveDataItem(requireContext());
             item.setComponent(
@@ -278,10 +272,6 @@ public class StationData extends Fragment {
             return ColorUtility.generateRandomColor(Color.WHITE);
         }
         return ColorUtility.generateRandomColor(Color.parseColor("#302e28"));
-    }
-
-    private boolean thereIsNoData(Map<Sensor, List<Record>> map) {
-        return map.values().stream().allMatch(List::isEmpty);
     }
 
     private List<Pair<Sensor, Record>> recordToList() {
@@ -314,6 +304,24 @@ public class StationData extends Fragment {
                 chip.setEnabled(enable);
             }
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        DateRange dateRange = picker.getDateRange().getValue();
+        if (dateRange != null) {
+            outState.putLong("startDate", dateRange.getStartDate().getTime());
+            outState.putLong("endDate", dateRange.getEndDate().getTime());
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        viewModel.getStationSensors().removeObservers(getViewLifecycleOwner());
+        viewModel.getLiveData().removeObservers(getViewLifecycleOwner());
     }
 
 }

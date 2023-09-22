@@ -1,7 +1,6 @@
 package com.tatonimatteo.waterhealth.fragment;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -26,35 +25,41 @@ public class StationDetailsViewModel extends ViewModel {
     private final StationRepository stationRepository;
     private final SensorRepository sensorRepository;
     private final RecordRepository recordRepository;
-    private final MediatorLiveData<Boolean> loadingLiveData = new MediatorLiveData<>();
-    private final MediatorLiveData<DataException> errorLiveData = new MediatorLiveData<>();
+
+    private final MutableLiveData<Boolean> loadingLiveData = new MutableLiveData<>();
+    private final MutableLiveData<DataException> errorLiveData = new MutableLiveData<>();
     private final MutableLiveData<List<Long>> sensorFilter = new MutableLiveData<>();
-    private final boolean[] isLoadingArray = {false, false, false};
 
     public StationDetailsViewModel() {
-        stationRepository = AppConfiguration.getInstance().getStationRepository();
-        sensorRepository = AppConfiguration.getInstance().getSensorRepository();
-        recordRepository = AppConfiguration.getInstance().getRecordRepository();
+        AppConfiguration appConfig = AppConfiguration.getInstance();
+        stationRepository = appConfig.getStationRepository();
+        sensorRepository = appConfig.getSensorRepository();
+        recordRepository = appConfig.getRecordRepository();
 
-        stationRepository.isLoading().observeForever(v -> setLoadingLiveData(0, v));
-        sensorRepository.isLoading().observeForever(v -> setLoadingLiveData(1, v));
-        recordRepository.isLoading().observeForever(v -> setLoadingLiveData(2, v));
+        setupLoadingObservations();
+    }
+
+    private void setupLoadingObservations() {
+        stationRepository.isLoading().observeForever(b -> setLoadingLiveData());
+        sensorRepository.isLoading().observeForever(b -> setLoadingLiveData());
+        recordRepository.isLoading().observeForever(b -> setLoadingLiveData());
 
         stationRepository.getError().observeForever(errorLiveData::setValue);
-
         sensorRepository.getError().observeForever(errorLiveData::setValue);
-
         recordRepository.getError().observeForever(errorLiveData::setValue);
     }
 
-    private void setLoadingLiveData(int repository, boolean value) {
-        isLoadingArray[repository] = value;
-
+    private void setLoadingLiveData() {
+        boolean[] isLoadingArray = {
+                Boolean.TRUE.equals(stationRepository.isLoading().getValue()),
+                Boolean.TRUE.equals(sensorRepository.isLoading().getValue()),
+                Boolean.TRUE.equals(recordRepository.isLoading().getValue())};
         boolean someoneIsLoading = isLoadingArray[0] || isLoadingArray[1] || isLoadingArray[2];
         Boolean loadingLiveDataValue = loadingLiveData.getValue();
 
-        if (loadingLiveDataValue == null || someoneIsLoading != loadingLiveDataValue)
+        if (loadingLiveDataValue == null || someoneIsLoading != loadingLiveDataValue) {
             loadingLiveData.setValue(someoneIsLoading);
+        }
     }
 
     public LiveData<Station> getSelectedStation() {
@@ -104,8 +109,8 @@ public class StationDetailsViewModel extends ViewModel {
         sensorFilter.setValue(currentFilters);
     }
 
-
     public LiveData<List<Long>> getSensorFilter() {
         return sensorFilter;
     }
+
 }

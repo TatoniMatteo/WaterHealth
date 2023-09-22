@@ -1,6 +1,5 @@
 package com.tatonimatteo.waterhealth.fragment.stations.list;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,15 +13,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.tatonimatteo.waterhealth.R;
-import com.tatonimatteo.waterhealth.entity.Station;
 import com.tatonimatteo.waterhealth.fragment.StationsViewModel;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class StationListFragment extends Fragment {
-
-    private List<Station> stationList;
     private StationsViewModel stationsViewModel;
     private StationRecyclerViewAdapter adapter;
     private NavController navController;
@@ -30,12 +25,10 @@ public class StationListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        stationList = new ArrayList<>();
         stationsViewModel = new ViewModelProvider(requireActivity()).get(StationsViewModel.class);
     }
 
     @Override
-    @SuppressLint("NotifyDataSetChanged")
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.stations_list, container, false);
@@ -43,18 +36,16 @@ public class StationListFragment extends Fragment {
 
         RecyclerView recyclerViewStations = (RecyclerView) view;
         recyclerViewStations.setLayoutManager(new LinearLayoutManager(requireContext()));
-        adapter = new StationRecyclerViewAdapter(stationList);
+        adapter = new StationRecyclerViewAdapter(new ArrayList<>());
         recyclerViewStations.setAdapter(adapter);
 
         stationsViewModel.getStations().observe(getViewLifecycleOwner(), stations -> {
-            stationList.clear();
-            stationList.addAll(stations);
-            adapter.notifyDataSetChanged();
+            adapter.updateData(stations);
         });
 
         adapter.setOnItemClickListener(position -> {
             Bundle bundle = new Bundle();
-            bundle.putLong("stationId", stationList.get(position).getId());
+            bundle.putLong("stationId", adapter.getItemId(position));
             navController.navigate(R.id.action_stations_to_stationDetails, bundle);
         });
 

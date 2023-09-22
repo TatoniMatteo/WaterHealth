@@ -26,11 +26,6 @@ public class Stations extends Fragment {
     private Loader loader;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.stations, container, false);
@@ -40,17 +35,33 @@ public class Stations extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        StationsViewModel viewModel = new ViewModelProvider(requireActivity()).get(StationsViewModel.class);
+        initializeViews(view);
+        setupViewPager();
+        setupTabLayout();
+        observeViewModel();
+    }
 
+    private void initializeViews(View view) {
         tabLayout = view.findViewById(R.id.stationsTabLayout);
         viewPager = view.findViewById(R.id.stationsViewPager);
         loader = view.findViewById(R.id.stationsLoader);
+    }
 
-        FragmentActivity activity = requireActivity();
-        FragmentManager fragmentManager = activity.getSupportFragmentManager();
+    private void setupViewPager() {
+        FragmentManager fragmentManager = getChildFragmentManager();
         HomeFragmentAdapter adapter = new HomeFragmentAdapter(fragmentManager, getLifecycle());
         viewPager.setAdapter(adapter);
 
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                tabLayout.selectTab(tabLayout.getTabAt(position));
+            }
+        });
+    }
+
+    private void setupTabLayout() {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -66,25 +77,17 @@ public class Stations extends Fragment {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
+    }
 
-        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                tabLayout.selectTab(tabLayout.getTabAt(position));
-            }
-        });
+    private void observeViewModel() {
+        StationsViewModel viewModel = new ViewModelProvider(this).get(StationsViewModel.class);
 
         viewModel.getIsLoading().observe(getViewLifecycleOwner(), isLoading -> {
-            if (isLoading) {
-                loader.setVisibility(View.VISIBLE);
-            } else {
-                loader.setVisibility(View.INVISIBLE);
-            }
+            loader.setVisibility(isLoading ? View.VISIBLE : View.INVISIBLE);
         });
 
         viewModel.getError().observe(getViewLifecycleOwner(), error -> {
-            if (error != null) {
+            if (error != null && isAdded()) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
                 builder.setTitle(getString(R.string.data_error))
                         .setMessage(error.getMessage())
@@ -94,5 +97,10 @@ public class Stations extends Fragment {
                         .show();
             }
         });
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
     }
 }

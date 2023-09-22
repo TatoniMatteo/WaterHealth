@@ -70,6 +70,7 @@ public class StationRepository implements Repository {
                 isLoading.postValue(false);
                 if (response.isSuccessful() && response.body() != null) {
                     stations.postValue(response.body());
+                    error.postValue(null);
                 } else {
                     error.postValue(new DataException("Errore nel recupero dei dati delle stazioni.", () -> fetchStations()));
                 }

@@ -29,6 +29,7 @@ public class StationDetails extends Fragment {
     private TabLayout tabLayout;
     private ViewPager2 viewPager;
     private Loader loader;
+    private ImageButton backButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,25 +46,37 @@ public class StationDetails extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        navController = Navigation.findNavController(requireActivity(), R.id.fragmentContainerView);
 
+        initializeViews(view);
+        setupNavigation();
+        setupTabLayoutAndViewPager();
+        observeViewModel();
+    }
+
+    private void initializeViews(View view) {
+        navController = Navigation.findNavController(requireActivity(), R.id.fragmentContainerView);
+        backButton = view.findViewById(R.id.backButton);
+        tabLayout = view.findViewById(R.id.stationDetailsTabLayout);
+        viewPager = view.findViewById(R.id.stationDetailsViewPager);
+        loader = view.findViewById(R.id.stationDetailsProgressBar);
+    }
+
+    private void setupNavigation() {
         Bundle bundle = getArguments();
         if (bundle != null) {
             long stationId = bundle.getLong("stationId");
             viewModel.setSelectedStation(stationId);
         }
 
-        ImageButton backButton = view.findViewById(R.id.backButton);
-        tabLayout = view.findViewById(R.id.stationDetailsTabLayout);
-        viewPager = view.findViewById(R.id.stationDetailsViewPager);
-        loader = view.findViewById(R.id.stationDetailsProgressBar);
+        backButton.setOnClickListener(view1 -> navController.navigateUp());
+    }
 
+    private void setupTabLayoutAndViewPager() {
         FragmentActivity activity = requireActivity();
-        FragmentManager fragmentManager = activity.getSupportFragmentManager();
+        FragmentManager fragmentManager = getChildFragmentManager();
         DetailsFragmentAdapter adapter = new DetailsFragmentAdapter(fragmentManager, getLifecycle());
         viewPager.setAdapter(adapter);
 
-        backButton.setOnClickListener(view1 -> navController.navigateUp());
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -87,8 +100,9 @@ public class StationDetails extends Fragment {
             }
         });
         viewPager.setUserInputEnabled(false);
+    }
 
-
+    private void observeViewModel() {
         viewModel.getError().observe(getViewLifecycleOwner(), error -> {
             if (error != null) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
@@ -108,5 +122,10 @@ public class StationDetails extends Fragment {
                 loader.setVisibility(View.INVISIBLE);
             }
         });
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
     }
 }

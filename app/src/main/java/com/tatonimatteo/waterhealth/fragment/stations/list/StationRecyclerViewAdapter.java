@@ -1,5 +1,6 @@
 package com.tatonimatteo.waterhealth.fragment.stations.list;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +17,8 @@ import java.util.List;
 
 public class StationRecyclerViewAdapter extends RecyclerView.Adapter<StationRecyclerViewAdapter.ViewHolder> {
 
+    private final List<Station> stationList;
     private OnItemClickListener listener;
-    private List<Station> stationList;
 
     public StationRecyclerViewAdapter(List<Station> stationList) {
         this.stationList = stationList;
@@ -29,7 +30,6 @@ public class StationRecyclerViewAdapter extends RecyclerView.Adapter<StationRecy
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.stations_list_item, parent, false);
         return new ViewHolder(itemView);
-
     }
 
     @Override
@@ -53,6 +53,18 @@ public class StationRecyclerViewAdapter extends RecyclerView.Adapter<StationRecy
         this.listener = listener;
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    public void updateData(List<Station> newData) {
+        stationList.clear();
+        stationList.addAll(newData);
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return stationList.get(position).getId();
+    }
+
     public interface OnItemClickListener {
         void onItemClick(int position);
     }
@@ -66,7 +78,6 @@ public class StationRecyclerViewAdapter extends RecyclerView.Adapter<StationRecy
             stationName = itemView.findViewById(R.id.list_station_name);
             stationLocation = itemView.findViewById(R.id.list_station_location);
         }
-
 
         @NonNull
         @Override

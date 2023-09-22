@@ -14,20 +14,20 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.tatonimatteo.waterhealth.R;
+import com.tatonimatteo.waterhealth.entity.Sensor;
 import com.tatonimatteo.waterhealth.fragment.StationDetailsViewModel;
 
 public class StationInfo extends Fragment implements OnMapReadyCallback {
 
     private StationDetailsViewModel viewModel;
     private TextView name;
-    private TextView position;
     private TextView phone;
     private TextView sensors;
+    private TextView position;
     private MapView mapView;
 
     @Override
@@ -47,40 +47,34 @@ public class StationInfo extends Fragment implements OnMapReadyCallback {
         position = view.findViewById(R.id.positionLabel);
         mapView = view.findViewById(R.id.mapView);
 
-        try {
-            viewModel.getSelectedStation().observe(getViewLifecycleOwner(), station -> {
-                if (station != null) {
-                    name.setText(station.getName());
-                    phone.setText(station.getPhone());
-                    position.setText(String.format("%s\n%s", station.getCountry(), station.getRegion()));
-                }
-            });
+        mapView.onCreate(savedInstanceState);
+        mapView.getMapAsync(this);
 
-            viewModel.getStationSensors().observe(getViewLifecycleOwner(), sensors -> {
-                StringBuilder stringBuilder = new StringBuilder();
-                sensors.forEach(sensor -> stringBuilder.append("• ").append(sensor.getSensorType().getName()).append("\n"));
-                this.sensors.setText(stringBuilder);
-            });
+        viewModel.getSelectedStation().observe(getViewLifecycleOwner(), station -> {
+            if (station != null) {
+                name.setText(station.getName());
+                phone.setText(station.getPhone());
+                position.setText(String.format("%s\n%s", station.getCountry(), station.getRegion()));
+            }
+        });
 
-            mapView.onCreate(savedInstanceState);
-            mapView.onResume();
-            MapsInitializer.initialize(requireContext());
-            mapView.getMapAsync(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        viewModel.getStationSensors().observe(getViewLifecycleOwner(), sensors -> {
+            StringBuilder stringBuilder = new StringBuilder();
+            for (Sensor sensor : sensors) {
+                stringBuilder.append("• ").append(sensor.getSensorType().getName()).append("\n");
+            }
+            this.sensors.setText(stringBuilder.toString());
+        });
     }
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+
         viewModel.getSelectedStation().observe(getViewLifecycleOwner(), station -> {
             if (station != null) {
-                name.setText(station.getName());
                 LatLng location = new LatLng(station.getLatitude(), station.getLongitude());
-                MarkerOptions markerOptions = new MarkerOptions()
-                        .position(location);
+                MarkerOptions markerOptions = new MarkerOptions().position(location);
                 googleMap.addMarker(markerOptions);
                 googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 15f));
             }
@@ -110,5 +104,4 @@ public class StationInfo extends Fragment implements OnMapReadyCallback {
         super.onLowMemory();
         mapView.onLowMemory();
     }
-
 }

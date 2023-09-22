@@ -93,4 +93,8 @@ public class DateRangePicker extends LinearLayout {
         return dateRange;
     }
 
+    public void setDateRange(Long start, Long end) {
+        dateRange.postValue(new DateRange(start, end));
+    }
+
 }

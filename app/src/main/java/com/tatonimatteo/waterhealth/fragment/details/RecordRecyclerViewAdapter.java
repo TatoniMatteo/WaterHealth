@@ -1,5 +1,6 @@
 package com.tatonimatteo.waterhealth.fragment.details;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +52,14 @@ public class RecordRecyclerViewAdapter extends RecyclerView.Adapter<RecordRecycl
     public int getItemCount() {
         return recordList.size();
     }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void updateData(List<Pair<Sensor, Record>> newData) {
+        recordList.clear();
+        recordList.addAll(newData);
+        notifyDataSetChanged();
+    }
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public final TextView recordType;

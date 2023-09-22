@@ -1,7 +1,7 @@
 package com.tatonimatteo.waterhealth.api.exception;
 
 public class DataException extends Exception {
-    private RetryCallback retryCallback;
+    private final RetryCallback retryCallback;
 
     public DataException(RetryCallback retryCallback) {
         this.retryCallback = retryCallback;

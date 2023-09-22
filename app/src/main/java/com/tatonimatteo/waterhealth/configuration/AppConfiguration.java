@@ -2,7 +2,6 @@ package com.tatonimatteo.waterhealth.configuration;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.tatonimatteo.waterhealth.api.HttpManager;
@@ -41,9 +40,7 @@ public class AppConfiguration {
                     if (!task.isSuccessful())
                         Log.w("Firebase", "Fetching FCM registration token failed", task.getException());
                     else {
-                        String msg = "Fetching FCM registration token success " + task.getResult();
-                        Log.d("Firebase", msg);
-                        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+                        Log.d("Firebase", "Fetching FCM registration token success " + task.getResult());
                     }
                 });
     }
@@ -67,18 +64,6 @@ public class AppConfiguration {
 
     public AuthController getAuthController() {
         return authController;
-    }
-
-    public StationController getStationController() {
-        return stationController;
-    }
-
-    public SensorController getSensorController() {
-        return sensorController;
-    }
-
-    public RecordController getRecordController() {
-        return recordController;
     }
 
     public StationRepository getStationRepository() {

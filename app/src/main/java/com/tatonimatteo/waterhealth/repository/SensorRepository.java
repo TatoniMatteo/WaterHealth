@@ -47,6 +47,7 @@ public class SensorRepository implements Repository {
                 isLoading.postValue(false);
                 if (response.isSuccessful()) {
                     stationSensors.postValue(response.body());
+                    error.postValue(null);
                 } else {
                     error.postValue(new DataException("impossibile caricare i sensori delal stazione con ID: " + stationId, () -> loadStationSensors(stationId)));
                 }

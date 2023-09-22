@@ -9,7 +9,7 @@
         android:id="@+id/stations"
         android:name="com.tatonimatteo.waterhealth.fragment.Stations"
         android:label="fragment_stations"
-        tools:layout="@layout/stations" >
+        tools:layout="@layout/stations">
         <action
             android:id="@+id/action_stations_to_stationDetails"
             app:destination="@id/stationDetails" />
@@ -23,7 +23,7 @@
         android:id="@+id/loginPage"
         android:name="com.tatonimatteo.waterhealth.fragment.LoginPage"
         android:label="fragment_login"
-        tools:layout="@layout/login" >
+        tools:layout="@layout/login">
         <action
             android:id="@+id/action_loginPage_to_stations"
             app:destination="@id/stations"
