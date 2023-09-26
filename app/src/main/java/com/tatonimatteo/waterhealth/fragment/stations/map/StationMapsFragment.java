@@ -84,7 +84,7 @@ public class StationMapsFragment extends Fragment implements OnMapReadyCallback 
                 MarkerOptions markerOptions = new MarkerOptions()
                         .position(position)
                         .title(station.getName())
-                        .snippet(station.getLocationName());
+                        .snippet(station.getLocationNameFormatted());
 
                 Marker marker = googleMap.addMarker(markerOptions);
                 if (marker != null) {

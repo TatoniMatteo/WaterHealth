@@ -54,7 +54,7 @@ public class StationInfo extends Fragment implements OnMapReadyCallback {
             if (station != null) {
                 name.setText(station.getName());
                 phone.setText(station.getPhone());
-                position.setText(String.format("%s\n%s", station.getCountry(), station.getRegion()));
+                position.setText(String.format("%s\n%s,%s", station.getLocality(), station.getAdminArea(), station.getCountry()));
             }
         });
 

@@ -36,7 +36,7 @@ public class StationRecyclerViewAdapter extends RecyclerView.Adapter<StationRecy
     public void onBindViewHolder(final ViewHolder holder, int position) {
         Station station = stationList.get(position);
         holder.stationName.setText(station.getName());
-        holder.stationLocation.setText(station.getLocationName());
+        holder.stationLocation.setText(station.getLocationNameFormatted());
         holder.itemView.setOnClickListener(view -> {
             if (listener != null) {
                 listener.onItemClick(position);

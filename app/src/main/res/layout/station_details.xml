@@ -7,119 +7,116 @@
     tools:context=".fragment.StationDetails">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/stationDetailsToolbar"
+        android:id="@+id/ToolBar"
         android:layout_width="0dp"
-        android:layout_height="70dp"
-        android:background="?attr/colorPrimary"
-        android:elevation="8dp"
+        android:layout_height="80dp"
+        android:background="?attr/colorAccent"
+        android:elevation="30dp"
         android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
+        android:theme="@style/Widget.AppCompat.Toolbar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="50dp"
-            android:autoSizeMaxTextSize="30sp"
-            android:autoSizeMinTextSize="24sp"
-            android:autoSizeTextType="uniform"
-            android:elevation="10dp"
-            android:gravity="center|start"
-            android:minWidth="200dp"
-            android:text="@string/app_name"
-            android:textColor="?attr/colorOnPrimary"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/icon"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.5" />
-
-        <ImageView
-            android:id="@+id/icon"
-            android:layout_width="70dp"
-            android:layout_height="match_parent"
-            android:contentDescription="@string/icon"
-            android:src="@drawable/icon_foreground"
-            app:layout_constraintEnd_toStartOf="@+id/title"
-            tools:ignore="ImageContrastCheck" />
-
         <ImageButton
             android:id="@+id/backButton"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="10dp"
             android:background="@android:color/transparent"
             android:contentDescription="@string/indietro"
             android:src="@drawable/arrow_back"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="?attr/colorOnPrimary" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            app:tint="?attr/colorPrimary" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/stationDetailsTabContainer"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:background="?attr/colorPrimaryVariant"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/stationDetailsToolbar">
-
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/stationDetailsTabLayout"
+        <ImageView
+            android:id="@+id/imageView5"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_marginHorizontal="10dp"
-            android:background="@android:color/transparent"
-            android:contentDescription="@string/tabLayout"
-            android:paddingVertical="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="match_parent"
+            android:layout_marginVertical="20dp"
+            android:contentDescription="@string/icon"
+            android:src="@drawable/logo_with_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tabGravity="fill"
-            app:tabIconTint="?attr/colorOnPrimary"
-            app:tabIndicator="@drawable/indicator"
-            app:tabIndicatorAnimationMode="elastic"
-            app:tabIndicatorFullWidth="true"
-            app:tabIndicatorGravity="stretch"
-            app:tabInlineLabel="true"
-            app:tabMode="fixed"
-            app:tabTextColor="?attr/colorOnPrimary">
+            tools:ignore="ImageContrastCheck"
+            tools:layout_editor_absoluteY="20dp" />
 
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:icon="@drawable/info"
-                android:text="@string/dettagli_stazione" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:icon="@drawable/data"
-                android:text="@string/dati"
-                tools:ignore="VisualLintLocaleText" />
-        </com.google.android.material.tabs.TabLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/stationDetailsTabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginHorizontal="25dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/tabLayout"
+        android:paddingVertical="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ToolBar"
+        app:tabGravity="fill"
+        app:tabIconTint="@color/tab2_icon_colors"
+        app:tabIndicator="@drawable/indicator"
+        app:tabIndicatorColor="?attr/colorSecondary"
+        app:tabIndicatorAnimationMode="elastic"
+        app:tabIndicatorFullWidth="true"
+        app:tabIndicatorGravity="stretch"
+        app:tabInlineLabel="true"
+        app:tabMode="fixed"
+        app:tabTextColor="@color/tab2_icon_colors">
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:icon="@drawable/info"
+            android:text="@string/dettagli_stazione"/>
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:icon="@drawable/data"
+            android:text="@string/dati"
+            tools:ignore="VisualLintLocaleText" />
+    </com.google.android.material.tabs.TabLayout>
+
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/stationDetailsViewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/footerContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/stationDetailsTabContainer" />
+        app:layout_constraintTop_toBottomOf="@+id/stationDetailsTabLayout" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/footerContainer"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="?attr/colorAccent"
+        android:elevation="30dp"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/Widget.AppCompat.Toolbar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/colorAccent"
+            android:gravity="center"
+            android:text="@string/univaq"
+            android:textColor="?attr/colorPrimary"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <com.tatonimatteo.waterhealth.view.Loader
@@ -128,9 +125,10 @@
         android:layout_height="0dp"
         android:elevation="99dp"
         android:indeterminateTint="?attr/colorPrimary"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/stationDetailsToolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/ToolBar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

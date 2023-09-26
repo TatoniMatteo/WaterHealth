@@ -10,8 +10,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class HttpManager {
-    // private static final String BASE_URL = "http://192.168.1.7:8080/";       //L'AQUILA
-    private static final String BASE_URL = "http://192.168.178.142:8080/";          //SPOLTORE
+    private static final String BASE_URL = "http://192.168.178.142:8080/";
     private final Retrofit.Builder retrofitBuilder;
     private HttpService httpService;
 

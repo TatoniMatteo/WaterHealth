@@ -4,19 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginHorizontal="25dp"
+    android:layout_marginVertical="5dp"
+    android:background="@drawable/border_stroke_round_16dp"
     android:orientation="horizontal"
-    android:padding="8dp">
+    android:padding="10dp">
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_marginEnd="10dp"
-        android:background="@drawable/circle_background"
         android:contentDescription="@string/water_station"
-        android:elevation="3dp"
-        android:padding="20dp"
-        app:srcCompat="@drawable/water_station" />
+        android:padding="10dp"
+        app:srcCompat="@drawable/water_station"
+        tools:ignore="ImageContrastCheck" />
 
     <LinearLayout
         android:layout_width="300dp"
@@ -30,11 +32,11 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="3"
-            android:autoSizeMaxTextSize="30sp"
+            android:autoSizeMaxTextSize="26sp"
             android:autoSizeTextType="uniform"
             android:gravity="start|center_vertical"
             android:text="Stazione 1"
-            android:textAppearance="?attr/textAppearanceListItem"
+            android:textColor="?attr/colorPrimary"
             android:textStyle="bold"
             tools:ignore="HardcodedText" />
 
@@ -43,11 +45,12 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="2"
-            android:autoSizeMaxTextSize="18sp"
+            android:autoSizeMaxTextSize="14sp"
             android:autoSizeTextType="uniform"
             android:gravity="start|center_vertical"
-            android:text="L'Aquila - Italia"
-            android:textAppearance="?attr/textAppearanceListItem"
+            android:text="( L'Aquila, Italia )"
+            android:textColor="@color/warm_gray"
+            android:textStyle="bold"
             tools:ignore="HardcodedText" />
     </LinearLayout>
 

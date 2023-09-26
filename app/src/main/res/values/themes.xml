@@ -2,15 +2,12 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.WaterHealth" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Colori personalizzati -->
-        <item name="colorPrimary">@color/darkBlue</item>
-        <item name="colorPrimaryVariant">@color/blue</item>
+        <item name="colorPrimary">@color/dark_blue</item>
+        <item name="colorPrimaryVariant">@color/light_blue</item>
         <item name="colorSecondary">@color/gold</item>
-        <item name="colorSecondaryVariant">@color/yellow</item>
-        <item name="colorTertiary">@color/brown</item>
 
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorOnSecondary">@color/black</item>
-        <item name="colorOnTertiary">@color/white</item>
 
         <item name="colorOnBackground">@color/black</item>
         <item name="colorAccent">@color/white</item>

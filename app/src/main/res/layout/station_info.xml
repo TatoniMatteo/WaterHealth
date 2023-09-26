@@ -1,147 +1,190 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".fragment.details.StationInfo">
-
-    <TextView
-        android:id="@+id/stationName"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginVertical="15dp"
-        android:autoSizeTextType="uniform"
-        android:textAlignment="center"
-        android:textAllCaps="true"
-        android:textStyle="bold" />
-
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/mapView"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginHorizontal="20dp"
-        android:contentDescription="@string/map" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="5dp"
-        android:gravity="top|start"
-        android:orientation="horizontal"
-        android:weightSum="10">
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="24dp"
-            android:layout_weight="1"
-            android:contentDescription="@string/icon"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:src="@drawable/location"
-            app:tint="?attr/colorOnBackground" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:autoSizeMaxTextSize="20sp"
-            android:autoSizeTextType="uniform"
-            android:text="@string/luogo"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/positionLabel"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="6"
-            android:autoSizeMaxTextSize="18sp"
-            android:autoSizeTextType="uniform"
-            android:lineSpacingExtra="2dp"
-            android:lines="2" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="24dp"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginVertical="5dp"
-        android:gravity="top|start"
-        android:orientation="horizontal"
-        android:weightSum="10">
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:contentDescription="@string/icon"
-            android:src="@drawable/phone"
-            app:tint="?attr/colorOnBackground" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:autoSizeTextType="uniform"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="@string/telefono"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/phoneLabel"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="6"
-            android:autoSizeMaxTextSize="18sp"
-            android:autoSizeTextType="uniform"
-            android:ellipsize="end"
-            android:lineSpacingExtra="2dp"
-            android:maxLines="1"
-            tools:ignore="VisualLintLocaleText" />
-
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginVertical="15dp"
-        android:gravity="top|start"
-        android:orientation="horizontal"
-        android:weightSum="10">
+        android:gravity="top|center"
+        android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:contentDescription="@string/icon"
-            android:src="@drawable/sensor"
-            app:tint="?attr/colorOnBackground" />
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginHorizontal="25dp"
+            android:layout_marginVertical="15dp"
+            android:background="@drawable/border_stroke_round_16dp"
+            app:cardCornerRadius="16dp">
+
+            <com.google.android.gms.maps.MapView
+                android:id="@+id/mapView"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:contentDescription="@string/map" />
+
+        </androidx.cardview.widget.CardView>
+
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="24dp"
-            android:layout_weight="3"
-            android:autoSizeTextType="uniform"
-            android:text="@string/sensor"
+            android:id="@+id/stationName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="15dp"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="?attr/colorSecondary"
+            android:textSize="22sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/sensorLabel"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginHorizontal="25dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="5dp"
+            android:gravity="top|start"
+            android:orientation="horizontal"
+            android:weightSum="10">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="25dp"
+                android:layout_weight="1"
+                android:contentDescription="@string/icon"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:src="@drawable/map"
+                app:tint="?attr/colorSecondary" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:paddingStart="15dp"
+                android:text="@string/luogo"
+                android:textAllCaps="true"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/positionLabel"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:lineSpacingExtra="2dp"
+                android:lines="2"
+                android:paddingStart="15dp"
+                android:textColor="@color/gray"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="20dp"
+            android:background="@drawable/border_round_8dp"
+            android:backgroundTint="@color/gray" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:layout_marginHorizontal="25dp"
+            android:layout_marginVertical="5dp"
+            android:gravity="top|start"
+            android:orientation="horizontal"
+            android:weightSum="10">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="22dp"
+                android:layout_weight="1"
+                android:contentDescription="@string/icon"
+                android:src="@drawable/phone"
+                app:tint="?attr/colorSecondary" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:maxLines="1"
+                android:paddingStart="15dp"
+                android:text="@string/telefono"
+                android:textAllCaps="true"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/phoneLabel"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:lineSpacingExtra="2dp"
+                android:maxLines="1"
+                android:paddingStart="15dp"
+                android:textColor="@color/gray"
+                android:textSize="16sp"
+                tools:ignore="VisualLintLocaleText" />
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="20dp"
+            android:background="@drawable/border_round_8dp"
+            android:backgroundTint="@color/gray" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="6"
-            android:autoSizeMinTextSize="18sp"
-            android:autoSizeTextType="uniform"
-            android:ellipsize="end"
-            android:lineSpacingExtra="3dp"
-            tools:ignore="VisualLintLocaleText" />
+            android:layout_marginHorizontal="25dp"
+            android:layout_marginVertical="15dp"
+            android:gravity="top|start"
+            android:orientation="horizontal"
+            android:weightSum="10">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="25dp"
+                android:layout_weight="1"
+                android:contentDescription="@string/icon"
+                android:src="@drawable/sensor"
+                app:tint="?attr/colorSecondary" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="24dp"
+                android:layout_weight="4"
+                android:paddingStart="15dp"
+                android:text="@string/sensor"
+                android:textAllCaps="true"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/sensorLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:lineSpacingExtra="3dp"
+                android:paddingStart="15dp"
+                android:textColor="@color/gray"
+                android:textSize="16sp"
+                tools:ignore="VisualLintLocaleText" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
-</LinearLayout>
+</ScrollView>

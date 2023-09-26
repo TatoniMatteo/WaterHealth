@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="list">Elenco</string>
+    <string name="list">Stazioni</string>
     <string name="grid">Griglia</string>
     <string name="map">Mappa</string>
     <string name="icon">Icona</string>
@@ -13,11 +13,11 @@
     <string name="data_error">Impossibile scaricare i dati!</string>
     <string name="retry">Riprova</string>
     <string name="exit">Esci</string>
-    <string name="dettagli_stazione">Dettagli stazione</string>
-    <string name="dati">Dati</string>
+    <string name="dettagli_stazione">Info stazione</string>
+    <string name="dati">Dati raccolti</string>
     <string name="dati_in_tempo_reale">Dati in tempo reale</string>
     <string name="non_ci_sono_dati_rececenti">Non ci sono dati rececenti!</string>
-    <string name="luogo">Luogo:</string>
+    <string name="luogo">Posizione:</string>
     <string name="sensor">Sensori:</string>
     <string name="telefono">Telefono:</string>
     <string name="date_range">--Seleziona un range di tempo--</string>
@@ -29,4 +29,5 @@
     <string name="no_data_available">Nessun dato disponibile</string>
     <string name="solo_un_momento">Solo un momento...</string>
     <string name="loader">Caricamento</string>
+    <string name="univaq">UNIVAQ - Universita degli Studi Dell\'Aquila</string>
 </resources>

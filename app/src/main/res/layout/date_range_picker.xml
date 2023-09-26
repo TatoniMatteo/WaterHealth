@@ -2,7 +2,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="50dp"
-    android:background="@drawable/border_stroke_round_16dp"
+    android:background="@drawable/border_round_16dp"
+    android:backgroundTint="?attr/colorSecondary"
     android:orientation="horizontal"
     android:paddingHorizontal="10dp"
     android:weightSum="10">
@@ -15,7 +16,8 @@
         android:autoSizeTextType="uniform"
         android:gravity="center"
         android:padding="14dp"
-        android:text="@string/date_range" />
+        android:text="@string/date_range"
+        android:textColor="?attr/colorOnPrimary" />
 
     <ImageView
         android:id="@+id/rangeIcon"
@@ -26,7 +28,7 @@
         android:contentDescription="@string/icon"
         android:padding="5dp"
         android:src="@drawable/calendar"
-        app:tint="?attr/colorOnBackground" />
+        app:tint="?attr/colorOnPrimary" />
 
 
 </LinearLayout>

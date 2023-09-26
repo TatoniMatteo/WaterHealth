@@ -40,11 +40,11 @@ public class Station {
         return "Station " + id + " - " + name;
     }
 
-    public String getLocationName() {
+    public String getLocationNameFormatted() {
         if (address == null) setAddress();
         if (address == null) return "Impossibile recuperare il nome della posizione";
         return String.format(
-                "%s (%s - %s)",
+                "%s (%s, %s)",
                 address.getLocality(),
                 address.getAdminArea(),
                 address.getCountryName());
@@ -56,13 +56,16 @@ public class Station {
         return address.getCountryName();
     }
 
-    public String getRegion() {
+    public String getLocality() {
         if (address == null) setAddress();
         if (address == null) return "Impossibile recuperare il nome della posizione";
-        return String.format(
-                "%s (%s)",
-                address.getLocality(),
-                address.getAdminArea());
+        return address.getLocality();
+    }
+
+    public String getAdminArea() {
+        if (address == null) setAddress();
+        if (address == null) return "Impossibile recuperare il nome della posizione";
+        return address.getAdminArea();
     }
 
     private void setAddress() {

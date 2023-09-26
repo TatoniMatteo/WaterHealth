@@ -102,6 +102,7 @@
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:layout_margin="15dp"
+            android:background="@drawable/border_stroke_round_16dp"
             android:visibility="gone" />
 
         <LinearLayout
@@ -125,6 +126,7 @@
                 android:text="@string/tipo"
                 android:textAlignment="center"
                 android:textColor="?attr/colorOnPrimary"
+                android:textSize="14sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -137,6 +139,7 @@
                 android:text="@string/data_e_ora"
                 android:textAlignment="center"
                 android:textColor="?attr/colorOnPrimary"
+                android:textSize="14sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -150,6 +153,7 @@
                 android:text="@string/valore"
                 android:textAlignment="center"
                 android:textColor="?attr/colorOnPrimary"
+                android:textSize="14sp"
                 android:textStyle="bold" />
         </LinearLayout>
 

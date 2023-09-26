@@ -2,25 +2,23 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.WaterHealth" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Colori personalizzati per il tema scuro -->
-        <item name="colorPrimary">@color/gold</item>
-        <item name="colorPrimaryVariant">@color/yellow</item>
-        <item name="colorSecondary">@color/darkBlue</item>
-        <item name="colorSecondaryVariant">@color/blue</item>
-        <item name="colorTertiary">@color/brown</item>
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryVariant">@color/light_blue</item>
+        <item name="colorSecondary">@color/gold</item>
+        <item name="colorSecondaryVariant">@color/yellow</item>
 
-        <item name="colorOnPrimary">@color/black</item>
-        <item name="colorOnSecondary">@color/white</item>
-        <item name="colorOnTertiary">@color/white</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnSecondary">@color/black</item>
 
         <item name="colorOnBackground">@color/white</item>
-        <item name="colorAccent">@color/brown</item>
+        <item name="colorAccent">@color/dark_gray</item>
 
         <!-- Altri attributi dello stile -->
         <item name="windowSplashScreenBackground">?android:colorBackground</item>
         <item name="windowSplashScreenAnimatedIcon">@mipmap/icon</item>
         <item name="windowSplashScreenAnimationDuration">2000</item>
         <item name="android:fontFamily">@font/gilroy</item>
-        <item name="android:windowBackground">@color/brown</item>
+        <item name="android:windowBackground">@color/dark_gray</item>
         <item name="android:textColor">@color/white</item>
     </style>
 </resources>

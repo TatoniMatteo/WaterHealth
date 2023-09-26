@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">Water Health</string>
 
-    <string name="list">List</string>
+    <string name="list">Stations</string>
     <string name="grid">Grid</string>
     <string name="map">Map</string>
     <string name="icon">Icon</string>
@@ -14,11 +14,11 @@
     <string name="data_error">Unable to download data!</string>
     <string name="retry">Retry</string>
     <string name="exit">Exit</string>
-    <string name="dettagli_stazione">Station details</string>
-    <string name="dati">Data</string>
+    <string name="dettagli_stazione">Station info</string>
+    <string name="dati">Data collected</string>
     <string name="dati_in_tempo_reale">Live data</string>
     <string name="non_ci_sono_dati_rececenti">There is no recent data!</string>
-    <string name="luogo">Place:</string>
+    <string name="luogo">Position:</string>
     <string name="sensor">Sensors:</string>
     <string name="telefono">Phone:</string>
     <string name="date_range">--Select a date range--</string>
@@ -30,6 +30,7 @@
     <string name="no_data_available">No data available</string>
     <string name="solo_un_momento">Just a moment...</string>
     <string name="loader">Loader</string>
+    <string name="univaq">UNIVAQ -  University of L\'Aquila</string>
 
     <!-- Preference Titles -->
 

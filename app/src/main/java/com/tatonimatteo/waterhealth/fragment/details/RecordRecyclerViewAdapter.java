@@ -46,6 +46,7 @@ public class RecordRecyclerViewAdapter extends RecyclerView.Adapter<RecordRecycl
 
         String valueFormat = String.format(Locale.getDefault(), "%.0" + sensor.getDecimals() + "f %s", record.getValue(), sensor.getUnit());
         holder.recordValue.setText(valueFormat);
+        if (position == getItemCount() - 1) holder.divider.setVisibility(View.GONE);
     }
 
     @Override
@@ -65,12 +66,14 @@ public class RecordRecyclerViewAdapter extends RecyclerView.Adapter<RecordRecycl
         public final TextView recordType;
         public final TextView recordTime;
         public final TextView recordValue;
+        public final View divider;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             recordType = itemView.findViewById(R.id.recordType);
             recordTime = itemView.findViewById(R.id.recordTime);
             recordValue = itemView.findViewById(R.id.recordValue);
+            divider = itemView.findViewById(R.id.separator);
         }
     }
 }
