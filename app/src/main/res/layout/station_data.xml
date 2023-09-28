@@ -13,35 +13,45 @@
         tools:context=".fragment.details.StationData">
 
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="35dp"
-            android:layout_marginHorizontal="20dp"
+            android:layout_marginHorizontal="10dp"
             android:layout_marginVertical="15dp"
-            android:orientation="horizontal"
+
             android:padding="5dp"
             android:weightSum="12">
 
             <ImageView
+                android:id="@+id/imageView6"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:layout_weight="1"
                 android:contentDescription="@string/icon"
                 android:padding="2dp"
                 android:src="@drawable/live_data"
-                app:tint="?attr/colorOnBackground" />
+                app:layout_constraintEnd_toStartOf="@+id/textView3"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:tint="?attr/colorPrimary"
+                tools:layout_editor_absoluteY="5dp" />
 
             <TextView
-                android:layout_width="0dp"
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="10"
-                android:autoSizeTextType="uniform"
                 android:gravity="center_vertical"
                 android:text="@string/dati_in_tempo_reale"
                 android:textAllCaps="true"
-                android:textColor="?attr/colorOnBackground"
-                android:textStyle="bold" />
+                android:textColor="?attr/colorPrimary"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/imageView6"
+                tools:layout_editor_absoluteY="5dp" />
 
             <ImageView
                 android:id="@+id/liveDataWarning"
@@ -52,48 +62,81 @@
                 android:contentDescription="@string/icon"
                 android:src="@drawable/warning"
                 android:visibility="invisible"
-                app:tint="@android:color/holo_red_light" />
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:layout_editor_absoluteY="5dp" />
 
-
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/liveDataError"
             android:layout_width="match_parent"
             android:layout_height="25dp"
-            android:autoSizeTextType="uniform"
             android:gravity="center"
             android:text="@string/non_ci_sono_dati_rececenti"
+            android:textColor="?attr/grayToneColor"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
         <LinearLayout
             android:id="@+id/liveDataContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
             android:orientation="vertical" />
 
-        <View
-            android:id="@+id/divider"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginVertical="15dp"
-            android:background="@drawable/border_round_16dp"
-            android:backgroundTint="?attr/colorOnBackground" />
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="30dp"
+            android:padding="5dp"
+            android:weightSum="12">
+
+            <ImageView
+                android:id="@+id/imageView7"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:contentDescription="@string/icon"
+                android:paddingHorizontal="2dp"
+                android:paddingVertical="4dp"
+                android:src="@drawable/sensor"
+                app:layout_constraintEnd_toStartOf="@+id/textView4"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:tint="?attr/colorPrimary"
+                tools:layout_editor_absoluteY="5dp" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="Dati Storici"
+                android:textAllCaps="true"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/imageView7"
+                tools:layout_editor_absoluteY="5dp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.tatonimatteo.waterhealth.view.DateRangePicker
             android:id="@+id/datePicker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="15dp" />
+            android:layout_marginHorizontal="25dp"
+            android:layout_marginVertical="25dp" />
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chipContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="15dp"
+            android:layout_marginHorizontal="25dp"
+            android:layout_marginBottom="25dp"
             android:animateLayoutChanges="true"
             app:chipSpacingVertical="0dp" />
 
@@ -101,15 +144,15 @@
             android:id="@+id/lineChart"
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:layout_margin="15dp"
-            android:background="@drawable/border_stroke_round_16dp"
+            android:layout_marginHorizontal="25dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/border_stroke_round_16dp_primary"
             android:visibility="gone" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:layout_marginHorizontal="15dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="25dp"
             android:background="@drawable/top_border_round_8dp"
             android:backgroundTint="?attr/colorPrimary"
             android:orientation="horizontal"
@@ -119,7 +162,7 @@
                 android:id="@+id/recordType"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="4"
+                android:layout_weight="3"
                 android:background="@android:color/transparent"
                 android:gravity="center"
                 android:padding="2dp"
@@ -132,7 +175,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="3"
+                android:layout_weight="4"
                 android:background="@android:color/transparent"
                 android:gravity="center"
                 android:padding="2dp"
@@ -161,15 +204,17 @@
             android:id="@+id/recordList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="15dp"
+            android:layout_marginHorizontal="25dp"
             android:background="@drawable/border_stroke_round_8dp"
+            android:minHeight="200dp"
+            android:visibility="gone"
             tools:listitem="@layout/record_list_item" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/emptyList"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:layout_marginHorizontal="15dp"
+            android:layout_marginHorizontal="25dp"
             android:background="@drawable/border_stroke_round_8dp"
             android:padding="20dp">
 
@@ -177,7 +222,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/no_data_available"
-                android:textColor="@android:color/holo_red_light"
+                android:textColor="?attr/grayToneColor"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

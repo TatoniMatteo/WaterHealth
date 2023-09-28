@@ -21,6 +21,8 @@ import com.tatonimatteo.waterhealth.R;
 import com.tatonimatteo.waterhealth.entity.Sensor;
 import com.tatonimatteo.waterhealth.fragment.StationDetailsViewModel;
 
+import java.util.Comparator;
+
 public class StationInfo extends Fragment implements OnMapReadyCallback {
 
     private StationDetailsViewModel viewModel;
@@ -60,8 +62,9 @@ public class StationInfo extends Fragment implements OnMapReadyCallback {
 
         viewModel.getStationSensors().observe(getViewLifecycleOwner(), sensors -> {
             StringBuilder stringBuilder = new StringBuilder();
+            sensors.sort(Comparator.comparing(s -> s.getSensorType().getName()));
             for (Sensor sensor : sensors) {
-                stringBuilder.append("• ").append(sensor.getSensorType().getName()).append("\n");
+                stringBuilder.append("•    ").append(sensor.getSensorType().getName()).append("\n");
             }
             this.sensors.setText(stringBuilder.toString());
         });

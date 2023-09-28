@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="25dp"
     android:layout_marginVertical="5dp"
-    android:background="@drawable/border_stroke_round_16dp"
+    android:background="@drawable/border_stroke_round_16dp_gray"
     android:orientation="horizontal"
     android:padding="10dp">
 

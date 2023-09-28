@@ -11,7 +11,7 @@
         android:layout_width="0dp"
         android:layout_height="80dp"
         android:background="?attr/colorAccent"
-        android:elevation="30dp"
+        android:elevation="10dp"
         android:minHeight="?attr/actionBarSize"
         android:theme="@style/Widget.AppCompat.Toolbar"
         app:layout_constraintEnd_toEndOf="parent"
@@ -43,7 +43,6 @@
             tools:ignore="ImageContrastCheck"
             tools:layout_editor_absoluteY="20dp" />
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -53,27 +52,22 @@
         android:layout_height="70dp"
         android:layout_marginHorizontal="25dp"
         android:background="@android:color/transparent"
-        android:contentDescription="@string/tabLayout"
-        android:paddingVertical="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ToolBar"
-        app:tabGravity="fill"
-        app:tabIconTint="@color/tab2_icon_colors"
-        app:tabIndicator="@drawable/indicator"
-        app:tabIndicatorColor="?attr/colorSecondary"
+        app:tabIconTint="@color/tab1_icon"
         app:tabIndicatorAnimationMode="elastic"
         app:tabIndicatorFullWidth="true"
-        app:tabIndicatorGravity="stretch"
         app:tabInlineLabel="true"
-        app:tabMode="fixed"
-        app:tabTextColor="@color/tab2_icon_colors">
+        app:tabRippleColor="@android:color/transparent"
+        app:tabSelectedTextColor="?attr/colorPrimary"
+        app:tabTextColor="?attr/grayToneColor">
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:icon="@drawable/info"
-            android:text="@string/dettagli_stazione"/>
+            android:text="@string/dettagli_stazione" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="0dp"
@@ -83,11 +77,23 @@
             tools:ignore="VisualLintLocaleText" />
     </com.google.android.material.tabs.TabLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_marginHorizontal="28dp"
+        android:background="@drawable/border_round_8dp"
+        android:backgroundTint="@color/gray"
+        android:elevation="-1dp"
+        app:layout_constraintBottom_toBottomOf="@+id/stationDetailsTabLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/stationDetailsViewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintBottom_toTopOf="@id/footerContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -126,7 +132,7 @@
         android:elevation="99dp"
         android:indeterminateTint="?attr/colorPrimary"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/stationDetailsViewPager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ToolBar" />

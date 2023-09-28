@@ -12,6 +12,9 @@
 
         <item name="colorOnBackground">@color/white</item>
         <item name="colorAccent">@color/dark_gray</item>
+        <item name="colorError">@color/red</item>
+
+        <item name="grayToneColor">@color/gray</item>
 
         <!-- Altri attributi dello stile -->
         <item name="windowSplashScreenBackground">?android:colorBackground</item>

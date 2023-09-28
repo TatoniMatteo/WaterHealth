@@ -17,7 +17,7 @@
             android:layout_height="200dp"
             android:layout_marginHorizontal="25dp"
             android:layout_marginVertical="15dp"
-            android:background="@drawable/border_stroke_round_16dp"
+            android:background="@drawable/border_stroke_round_16dp_gray"
             app:cardCornerRadius="16dp">
 
             <com.google.android.gms.maps.MapView
@@ -79,18 +79,18 @@
                 android:lineSpacingExtra="2dp"
                 android:lines="2"
                 android:paddingStart="15dp"
-                android:textColor="@color/gray"
+                android:textColor="?attr/grayToneColor"
                 android:textSize="16sp" />
 
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="1dp"
             android:layout_marginHorizontal="20dp"
             android:layout_marginVertical="20dp"
             android:background="@drawable/border_round_8dp"
-            android:backgroundTint="@color/gray" />
+            android:backgroundTint="?attr/grayToneColor" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -129,7 +129,7 @@
                 android:lineSpacingExtra="2dp"
                 android:maxLines="1"
                 android:paddingStart="15dp"
-                android:textColor="@color/gray"
+                android:textColor="?attr/grayToneColor"
                 android:textSize="16sp"
                 tools:ignore="VisualLintLocaleText" />
 
@@ -138,11 +138,11 @@
         <View
             android:id="@+id/view"
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="1dp"
             android:layout_marginHorizontal="20dp"
             android:layout_marginVertical="20dp"
             android:background="@drawable/border_round_8dp"
-            android:backgroundTint="@color/gray" />
+            android:backgroundTint="?attr/grayToneColor" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -179,7 +179,7 @@
                 android:layout_weight="5"
                 android:lineSpacingExtra="3dp"
                 android:paddingStart="15dp"
-                android:textColor="@color/gray"
+                android:textColor="?attr/grayToneColor"
                 android:textSize="16sp"
                 tools:ignore="VisualLintLocaleText" />
 

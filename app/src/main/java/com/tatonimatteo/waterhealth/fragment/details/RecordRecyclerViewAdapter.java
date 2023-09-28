@@ -41,12 +41,11 @@ public class RecordRecyclerViewAdapter extends RecyclerView.Adapter<RecordRecycl
 
         holder.recordType.setText(sensor.getSensorType().getName());
 
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy\nHH:mm", Locale.getDefault());
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy 'H' HH:mm", Locale.getDefault());
         holder.recordTime.setText(dtf.format(record.getDateTime()));
 
         String valueFormat = String.format(Locale.getDefault(), "%.0" + sensor.getDecimals() + "f %s", record.getValue(), sensor.getUnit());
         holder.recordValue.setText(valueFormat);
-        if (position == getItemCount() - 1) holder.divider.setVisibility(View.GONE);
     }
 
     @Override

@@ -14,22 +14,22 @@
             android:id="@+id/recordType"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="4"
+            android:layout_weight="3"
             android:gravity="center"
             android:padding="2dp"
             android:textAlignment="center"
-            android:textColor="@color/gray"
+            android:textColor="?attr/grayToneColor"
             android:textSize="12sp" />
 
         <TextView
             android:id="@+id/recordTime"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="3"
+            android:layout_weight="4"
             android:gravity="center"
             android:padding="2dp"
             android:textAlignment="center"
-            android:textColor="@color/gray"
+            android:textColor="?attr/grayToneColor"
             android:textSize="12sp" />
 
         <TextView
@@ -40,7 +40,7 @@
             android:gravity="center"
             android:padding="2dp"
             android:textAlignment="center"
-            android:textColor="@color/gray"
+            android:textColor="?attr/grayToneColor"
             android:textSize="12sp" />
 
     </LinearLayout>

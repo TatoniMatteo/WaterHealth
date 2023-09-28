@@ -1,21 +1,44 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="22dp"
-    android:orientation="horizontal"
-    android:weightSum="10">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/dataName"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="6"
-        android:autoSizeTextType="uniform"
-        android:textStyle="bold" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:orientation="horizontal"
+        android:weightSum="10">
 
-    <TextView
-        android:id="@+id/dataValue"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="4"
-        android:autoSizeTextType="uniform" />
+
+        <TextView
+            android:id="@+id/dataName"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_weight="6"
+            android:textColor="?attr/grayToneColor"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/dataValue"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_weight="4"
+            android:textAlignment="textEnd"
+            android:textColor="?attr/grayToneColor"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginHorizontal="25dp"
+        android:layout_marginVertical="5dp"
+        android:background="@drawable/border_round_8dp"
+        android:backgroundTint="?attr/grayToneColor" />
+
+
 </LinearLayout>

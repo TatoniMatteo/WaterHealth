@@ -39,17 +39,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
-    <pl.droidsonroids.gif.GifImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/loadImage"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
         android:layout_marginVertical="50dp"
-        android:src="@drawable/loader"
+        android:contentDescription="@string/loader"
+        android:scaleX="3"
+        android:scaleY="3"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
-        tools:ignore="ImageContrastCheck" />
-
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/dot_animation" />
 
     <LinearLayout
         android:id="@+id/linearLayout"

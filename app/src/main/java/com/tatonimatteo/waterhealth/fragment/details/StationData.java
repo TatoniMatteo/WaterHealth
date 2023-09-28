@@ -1,6 +1,7 @@
 package com.tatonimatteo.waterhealth.fragment.details;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -33,8 +34,6 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
-import com.google.android.material.shape.CornerFamily;
-import com.google.android.material.shape.ShapeAppearanceModel;
 import com.tatonimatteo.waterhealth.R;
 import com.tatonimatteo.waterhealth.configuration.ColorUtility;
 import com.tatonimatteo.waterhealth.entity.Record;
@@ -83,7 +82,7 @@ public class StationData extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         initializeViews(view, savedInstanceState);
         setupLineChart();
-        observeDataChanges(view);
+        observeDataChanges();
 
         viewModel.getStationSensors().observe(getViewLifecycleOwner(), this::setChips);
         viewModel.getLiveData().observe(getViewLifecycleOwner(), this::updateLiveData);
@@ -137,9 +136,8 @@ public class StationData extends Fragment {
         lineChart.setNoDataText(getString(R.string.no_data_available));
     }
 
-    private void observeDataChanges(View view) {
+    private void observeDataChanges() {
         picker.setFragmentManager(getChildFragmentManager());
-
         Observer<Map<Sensor, List<Record>>> recordsObserver = data -> {
             recordsInDateRange = data;
             updateRecyclerView();
@@ -178,21 +176,17 @@ public class StationData extends Fragment {
 
     private Chip createSensorChip(@NotNull Context context, Sensor sensor) {
         Chip chip = new Chip(context);
-        chip.setLayoutParams(new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-        ));
-        ShapeAppearanceModel shapeAppearanceModel = new ShapeAppearanceModel()
-                .toBuilder()
-                .setAllCorners(CornerFamily.ROUNDED, 60)
-                .build();
         chip.setCheckable(true);
         chip.setText(sensor.getSensorType().getName());
         chip.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        chip.setShapeAppearanceModel(shapeAppearanceModel);
-        chip.setChipIconResource(R.drawable.sensor);
-        chip.setChipIconVisible(true);
         chip.setChipStrokeWidth(2);
+        chip.setChipStrokeColor(ColorStateList.valueOf(Color.rgb(204, 204, 204)));
+        chip.setChipBackgroundColorResource(R.color.chip_background);
+        chip.setTextColor(requireContext().getColor(R.color.chip_text));
+        chip.setChecked(
+                viewModel.getSensorFilter().getValue() != null &&
+                        viewModel.getSensorFilter().getValue().contains(sensor.getId())
+        );
         return chip;
     }
 
@@ -259,7 +253,8 @@ public class StationData extends Fragment {
                     triple.getFirst().getUnit(),
                     triple.getFirst().getDecimals(),
                     triple.getSecond().getValue(),
-                    triple.getThird()
+                    triple.getThird(),
+                    data.indexOf(triple) != data.size() - 1
             );
             liveDataContainer.addView(item);
             if (triple.getThird()) errorIcon.setVisibility(View.VISIBLE);
