@@ -47,7 +47,7 @@ public class LiveDataItem extends LinearLayout {
     }
 
     public void setValue(String unit, int decimal, Double value, boolean error) {
-        this.value.setText(String.format(Locale.getDefault(), "%.0" + decimal + "f %s:", value, unit));
+        this.value.setText(String.format(Locale.getDefault(), "%.0" + decimal + "f %s", value, unit));
         if (error) {
             this.value.setTextColor(Color.rgb(234, 84, 54));
         }

@@ -32,12 +32,12 @@ public class NotificationUtils {
                 PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
 
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                        .setSmallIcon(R.drawable.icon_foreground)
+                        .setSmallIcon(R.mipmap.icon_round)
                         .setContentTitle(title)
                         .setContentText(content)
                         .setPriority(NotificationCompat.PRIORITY_HIGH)
                         .setContentIntent(pendingIntent)
-                        .addAction(R.drawable.list, "Vedi in app", pendingIntent);
+                        .addAction(R.drawable.see, "Vedi in app", pendingIntent);
 
                 NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
                 notificationManager.notify(NOTIFICATION_ID, builder.build());

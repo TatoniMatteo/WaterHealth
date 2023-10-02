@@ -6,7 +6,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="30dp"
+        android:layout_marginHorizontal="5dp"
         android:orientation="horizontal"
         android:weightSum="10">
 
@@ -35,7 +35,6 @@
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginHorizontal="25dp"
         android:layout_marginVertical="5dp"
         android:background="@drawable/border_round_8dp"
         android:backgroundTint="?attr/grayToneColor" />
