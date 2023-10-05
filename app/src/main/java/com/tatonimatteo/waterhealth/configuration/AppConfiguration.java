@@ -1,9 +1,7 @@
 package com.tatonimatteo.waterhealth.configuration;
 
 import android.content.Context;
-import android.util.Log;
 
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.tatonimatteo.waterhealth.api.HttpManager;
 import com.tatonimatteo.waterhealth.api.controller.RecordController;
 import com.tatonimatteo.waterhealth.api.controller.SensorController;
@@ -17,9 +15,6 @@ import com.tatonimatteo.waterhealth.repository.StationRepository;
 public class AppConfiguration {
     private static volatile AppConfiguration instance;
     private final AuthController authController;
-    private final StationController stationController;
-    private final SensorController sensorController;
-    private final RecordController recordController;
     private final StationRepository stationRepository;
     private final SensorRepository sensorRepository;
     private final RecordRepository recordRepository;
@@ -28,21 +23,10 @@ public class AppConfiguration {
     private AppConfiguration(Context context) {
         HttpManager httpManager = new HttpManager();
         this.authController = new AuthController(httpManager);
-        this.stationController = new StationController(httpManager);
-        this.sensorController = new SensorController(httpManager);
-        this.recordController = new RecordController(httpManager);
-        this.stationRepository = new StationRepository(this.stationController);
-        this.sensorRepository = new SensorRepository(this.sensorController);
-        this.recordRepository = new RecordRepository(this.recordController);
+        this.stationRepository = new StationRepository(new StationController(httpManager));
+        this.sensorRepository = new SensorRepository(new SensorController(httpManager));
+        this.recordRepository = new RecordRepository(new RecordController(httpManager));
         this.mapAPI = new MapAPI(context.getApplicationContext());
-        FirebaseMessaging.getInstance().getToken()
-                .addOnCompleteListener(task -> {
-                    if (!task.isSuccessful())
-                        Log.w("Firebase", "Fetching FCM registration token failed", task.getException());
-                    else {
-                        Log.d("Firebase", "Fetching FCM registration token success " + task.getResult());
-                    }
-                });
     }
 
     public static void init(Context context) {
