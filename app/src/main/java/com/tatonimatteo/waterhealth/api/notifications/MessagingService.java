@@ -32,8 +32,6 @@ public class MessagingService extends FirebaseMessagingService {
     private void handleDataMessage(Map<String, String> data) {
         String title = data.get("title");
         String content = data.get("content");
-
-        // Ad esempio, mostra una notifica
         showNotification(title, content);
     }
 
