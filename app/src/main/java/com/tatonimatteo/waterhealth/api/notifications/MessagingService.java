@@ -30,6 +30,12 @@ public class MessagingService extends FirebaseMessagingService {
     }
 
     private void handleDataMessage(Map<String, String> data) {
+        /*
+        TODO: (Gestire in modo appropraito eventuali messaggi contenenti dati.
+         Ad esempio la notifica può contenere l'id della stazione per visualizzare direttamente
+         la schermata con i dati oppure può contenere informazioni relative ai dati furoi soglia
+         per mostrare una notifica più dettagliata)
+         */
         String title = data.get("title");
         String content = data.get("content");
         showNotification(title, content);
