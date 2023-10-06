@@ -1,8 +1,10 @@
 package com.tatonimatteo.waterhealth.api.notifications;
 
+import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -17,6 +19,7 @@ public class MessagingService extends FirebaseMessagingService {
         super.onNewToken(token);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
     @Override
     public void onMessageReceived(@NonNull RemoteMessage message) {
         super.onMessageReceived(message);
@@ -29,6 +32,7 @@ public class MessagingService extends FirebaseMessagingService {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
     private void handleDataMessage(Map<String, String> data) {
         /*
         TODO: (Gestire in modo appropraito eventuali messaggi contenenti dati.
@@ -41,12 +45,14 @@ public class MessagingService extends FirebaseMessagingService {
         showNotification(title, content);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
     private void handleNotification(RemoteMessage.Notification notification) {
         String title = notification.getTitle();
         String body = notification.getBody();
         showNotification(title, body);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
     private void showNotification(String title, String content) {
         NotificationUtils.showNotification(this, title, content);
     }
